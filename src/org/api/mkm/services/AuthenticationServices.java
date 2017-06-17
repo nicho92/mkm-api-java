@@ -110,8 +110,6 @@ public class AuthenticationServices {
 	         }
 	         
 	         String paramString = URLEncoder.encode(Tools.join(paramStrings, "&"),encode);
-	     	 
-	         paramString=paramString.replaceAll("search%3DBlood%2BMoon", "search%3DBlood+Moon");
 	         
 	         baseString += paramString;
 	         
