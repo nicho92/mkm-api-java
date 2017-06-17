@@ -3,10 +3,12 @@ package org.api.mkm.services;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -45,9 +47,17 @@ public class WantsService {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public boolean removeWant(Wantslist li, List<WantItem> list) throws Exception
+	public boolean deleteItem(Wantslist li, WantItem it) throws Exception
 	{
-		String link ="https://www.mkmapi.eu/ws/v1.1/wantslist/"+li.getIdWantslist();
+		List<WantItem> lst = new ArrayList<WantItem>();
+		lst.add(it);
+		
+		return deleteItems(li, lst);
+	}
+	
+	public boolean deleteItems(Wantslist li, List<WantItem> list) throws Exception
+	{
+		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+li.getIdWantslist();
 
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"PUT")) ;
@@ -71,6 +81,29 @@ public class WantsService {
 		return (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
 	}
 	
+	public boolean updateItem(Wantslist wl,WantItem it) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	{
+		
+		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
+
+    	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"PUT")) ;
+				       		connection.setDoOutput(true);
+				    		connection.setRequestMethod("PUT");
+				    		connection.connect();
+
+		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+		StringBuffer temp = new StringBuffer();
+		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append("<request><action>editItem</action>");
+		temp.append(xstream.toXML(it));
+		temp.append("</request>");
+		
+		out.write(temp.toString());
+		out.close();
+		return (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	}
+	
 	public List<Wantslist> getWantList() throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
     	String link = "https://www.mkmapi.eu/ws/v2.0/wantslist";
@@ -82,7 +115,6 @@ public class WantsService {
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getWantslist();
 	}
-
 	
 	public boolean addItem(Wantslist wl, List<WantItem> items) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
@@ -134,11 +166,9 @@ public class WantsService {
 		return ret;
 	}
 	
-	
-	
 	public boolean renameWantList(Wantslist wl , String name) throws IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
-		String link ="https://www.mkmapi.eu/ws/v1.1/wantslist/"+wl.getIdWantslist();
+		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"PUT")) ;

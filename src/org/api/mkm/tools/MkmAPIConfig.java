@@ -14,11 +14,6 @@ public class MkmAPIConfig {
 		auth=new AuthenticationServices(accessSecret, accessToken, appSecret, appToken);
 	}
 	
-	
-	private MkmAPIConfig() {
-		
-	}
-	
 	public static MkmAPIConfig getInstance()
 	{
 		if(instance==null)

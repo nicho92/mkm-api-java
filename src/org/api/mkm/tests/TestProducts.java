@@ -1,4 +1,4 @@
-package org.api.mkm.modele.tests;
+package org.api.mkm.tests;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -48,6 +48,7 @@ public class TestProducts {
 		
 		for(Product p : prods)
 		{
+			
 			WantItem it = new WantItem();
 					 it.setProduct(p);
 					 it.setType("product");
