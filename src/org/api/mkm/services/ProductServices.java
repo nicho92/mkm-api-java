@@ -1,4 +1,4 @@
-package org.api.mkm.modele.services;
+package org.api.mkm.services;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,10 +19,10 @@ import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.Tools;
 import org.api.mkm.modele.ProductListFile;
 import org.api.mkm.modele.Response;
-import org.api.mkm.modele.tools.MkmAPIConfig;
-import org.api.mkm.modele.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;

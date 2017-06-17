@@ -1,6 +1,6 @@
-package org.api.mkm.modele.tools;
+package org.api.mkm.tools;
 
-import org.api.mkm.modele.services.AuthenticationServices;
+import org.api.mkm.services.AuthenticationServices;
 
 public class MkmAPIConfig {
 

@@ -1,4 +1,4 @@
-package org.api.mkm.modele.services;
+package org.api.mkm.services;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -14,7 +14,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
-import org.api.mkm.modele.tools.Tools;
+import org.api.mkm.tools.Tools;
 
 public class AuthenticationServices {
 

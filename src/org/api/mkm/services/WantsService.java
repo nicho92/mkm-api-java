@@ -1,4 +1,4 @@
-package org.api.mkm.modele.services;
+package org.api.mkm.services;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -16,7 +16,7 @@ import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
-import org.api.mkm.modele.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmAPIConfig;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;

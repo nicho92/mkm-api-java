@@ -13,10 +13,10 @@ import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
-import org.api.mkm.modele.services.ArticleService;
-import org.api.mkm.modele.services.ProductServices;
-import org.api.mkm.modele.services.WantsService;
-import org.api.mkm.modele.tools.MkmAPIConfig;
+import org.api.mkm.services.ArticleService;
+import org.api.mkm.services.ProductServices;
+import org.api.mkm.services.WantsService;
+import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.pricers.impl.MagicCardMarketPricer;
 
 public class TestProducts {
