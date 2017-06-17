@@ -42,14 +42,12 @@ public class TestProducts {
 		atts.put(PRODUCT_ATTS.idGame, "1");
 		atts.put(PRODUCT_ATTS.idLanguage, "1");
 		atts.put(PRODUCT_ATTS.exact,"true");
-		List<Product> search = prodServices.find("Tarmogoyf", atts);
+		List<Product> search = prodServices.find("Blood Moon", atts);
 		
 		
 		for(Product p : search)
 		{
-			//BeanUtils.copyProperties(p, prodServices.getById(p.getIdProduct()));
-			System.out.println(BeanUtils.describe(p));
-			
+			System.out.println(p);
 		}
 		
 		

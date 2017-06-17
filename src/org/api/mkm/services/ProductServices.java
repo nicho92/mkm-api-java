@@ -2,8 +2,10 @@ package org.api.mkm.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -11,18 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
-import org.api.mkm.tools.MkmAPIConfig;
-import org.api.mkm.tools.Tools;
 import org.api.mkm.modele.ProductListFile;
 import org.api.mkm.modele.Response;
+import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.Tools;
+import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -32,7 +38,8 @@ public class ProductServices {
 
 	private AuthenticationServices auth;
 	private XStream xstream;
-	
+	static final Logger logger = LogManager.getLogger(ProductServices.class.getName());
+
 	
 	public ProductServices() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
@@ -55,10 +62,12 @@ public class ProductServices {
 		String link="https://www.mkmapi.eu/ws/v2.0/productlist";
 		xstream.alias("response", ProductListFile.class);
 		
-		
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
 			               connection.connect() ;
+			               
+			               
+		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		
 		ProductListFile res = (ProductListFile)xstream.fromXML(xml);
@@ -74,7 +83,6 @@ public class ProductServices {
 	public List<Product> find(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+name;
-		
 		if(atts.size()>0)
     	{
 			link+="&";
@@ -103,6 +111,17 @@ public class ProductServices {
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getProduct().get(0);
+	}
+	
+	public void fusion(Product from, Product dest)
+	{
+		 try {
+			 for (Map.Entry<String, Object> e : PropertyUtils.describe(from).entrySet()) 
+			 	 if (e.getValue() != null && !e.getKey().equals("class"))
+	             		PropertyUtils.setProperty(dest, e.getKey(), e.getValue());
+		} catch (Exception e1) {
+			
+		}
 	}
 	
 }

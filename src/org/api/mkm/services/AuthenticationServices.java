@@ -14,6 +14,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.tools.Tools;
 
 public class AuthenticationServices {
@@ -24,7 +26,8 @@ public class AuthenticationServices {
 	private String accessToken;
 	private String accessSecret;
 
-	
+	static final Logger logger = LogManager.getLogger(AuthenticationServices.class.getName());
+
 	public AuthenticationServices() {
 		// TODO Auto-generated constructor stub
 	}
@@ -92,25 +95,31 @@ public class AuthenticationServices {
 	             Map<String,String> args = parseQueryString(urlParams);
 
 	             for (String k : args.keySet())
-	                 headerParams.put(k, args.get(k));
+	            	 headerParams.put(k, args.get(k));
 	         }
 	         
 	         for (String k : headerParams.keySet())
-	         {
 	             if (false == k.equalsIgnoreCase("realm"))
-	             {
 	                 encodedParams.put(URLEncoder.encode(k,encode), URLEncoder.encode(headerParams.get(k),encode));
-	             }
-	         }
 	         
 	         List<String> paramStrings = new ArrayList<String>();
 	        
 	         for(String parameter:encodedParams.keySet())
-	             paramStrings.add(parameter + "=" + encodedParams.get(parameter));
+	         {
+	        	 paramStrings.add(parameter + "=" + encodedParams.get(parameter));
+	         }
 	         
 	         String paramString = URLEncoder.encode(Tools.join(paramStrings, "&"),encode);
+	     	 
+	         paramString=paramString.replaceAll("search%3DBlood%2BMoon", "search%3DBlood+Moon");
 	         
 	         baseString += paramString;
+	         
+	         logger.debug("baseString = " + baseString);
+		     logger.debug("paramString = " + paramString);
+	    	     
+	         
+	      
 	         
 	         Mac mac = Mac.getInstance("HmacSHA1");
 	         SecretKeySpec secret = new SecretKeySpec(signatureKey.getBytes(), mac.getAlgorithm());
