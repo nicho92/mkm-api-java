@@ -1,5 +1,9 @@
 package org.api.mkm.modele;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.beanutils.BeanUtils;
+
 public class PriceGuide {
 
 	
@@ -9,6 +13,12 @@ public class PriceGuide {
 	private double LOWFOIL;
 	private double AVG;
 	private double TREND;
+	
+	
+	@Override
+	public String toString() {
+		return "AVG="+AVG+", LOWEX="+LOWEX+", LOWFOIL="+LOWFOIL+", SELL="+SELL+", LOW="+LOW+", TREND="+TREND;
+	}
 	
 	
 	public double getSELL() {

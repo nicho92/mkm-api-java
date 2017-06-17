@@ -18,6 +18,11 @@ public class WantItem {
 		    private boolean isPlayset;
 		    private boolean isAltered;
 		    
+		    @Override
+		    public String toString() {
+		    	return String.valueOf(product);
+		    }
+		    
 		    public WantItem() {
 				idLanguage= new ArrayList<Integer>();
 			}
