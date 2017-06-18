@@ -44,10 +44,11 @@ public class TestProducts {
 		Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
 		atts.put(PRODUCT_ATTS.exact,"true");
 		List<Product> search = prodServices.find("Snapcaster Mage", atts);
-		for(Product p : search)
-		{
-			System.out.println(p);
-		}
+		
+		Product p = search.get(1);
+		Product p2 = prodServices.getById(p.getIdProduct());
+		prodServices.fusion(p, p2);
+	
 		
 		
 		

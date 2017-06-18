@@ -123,26 +123,24 @@ public class ProductServices {
 	    connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
         connection.connect();
     	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		
-		System.out.println(xml);
-		
 		Response res = (Response)xstream.fromXML(xml);
-		
 		for(Product p : res.getProduct())
-		{
 			p.setEnName(p.getName().get(0).getProductName());
-		}
 	
 		return res.getProduct();
 	}
 	
 	public Product getById(String idProduct) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
+		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
+ 		
     	String link = "https://www.mkmapi.eu/ws/v2.0/products/"+idProduct;
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		
+		System.out.println(xml);
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getProduct().get(0);
 	}
