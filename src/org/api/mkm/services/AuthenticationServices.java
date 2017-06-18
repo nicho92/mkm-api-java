@@ -1,7 +1,11 @@
 package org.api.mkm.services;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -14,9 +18,17 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.modele.Link;
+import org.api.mkm.modele.Response;
+import org.api.mkm.modele.User;
 import org.api.mkm.tools.Tools;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class AuthenticationServices {
 
@@ -25,12 +37,9 @@ public class AuthenticationServices {
 	private String appSecret;
 	private String accessToken;
 	private String accessSecret;
-
+	private XStream xstream;
+	
 	static final Logger logger = LogManager.getLogger(AuthenticationServices.class.getName());
-
-	public AuthenticationServices() {
-		// TODO Auto-generated constructor stub
-	}
 
 	public AuthenticationServices(String accessSecret,String accessToken,String appSecret,String appToken) {
 		this.accessSecret=accessSecret;
@@ -39,8 +48,29 @@ public class AuthenticationServices {
 		this.appToken=appToken;
 	}
 	
+	public User getAuthenticatedUser() throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	{
+		xstream = new XStream(new StaxDriver());
+		XStream.setupDefaultSecurity(xstream);
+ 		xstream.addPermission(AnyTypePermission.ANY);
+ 		xstream.alias("response", Response.class);
+ 		xstream.ignoreUnknownElements();
+ 		xstream.addImplicitCollection(Response.class,"links",Link.class);
+ 		
+		String link="https://www.mkmapi.eu/ws/v2.0/account";
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+			               connection.addRequestProperty("Authorization", generateOAuthSignature(link,"GET")) ;
+			               connection.connect() ;
+			               
+		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		
+		Response res = (Response)xstream.fromXML(xml);
+		return res.getAccount();
+	}
 	
-	 private Map<String,String> parseQueryString(String query)
+	
+	
+	private Map<String,String> parseQueryString(String query)
 	 {
 	        Map<String,String> queryParameters = new TreeMap<String, String>();
 	        

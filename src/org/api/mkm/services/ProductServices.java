@@ -72,17 +72,18 @@ public class ProductServices {
 		
 		ProductListFile res = (ProductListFile)xstream.fromXML(xml);
 		
-		
-		byte[] bytes = Base64.decodeBase64( res.getProductsfile());
-		FileUtils.writeByteArrayToFile( f, bytes );
-		
+		byte[] bytes = Base64.decodeBase64(res.getProductsfile());
+		File temp =  new File("mkm_temp.gz");
+		FileUtils.writeByteArrayToFile(temp, bytes );
+		Tools.unzip(temp, f);
+		temp.delete();
 	}
 	
 	
 	
 	public List<Product> find(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+name;
+		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8");
 		if(atts.size()>0)
     	{
 			link+="&";

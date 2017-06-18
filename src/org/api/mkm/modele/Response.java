@@ -8,9 +8,16 @@ public class Response {
 	List<Article> article;
 	List<Link> links;
 	List<Wantslist> wantslist;
+	User account;
 	
 	
-	
+
+	public User getAccount() {
+		return account;
+	}
+	public void setAccount(User account) {
+		this.account = account;
+	}
 	public List<Wantslist> getWantslist() {
 		return wantslist;
 	}

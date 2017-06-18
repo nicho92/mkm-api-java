@@ -44,8 +44,24 @@ public class ArticleService {
 	
 	public List<Article> find(User u,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
-		//https://www.mkmapi.eu/ws/v2.0/users/karmacrow/articles?start=0&maxResults=100
-		return null;
+		String link = "https://www.mkmapi.eu/ws/v2.0/users/"+u.getUsername()+"/articles";
+		if(atts.size()>0)
+    	{
+    		link+="?";
+    		List<String> paramStrings = new ArrayList<String>();
+ 	        for(ARTICLES_ATT parameter:atts.keySet())
+	             paramStrings.add(parameter + "=" + atts.get(parameter));
+	        
+ 	        link+=Tools.join(paramStrings, "&");
+    	}
+		
+		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+         connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
+         connection.connect() ;
+         String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+         Response res = (Response)xstream.fromXML(xml);
+		
+		return res.getArticle();
 	}
 	
 	

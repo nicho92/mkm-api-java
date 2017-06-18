@@ -1,5 +1,6 @@
 package org.api.mkm.tests;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidKeyException;
@@ -15,6 +16,7 @@ import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
+import org.api.mkm.services.AuthenticationServices;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
@@ -36,20 +38,23 @@ public class TestProducts {
 		ArticleService artServices = new ArticleService();
 		WantsService wanServices = new WantsService();
 		ProductServices prodServices = new ProductServices();
-	
 		
+		
+		prodServices.exportProductList(new File("c:/export.csv"));
+		
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////
+		/*
 		Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
 		atts.put(PRODUCT_ATTS.idGame, "1");
 		atts.put(PRODUCT_ATTS.idLanguage, "1");
-		atts.put(PRODUCT_ATTS.exact,"true");
-		List<Product> search = prodServices.find("Blood Moon", atts);
-		
-		
+		atts.put(PRODUCT_ATTS.exact,"false");
+		List<Product> search = prodServices.find("Snapcaster", atts);
 		for(Product p : search)
 		{
 			System.out.println(p);
 		}
-		
+		*/
 		
 		
 		
