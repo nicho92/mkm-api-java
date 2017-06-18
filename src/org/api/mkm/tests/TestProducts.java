@@ -60,17 +60,21 @@ public class TestProducts {
 								 attp.put(ARTICLES_ATT.maxResults, "10");
 								 
 		List<Article> articles = artServices.find(p, attp);
-		for(Article a : articles)
-		{
-			a.setCount(1);
+		
+		Article a = articles.get(0);
+			a.setCondition("NM");
+			a.setCount(10);
+			a.setFoil(false);
 			a.setPrice(10000);
-		}
+			a.setPlayset(false);
+			a.setComments("WS TEST");
+		
+			stockServices.addArticle(a);
+			stockServices.removeArticle(a);
 		
 		/*cartService.addArticles(articles);
 		cartService.empty();
 		*/
-		System.out.println(stockServices.getStock());
-
 		
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////

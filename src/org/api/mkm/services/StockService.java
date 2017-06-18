@@ -6,6 +6,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -18,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
+import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.WantItem;
@@ -44,10 +46,29 @@ public class StockService {
 	 		xstream.ignoreUnknownElements();
 	}
 	
+	public List<Article> getStock(int idGame,String name) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	{
+		Game g = new Game();
+		g.setIdGame(idGame);
+		return getStock(g, null);
+	}
+	
 	public List<Article> getStock() throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
+		return getStock(null, null);
+	}
+	
+	public List<Article> getStock(Game game,String name) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	{
 		String link="https://www.mkmapi.eu/ws/v2.0/stock";
-
+		
+		if(name!=null)
+			link=link+"/"+URLEncoder.encode(name, "UTF-8");
+		
+		if(game!=null)
+			link=link+"/"+game.getIdGame();
+		
+		
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
@@ -172,6 +193,50 @@ public class StockService {
 	}
 	
 	
+	public boolean changeQte(Article a, int qte) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	{
+		ArrayList<Article> list = new ArrayList<Article>();
+		list.add(a);
+		return changeQte(list, qte);
+	}
+	public boolean changeQte(List<Article> list, int qte) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	{
+		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
+		
+		if(qte>0)
+			link+="/increase";
+		else
+			link+="/decrease";
+		
+		
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
+		connection.setDoOutput(true);
+		connection.setRequestMethod("PUT");
+		connection.connect();
+		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+
+		StringBuffer temp = new StringBuffer();
+
+		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append("<request>");
+
+		for(Article a : list)
+		{
+			temp.append("<article>");
+				temp.append("<idProduct>").append(a.getIdProduct()).append("</idProduct>");
+				temp.append("<amount>").append(Math.abs(qte)).append("</amount>");
+			temp.append("</article>");
+			
+			a.setCount(a.getCount()+qte);
+			
+		}		    
+		temp.append("</request>");
+		out.write(temp.toString());
+		out.close();
+		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		return ret;
+	}
 	
 }
 
