@@ -72,9 +72,6 @@ public class ProductServices {
 		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		
-		System.out.println(xml);
-		
-		
 		Response res = (Response)xstream.fromXML(xml);
 		
 		byte[] bytes = Base64.decodeBase64(res.getPriceguidefile());

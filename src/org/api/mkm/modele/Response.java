@@ -8,11 +8,34 @@ public class Response {
 	List<Article> article;
 	List<Link> links;
 	List<Wantslist> wantslist;
+	List<Game> game;
+	List<Expansion> expansion;
+	
 	User account;
 	String productsfile;
 	String mime;
 	String priceguidefile;
-
+	String stock;
+	
+	
+	public String getStock() {
+		return stock;
+	}
+	public void setStock(String stock) {
+		this.stock = stock;
+	}
+	public List<Game> getGame() {
+		return game;
+	}
+	public void setGame(List<Game> game) {
+		this.game = game;
+	}
+	public List<Expansion> getExpansion() {
+		return expansion;
+	}
+	public void setExpansion(List<Expansion> expansion) {
+		this.expansion = expansion;
+	}
 	public User getAccount() {
 		return account;
 	}

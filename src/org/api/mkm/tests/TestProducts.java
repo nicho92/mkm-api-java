@@ -15,7 +15,9 @@ import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.CartServices;
+import org.api.mkm.services.MKMService;
 import org.api.mkm.services.ProductServices;
+import org.api.mkm.services.StockService;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
@@ -39,6 +41,9 @@ public class TestProducts {
 		WantsService wanServices = new WantsService();
 		ProductServices prodServices = new ProductServices();
 		
+		StockService stockServices = new StockService();
+		
+		
 		
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,11 +63,14 @@ public class TestProducts {
 		for(Article a : articles)
 		{
 			a.setCount(1);
-			System.out.println(a.getProduct() +" " + a.getPrice() +" " + a.getLanguage());
+			a.setPrice(10000);
 		}
 		
-		cartService.addArticles(articles);
+		/*cartService.addArticles(articles);
 		cartService.empty();
+		*/
+		System.out.println(stockServices.getStock());
+
 		
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -19,6 +19,10 @@ public class Article
 	
 	public static enum ARTICLES_ATT {start,maxResults,userType ,minUserScore ,idLanguage ,minCondition,isFoil ,isSigned,isAltered,minAvailable};
 
+	@Override
+	public String toString() {
+		return String.valueOf(getProduct()) +" ("+count +")";
+	}
 	
 	public Product getProduct() {
 		return product;

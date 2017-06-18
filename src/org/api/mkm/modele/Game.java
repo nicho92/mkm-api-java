@@ -5,7 +5,14 @@ public class Game {
 	 private String name; 
 	 private String abbreviation;
 	 private Link links;
-	public int getIdGame() {
+	
+	 @Override
+	public String toString() {
+		return getName();
+	}
+	 
+	 
+	 public int getIdGame() {
 		return idGame;
 	}
 	public void setIdGame(int idGame) {
