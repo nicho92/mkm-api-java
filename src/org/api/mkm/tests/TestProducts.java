@@ -5,31 +5,26 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
-import org.api.mkm.modele.WantItem;
-import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
-import org.api.mkm.services.AuthenticationServices;
+import org.api.mkm.services.CartServices;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
-import org.magic.api.exports.impl.MKMOnlineWantListExport.WantList;
-import org.magic.api.pricers.impl.MagicCardMarketPricer;
+import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 
 public class TestProducts {
 
 	public static void main(String[] args) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		
-		MagicCardMarketPricer pricer = new MagicCardMarketPricer();
+		MagicCardMarketPricer2 pricer = new MagicCardMarketPricer2();
 		
 		MkmAPIConfig.getInstance().init(pricer.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
 										pricer.getProperty("APP_ACCESS_TOKEN").toString(),
@@ -37,9 +32,14 @@ public class TestProducts {
 										pricer.getProperty("APP_TOKEN").toString());
 		
 		
+		CartServices cartService = new CartServices();
+		
+		
 		ArticleService artServices = new ArticleService();
 		WantsService wanServices = new WantsService();
 		ProductServices prodServices = new ProductServices();
+		
+		
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
@@ -47,18 +47,22 @@ public class TestProducts {
 								 atts.put(PRODUCT_ATTS.exact,"true");
 		List<Product> search = prodServices.find("Snapcaster Mage", atts);
 		Product p = search.get(1);
-		System.out.println(p +" " + p.getExpansionName());
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
 		Map<ARTICLES_ATT,String> attp = new HashMap<ARTICLES_ATT, String>();
 								 attp.put(ARTICLES_ATT.idLanguage, "1");
 								 attp.put(ARTICLES_ATT.start, "0");
 								 attp.put(ARTICLES_ATT.maxResults, "10");
+								 
 		List<Article> articles = artServices.find(p, attp);
 		for(Article a : articles)
 		{
+			a.setCount(1);
 			System.out.println(a.getProduct() +" " + a.getPrice() +" " + a.getLanguage());
 		}
+		
+		cartService.addArticles(articles);
+		cartService.empty();
 		
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////

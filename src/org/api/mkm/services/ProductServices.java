@@ -9,11 +9,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -25,11 +23,9 @@ import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
-import org.api.mkm.modele.ProductListFile;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.Tools;
-import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -52,16 +48,46 @@ public class ProductServices {
 	 		xstream.addImplicitCollection(Response.class,"product", Product.class);
 	 		xstream.addImplicitCollection(Response.class,"links",Link.class);
 	 		xstream.addImplicitCollection(Product.class,"links",Link.class);
-	 		xstream.addImplicitCollection(ProductListFile.class,"links",Link.class);
 	 		xstream.addImplicitCollection(Product.class,"localization",Localization.class);
 	 		xstream.addImplicitCollection(Product.class,"reprint",Expansion.class);
 	 		xstream.ignoreUnknownElements();
 	}
 	
+	public void exportPriceGuide(File f) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	{
+		exportPriceGuide(f,null);
+	}
+	
+	public void exportPriceGuide(File f,Integer idGame) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	{
+		String link="https://www.mkmapi.eu/ws/v2.0/priceguide";
+	
+		if(idGame!=null)
+			link="https://www.mkmapi.eu/ws/v2.0/priceguide?idGame="+idGame;
+		
+		
+	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.connect() ;
+		
+		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		
+		System.out.println(xml);
+		
+		
+		Response res = (Response)xstream.fromXML(xml);
+		
+		byte[] bytes = Base64.decodeBase64(res.getPriceguidefile());
+		File temp =  new File("mkm_temp.gz");
+		FileUtils.writeByteArrayToFile(temp, bytes );
+		Tools.unzip(temp, f);
+		temp.delete();
+	}
+	
+	
 	public void exportProductList(File f) throws IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/productlist";
-		xstream.alias("response", ProductListFile.class);
 		
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
@@ -70,14 +96,16 @@ public class ProductServices {
 			               
 		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		Response res = (Response)xstream.fromXML(xml);
 		
-		ProductListFile res = (ProductListFile)xstream.fromXML(xml);
 		
 		byte[] bytes = Base64.decodeBase64(res.getProductsfile());
 		File temp =  new File("mkm_temp.gz");
 		FileUtils.writeByteArrayToFile(temp, bytes );
 		Tools.unzip(temp, f);
 		temp.delete();
+		
+		
 	}
 	
 	public List<Product> find(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException

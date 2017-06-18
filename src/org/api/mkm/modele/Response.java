@@ -9,8 +9,9 @@ public class Response {
 	List<Link> links;
 	List<Wantslist> wantslist;
 	User account;
-	
-	
+	String productsfile;
+	String mime;
+	String priceguidefile;
 
 	public User getAccount() {
 		return account;
@@ -42,9 +43,25 @@ public class Response {
 	public void setArticle(List<Article> article) {
 		this.article = article;
 	}
-	
-	
-	
+	public String getProductsfile() {
+		return productsfile;
+	}
+	public void setProductsfile(String productsfile) {
+		this.productsfile = productsfile;
+	}
+	public String getMime() {
+		return mime;
+	}
+	public void setMime(String mime) {
+		this.mime = mime;
+	}
+	public String getPriceguidefile() {
+		return priceguidefile;
+	}
+	public void setPriceguidefile(String priceguidefile) {
+		this.priceguidefile = priceguidefile;
+	}
+
 	
 
 }

@@ -98,7 +98,6 @@ public class WantsService {
 		temp.append("<request><action>editItem</action>");
 		temp.append(xstream.toXML(it));
 		temp.append("</request>");
-		
 		out.write(temp.toString());
 		out.close();
 		return (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
@@ -159,9 +158,9 @@ public class WantsService {
 		out.close();
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
 		
-		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		/*String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		System.out.println(xml);
-		
+		*/
 		
 		return ret;
 	}
