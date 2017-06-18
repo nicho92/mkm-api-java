@@ -78,7 +78,6 @@ public class ArticleService {
 		             paramStrings.add(parameter + "=" + atts.get(parameter));
 		        
 	 	        link+=Tools.join(paramStrings, "&");
-	    		
 	    	}
     
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();

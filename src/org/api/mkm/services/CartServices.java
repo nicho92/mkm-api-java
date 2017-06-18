@@ -8,6 +8,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -38,6 +39,14 @@ public class CartServices {
 	 		xstream.addImplicitCollection(ShoppingCart.class, "article", Article.class);
 	 		xstream.ignoreUnknownElements();
 	}
+	
+	public boolean addArticle(Article a) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	{
+		List<Article> list = new ArrayList<Article>();
+		list.add(a);
+		return addArticles(list);
+	}
+	
 	
 	public boolean addArticles(List<Article> articles) throws IOException, InvalidKeyException, NoSuchAlgorithmException
 	{

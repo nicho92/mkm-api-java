@@ -130,6 +130,8 @@ public class ProductServices {
 		
 		link=link.replaceAll(":name", URLEncoder.encode(name,"UTF-8"));
 		
+		logger.debug(link);
+		
 		/*String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8");
 		if(atts.size()>0)
     	{
