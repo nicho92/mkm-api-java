@@ -42,16 +42,8 @@ public class TestProducts {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
-		atts.put(PRODUCT_ATTS.exact,"true");
+		atts.put(PRODUCT_ATTS.exact,"false");
 		List<Product> search = prodServices.find("Snapcaster Mage", atts);
-		
-		Product p = search.get(1);
-		Product p2 = prodServices.getById(p.getIdProduct());
-		prodServices.fusion(p, p2);
-	
-		
-		
-		
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/*

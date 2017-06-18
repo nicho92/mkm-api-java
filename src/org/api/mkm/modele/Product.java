@@ -9,7 +9,7 @@ public class Product
 	
 	private String idProduct;
 	private String idMetaproduct;
-	private int countReprints;
+	private Integer countReprints;
 	private String enName;
 	private List<Localization> localization;
 	private String website;
@@ -46,10 +46,10 @@ public class Product
 	public void setIdMetaproduct(String idMetaproduct) {
 		this.idMetaproduct = idMetaproduct;
 	}
-	public int getCountReprints() {
+	public Integer getCountReprints() {
 		return countReprints;
 	}
-	public void setCountReprints(int countReprints) {
+	public void setCountReprints(Integer countReprints) {
 		this.countReprints = countReprints;
 	}
 	public String getEnName() {

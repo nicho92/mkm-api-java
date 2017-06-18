@@ -123,9 +123,17 @@ public class ProductServices {
 	    connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
         connection.connect();
     	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		Response res = (Response)xstream.fromXML(xml);
-		for(Product p : res.getProduct())
+    	
+    	//horrible, but too complicated to change for beanconverter
+    	xml=xml.replaceAll("<countReprints></countReprints>", "<countReprints>0</countReprints>");
+    
+    	Response res = (Response)xstream.fromXML(xml);
+		
+    	
+    	for(Product p : res.getProduct())
+		{
 			p.setEnName(p.getName().get(0).getProductName());
+		}
 	
 		return res.getProduct();
 	}
