@@ -139,8 +139,6 @@ public class ProductServices {
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		
-		System.out.println(xml);
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getProduct().get(0);
 	}
