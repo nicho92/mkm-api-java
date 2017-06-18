@@ -24,8 +24,16 @@ public class Product
 	private List<Expansion> reprint;
 	private List<Link> links;
 	
+	private List<Localization> name;
 	
-	
+	@Deprecated
+	public List<Localization> getName() {
+		return name;
+	}
+	@Deprecated
+	public void setName(List<Localization> name) {
+		this.name = name;
+	}
 	public String getIdProduct() {
 		return idProduct;
 	}

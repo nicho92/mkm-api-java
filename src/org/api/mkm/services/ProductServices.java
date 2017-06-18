@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -63,7 +64,7 @@ public class ProductServices {
 		xstream.alias("response", ProductListFile.class);
 		
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
+			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               
 			               
@@ -79,11 +80,33 @@ public class ProductServices {
 		temp.delete();
 	}
 	
-	
-	
-	public List<Product> find(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	public List<Product> find(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
 	{
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8");
+		
+		xstream.addImplicitCollection(Product.class,"name",Localization.class);
+ 		xstream.aliasField("expansion", Product.class, "expansionName");
+ 		
+		
+		String link = "https://www.mkmapi.eu/ws/v1.1/products/:name/:idGame/:idLanguage/:isExact";
+		
+		if(atts.containsKey(PRODUCT_ATTS.exact))
+			link=link.replaceAll(":isExact", atts.get(PRODUCT_ATTS.exact));
+		else
+			link=link.replaceAll(":isExact", "false");
+		
+		if(atts.containsKey(PRODUCT_ATTS.idGame))
+			link=link.replaceAll(":idGame", atts.get(PRODUCT_ATTS.idGame));
+		else
+			link=link.replaceAll(":idGame", "1");
+		
+		if(atts.containsKey(PRODUCT_ATTS.idLanguage))
+			link=link.replaceAll(":idLanguage", atts.get(PRODUCT_ATTS.idLanguage));
+		else
+			link=link.replaceAll(":idLanguage", "1");
+		
+		link=link.replaceAll(":name", URLEncoder.encode(name,"UTF-8"));
+		
+		/*String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8");
 		if(atts.size()>0)
     	{
 			link+="&";
@@ -93,21 +116,31 @@ public class ProductServices {
 	        
  	        link+=Tools.join(paramStrings, "&");
     	}
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.connect() ;*/
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+	    connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
+        connection.connect();
+    	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		
-	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
-			               connection.connect() ;
-		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		System.out.println(xml);
+		
 		Response res = (Response)xstream.fromXML(xml);
+		
+		for(Product p : res.getProduct())
+		{
+			p.setEnName(p.getName().get(0).getProductName());
+		}
+	
 		return res.getProduct();
 	}
-	
 	
 	public Product getById(String idProduct) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
     	String link = "https://www.mkmapi.eu/ws/v2.0/products/"+idProduct;
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
+			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		Response res = (Response)xstream.fromXML(xml);

@@ -59,7 +59,7 @@ public class AuthenticationServices {
  		
 		String link="https://www.mkmapi.eu/ws/v2.0/account";
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", generateOAuthSignature(link,"GET")) ;
+			               connection.addRequestProperty("Authorization", generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
@@ -88,10 +88,56 @@ public class AuthenticationServices {
 	        return queryParameters;
 	 }
 	 
-	 
+	@Deprecated
+	public String generateOAuthSignature(String link,String method) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException {
+
+        String realm = link ;
+        String oauth_version =  "1.0" ;
+        String oauth_consumer_key = appToken ;
+        String oauth_token = accessToken ;
+        String oauth_signature_method = "HMAC-SHA1";
+        String oauth_timestamp = ""+ (System.currentTimeMillis()/1000) ;
+        String oauth_nonce = "" + System.currentTimeMillis() ;
+        String encode ="UTF-8";
+       
+        String baseString = method+"&" + URLEncoder.encode(link,encode) + "&" ;
+        
+        String paramString = "oauth_consumer_key=" + URLEncoder.encode(oauth_consumer_key,encode) + "&" +
+                             "oauth_nonce=" + URLEncoder.encode(oauth_nonce,encode) + "&" +
+                             "oauth_signature_method=" + URLEncoder.encode(oauth_signature_method,encode) + "&" +
+                             "oauth_timestamp=" + URLEncoder.encode(oauth_timestamp,encode) + "&" +
+                             "oauth_token=" + URLEncoder.encode(oauth_token,encode) + "&" +
+                             "oauth_version=" + URLEncoder.encode(oauth_version,encode) ;
+        
+        
+        baseString += URLEncoder.encode(paramString,encode) ;
+       
+        String signingKey = URLEncoder.encode( appSecret,encode) + "&" + URLEncoder.encode(accessSecret,encode) ;
+        Mac mac = Mac.getInstance("HmacSHA1");
+        SecretKeySpec secret = new SecretKeySpec(signingKey.getBytes(), mac.getAlgorithm());
+        mac.init(secret);
+        byte[] digest = mac.doFinal(baseString.getBytes());
+        
+        
+        String oauth_signature = DatatypeConverter.printBase64Binary(digest); //Base64.encode(digest).trim() ;     
+        
+        String authorizationProperty = 
+                "OAuth " +
+                "realm=\"" + realm + "\", " + 
+                "oauth_version=\"" + oauth_version + "\", " +
+                "oauth_timestamp=\"" + oauth_timestamp + "\", " +
+                "oauth_nonce=\"" + oauth_nonce + "\", " +
+                "oauth_consumer_key=\"" + oauth_consumer_key + "\", " +
+                "oauth_token=\"" + oauth_token + "\", " +
+                "oauth_signature_method=\"" + oauth_signature_method + "\", " +
+                "oauth_signature=\"" + oauth_signature + "\"" ;
+        
+        
+        return authorizationProperty;
+	}
 	    
 	    
-	    public String generateOAuthSignature(String url,String method) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException{
+	    public String generateOAuthSignature2(String url,String method) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException{
 	    	
 	    	 Map<String,String> headerParams = new HashMap<String,String>();
 	         Map<String,String> encodedParams = new TreeMap<String, String>();

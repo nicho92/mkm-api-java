@@ -39,22 +39,16 @@ public class TestProducts {
 		WantsService wanServices = new WantsService();
 		ProductServices prodServices = new ProductServices();
 		
-		
-		prodServices.exportProductList(new File("c:/export.csv"));
-		
-		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/*
+		
 		Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
-		atts.put(PRODUCT_ATTS.idGame, "1");
-		atts.put(PRODUCT_ATTS.idLanguage, "1");
-		atts.put(PRODUCT_ATTS.exact,"false");
-		List<Product> search = prodServices.find("Snapcaster", atts);
+		atts.put(PRODUCT_ATTS.exact,"true");
+		List<Product> search = prodServices.find("Snapcaster Mage", atts);
 		for(Product p : search)
 		{
 			System.out.println(p);
 		}
-		*/
+		
 		
 		
 		

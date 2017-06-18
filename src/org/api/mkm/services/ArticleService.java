@@ -56,7 +56,7 @@ public class ArticleService {
     	}
 		
 		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-         connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
+         connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
          connection.connect() ;
          String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
          Response res = (Response)xstream.fromXML(xml);
@@ -87,7 +87,7 @@ public class ArticleService {
     	}
     
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
+			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		Response res = (Response)xstream.fromXML(xml);

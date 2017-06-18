@@ -60,7 +60,7 @@ public class WantsService {
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+li.getIdWantslist();
 
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"PUT")) ;
+				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
 				    		connection.connect();
@@ -87,7 +87,7 @@ public class WantsService {
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"PUT")) ;
+				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
 				    		connection.connect();
@@ -109,7 +109,7 @@ public class WantsService {
     	String link = "https://www.mkmapi.eu/ws/v2.0/wantslist";
     	
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
+			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		Response res = (Response)xstream.fromXML(xml);
@@ -120,7 +120,7 @@ public class WantsService {
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-		connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"PUT")) ;
+		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
@@ -171,7 +171,7 @@ public class WantsService {
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"PUT")) ;
+				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
 				    		connection.connect();
@@ -200,7 +200,7 @@ public class WantsService {
 		String temp = "<?xml version='1.0' encoding='UTF-8' ?><request><wantslist><idGame>1</idGame><name>"+name+"</name></wantslist></request>";
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-        				  connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"POST")) ;
+        				  connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"POST")) ;
         				  connection.setDoOutput(true);
         				  connection.setRequestMethod("POST");
         				  connection.setRequestProperty( "charset", "utf-8");
@@ -226,7 +226,7 @@ public class WantsService {
 		String temp = "<?xml version='1.0' encoding='UTF-8' ?><request><wantslist><idGame>1</idGame><name>"+l.getIdWantslist()+"</name></wantslist></request>";
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-        				  connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"DELETE")) ;
+        				  connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"DELETE")) ;
         				  connection.setDoOutput(true);
         				  connection.setRequestMethod("DELETE");
         				  connection.setRequestProperty( "charset", "utf-8");
@@ -242,7 +242,7 @@ public class WantsService {
     	String link = "https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
     	
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
+			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		Response res = (Response)xstream.fromXML(xml);
