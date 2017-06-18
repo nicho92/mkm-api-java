@@ -67,13 +67,7 @@ public class ArticleService {
 	
 	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
-		return find(p.getIdProduct(),atts);
-	}
-	
-	
-	public List<Article> find(String idProduct,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
-	{
-    	String link = "https://www.mkmapi.eu/ws/v2.0/articles/"+idProduct;
+    	String link = "https://www.mkmapi.eu/ws/v2.0/articles/"+p.getIdProduct();
     	
     	if(atts.size()>0)
     	{
@@ -91,6 +85,10 @@ public class ArticleService {
 			               connection.connect() ;
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		Response res = (Response)xstream.fromXML(xml);
+		
+		for(Article a : res.getArticle())
+			a.setProduct(p);
+		
 		return res.getArticle();
 	}
 	

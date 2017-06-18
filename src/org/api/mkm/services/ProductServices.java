@@ -86,7 +86,6 @@ public class ProductServices {
 		xstream.addImplicitCollection(Product.class,"name",Localization.class);
  		xstream.aliasField("expansion", Product.class, "expansionName");
  		
-		
 		String link = "https://www.mkmapi.eu/ws/v1.1/products/:name/:idGame/:idLanguage/:isExact";
 		
 		if(atts.containsKey(PRODUCT_ATTS.exact))

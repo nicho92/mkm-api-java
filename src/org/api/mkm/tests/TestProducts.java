@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.api.mkm.modele.Article;
+import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.WantItem;
@@ -42,8 +44,22 @@ public class TestProducts {
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
-		atts.put(PRODUCT_ATTS.exact,"false");
+								 atts.put(PRODUCT_ATTS.exact,"true");
 		List<Product> search = prodServices.find("Snapcaster Mage", atts);
+		Product p = search.get(1);
+		System.out.println(p +" " + p.getExpansionName());
+		
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////
+		Map<ARTICLES_ATT,String> attp = new HashMap<ARTICLES_ATT, String>();
+								 attp.put(ARTICLES_ATT.idLanguage, "1");
+								 attp.put(ARTICLES_ATT.start, "0");
+								 attp.put(ARTICLES_ATT.maxResults, "10");
+		List<Article> articles = artServices.find(p, attp);
+		for(Article a : articles)
+		{
+			System.out.println(a.getProduct() +" " + a.getPrice() +" " + a.getLanguage());
+		}
+		
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
 		/*
