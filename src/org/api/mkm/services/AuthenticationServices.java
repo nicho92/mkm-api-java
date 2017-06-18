@@ -189,12 +189,6 @@ public class AuthenticationServices {
 	         
 	         baseString += paramString;
 	         
-	         logger.debug("baseString = " + baseString);
-		     logger.debug("paramString = " + paramString);
-	    	     
-	         
-	      
-	         
 	         Mac mac = Mac.getInstance("HmacSHA1");
 	         SecretKeySpec secret = new SecretKeySpec(signatureKey.getBytes(), mac.getAlgorithm());
 	         mac.init(secret);

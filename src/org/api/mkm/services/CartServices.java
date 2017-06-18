@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Basket;
 import org.api.mkm.modele.Response;
@@ -27,7 +29,8 @@ public class CartServices {
 
 	private AuthenticationServices auth;
 	private XStream xstream;
-	
+	static final Logger logger = LogManager.getLogger(CartServices.class.getName());
+
 	public CartServices() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
 		
@@ -74,6 +77,11 @@ public class CartServices {
 		out.write(temp.toString());
 		out.close();
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		
+		
+		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		logger.debug("ADDITEM "+xml);
+		
 		return ret;
 	}
 	public boolean empty() throws IOException, InvalidKeyException, NoSuchAlgorithmException
