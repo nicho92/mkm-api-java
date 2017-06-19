@@ -11,7 +11,7 @@ public class Response {
 	List<Game> game;
 	List<Expansion> expansion;
 	List<Product> single;
-	
+	List<Order> order;
 	
 	User account;
 	String productsfile;
@@ -20,6 +20,12 @@ public class Response {
 	String stock;
 	
 	
+	public List<Order> getOrder() {
+		return order;
+	}
+	public void setOrder(List<Order> order) {
+		this.order = order;
+	}
 	public List<Product> getSingle() {
 		return single;
 	}

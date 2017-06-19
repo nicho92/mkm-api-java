@@ -1,7 +1,17 @@
 package org.api.mkm.services;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
+import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
@@ -21,6 +31,8 @@ public class OrderService {
 	public static enum STATE { bought,paid,sent,received,lost,cancelled};
 	
 	
+	
+	
 	public OrderService() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
 		
@@ -29,13 +41,14 @@ public class OrderService {
 	 		xstream.addPermission(AnyTypePermission.ANY);
 	 		xstream.alias("response", Response.class);
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
-	 		
+	 		xstream.addImplicitCollection(Response.class, "order", Order.class);
+	 		xstream.addImplicitCollection(Order.class, "article", Article.class);
 	 		
 	 		xstream.ignoreUnknownElements();
 	}
 
 	
-	public List<Order> listOrders(ACTOR a, STATE s,Integer min)
+	public List<Order> listOrders(ACTOR a, STATE s,Integer min) throws InvalidKeyException, NoSuchAlgorithmException, MalformedURLException, IOException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/orders/:actor/:state";
 			link=link.replaceAll(":actor", a.name());
@@ -44,14 +57,29 @@ public class OrderService {
 		if(min!=null)
 			link+="/"+min;
 		
-		return null;
+		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+         connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+         connection.connect() ;
+
+         String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+         Response res = (Response)xstream.fromXML(xml);
+         
+         return res.getOrder();
 	}
 	
-	public Order getOrderById(int id)
+	public Order getOrderById(int id) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/order/"+id;
 		
-		return null;
+		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+         connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+         connection.connect() ;
+
+         String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+       
+         Response res = (Response)xstream.fromXML(xml);
+     	
+         return res.getOrder().get(0);
 	}
 	
 	

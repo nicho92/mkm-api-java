@@ -1,6 +1,5 @@
 package org.api.mkm.tests;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidKeyException;
@@ -9,15 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.PropertyConfigurator;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
-import org.api.mkm.modele.Expansion;
+import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.CartServices;
-import org.api.mkm.services.MKMService;
+import org.api.mkm.services.OrderService;
+import org.api.mkm.services.OrderService.ACTOR;
+import org.api.mkm.services.OrderService.STATE;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.StockService;
 import org.api.mkm.services.WantsService;
@@ -40,6 +40,21 @@ public class TestProducts {
 		ProductServices prodServices = new ProductServices();
 		StockService stockServices = new StockService();
 		CartServices cartService = new CartServices();
+		OrderService orderServices = new OrderService();
+		
+		
+		
+		
+		Order o = orderServices.listOrders(ACTOR.buyer, STATE.paid, null).get(0);
+		
+		orderServices.getOrderById(o.getIdOrder());
+		
+		for(Article a : o.getArticle())
+			System.out.println(a + " " + a.getPrice());
+		
+		
+		System.exit(0);
+		
 		
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
