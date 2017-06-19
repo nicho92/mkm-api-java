@@ -48,29 +48,7 @@ public class TestProducts {
 		
 		
 		
-		Order o = orderServices.listOrders(ACTOR.buyer, STATE.paid, null).get(0);
-		
-		orderServices.getOrderById(o.getIdOrder());
-		
-		
-		Wantslist l = wanServices.createWantList("ORDERED");
-		List<WantItem> items = new ArrayList<WantItem>();
-		
-		for(Article a : o.getArticle())
-		{
-			a.getProduct().setIdProduct(""+a.getIdProduct());
-				WantItem it = new WantItem();
-				it.setProduct(a.getProduct());
-				it.setCount(1);
-				it.setMailAlert(false);
-				it.setPlayset(false);
-				it.setWishPrice(5);
-				it.getIdLanguage().add(1);
-				it.getIdLanguage().add(2);
-				items.add(it);
-		}
-		
-		wanServices.addItem(l, items);	
+		orderServices.listOrders(ACTOR.buyer, STATE.sent,null);
 		
 		System.exit(0);
 		

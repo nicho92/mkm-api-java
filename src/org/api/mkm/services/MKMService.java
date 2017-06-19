@@ -10,6 +10,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Basket;
 import org.api.mkm.modele.Expansion;
@@ -27,7 +29,9 @@ public class MKMService {
 
 	private AuthenticationServices auth;
 	private XStream xstream;
-
+	static final Logger logger = LogManager.getLogger(MKMService.class.getName());
+	
+	
 	public MKMService() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
 		
@@ -45,12 +49,15 @@ public class MKMService {
 	public List<Game> listGames() throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/games";
-
+		logger.debug("LINK="+link);
+			
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		
+
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getGame();
 		
@@ -59,7 +66,6 @@ public class MKMService {
 	{
 		Game g = new Game();
 		g.setIdGame(id);
-		
 		return listExpansion(g);
 	}
 	
@@ -67,7 +73,8 @@ public class MKMService {
 	public List<Expansion> listExpansion(Game g) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/games/"+g.getIdGame()+"/expansions";
-
+		logger.debug("LINK="+link);
+			
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;

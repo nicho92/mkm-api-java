@@ -68,7 +68,8 @@ public class ProductServices {
 		if(idGame!=null)
 			link="https://www.mkmapi.eu/ws/v2.0/priceguide?idGame="+idGame;
 		
-		
+		logger.debug("LINK="+link);
+	    
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
@@ -88,7 +89,8 @@ public class ProductServices {
 	public void exportProductList(File f) throws IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/productlist";
-		
+		logger.debug("LINK="+link);
+	    
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
@@ -111,7 +113,8 @@ public class ProductServices {
 	public List<Product> getProductByExpansion(Expansion e) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/expansions/"+e.getIdExpansion()+"/singles";
-		
+		logger.debug("LINK="+link);
+	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
         connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
         connection.connect() ;
@@ -147,7 +150,8 @@ public class ProductServices {
 		
 		link=link.replaceAll(":name", URLEncoder.encode(name,"UTF-8"));
 		
-		logger.debug(link);
+		logger.debug("LINK="+link);
+	    
 		
 		/*String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8");
 		if(atts.size()>0)
@@ -186,6 +190,8 @@ public class ProductServices {
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		
     	String link = "https://www.mkmapi.eu/ws/v2.0/products/"+idProduct;
+    	logger.debug("LINK="+link);
+        
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;

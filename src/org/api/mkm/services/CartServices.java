@@ -54,6 +54,8 @@ public class CartServices {
 	public boolean addArticles(List<Article> articles) throws IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
+		logger.debug("LINK="+link);
+		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
 		connection.setDoOutput(true);
@@ -87,6 +89,8 @@ public class CartServices {
 	public boolean empty() throws IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
+		logger.debug("LINK="+link);
+		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"DELETE")) ;
 		connection.setDoOutput(true);
@@ -100,6 +104,8 @@ public class CartServices {
 	public boolean removeArticles(List<Article> articles) throws IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
+		logger.debug("LINK="+link);
+		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
 		connection.setDoOutput(true);
@@ -129,7 +135,7 @@ public class CartServices {
 	public Basket getBasket() throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/shoppingcart";
-    	
+		logger.debug("LINK="+link);
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;

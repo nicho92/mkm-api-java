@@ -7,7 +7,7 @@ public class Product
 	
 	public static enum PRODUCT_ATTS {exact,idGame,idLanguage,start,maxResults};
 	
-	private String idProduct;
+	private int idProduct;
 	private String idMetaproduct;
 	private Integer countReprints;
 	private String enName;
@@ -34,10 +34,10 @@ public class Product
 	public void setName(List<Localization> name) {
 		this.name = name;
 	}
-	public String getIdProduct() {
+	public int getIdProduct() {
 		return idProduct;
 	}
-	public void setIdProduct(String idProduct) {
+	public void setIdProduct(int idProduct) {
 		this.idProduct = idProduct;
 	}
 	public String getIdMetaproduct() {

@@ -17,6 +17,8 @@ import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Game;
@@ -34,6 +36,7 @@ public class StockService {
 
 	private AuthenticationServices auth;
 	private XStream xstream;
+	static final Logger logger = LogManager.getLogger(StockService.class.getName());
 
 	public StockService() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
@@ -61,6 +64,7 @@ public class StockService {
 	public List<Article> getStock(Game game,String name) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/stock";
+		logger.debug("LINK="+link);
 		
 		if(name!=null)
 			link=link+"/"+URLEncoder.encode(name, "UTF-8");
@@ -88,7 +92,8 @@ public class StockService {
 	public boolean addArticles(List<Article> list) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+		logger.debug("LINK="+link);
+	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"POST")) ;
 		connection.setDoOutput(true);
 		connection.setRequestMethod("POST");
@@ -131,6 +136,8 @@ public class StockService {
 	public boolean removeArticles(List<Article> list) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
+		logger.debug("LINK="+link);
+	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"DELETE")) ;
 		connection.setDoOutput(true);
@@ -175,6 +182,8 @@ public class StockService {
 	        
  	        link+=Tools.join(paramStrings, "&");
     	}
+		logger.debug("LINK="+link);
+	    
 		
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
@@ -208,7 +217,8 @@ public class StockService {
 		else
 			link+="/decrease";
 		
-		
+		logger.debug("LINK="+link);
+	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
 		connection.setDoOutput(true);

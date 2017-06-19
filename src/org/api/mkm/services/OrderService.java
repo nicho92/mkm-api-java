@@ -11,6 +11,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Game;
@@ -30,6 +32,7 @@ public class OrderService {
 	public static enum ACTOR { seller,buyer};
 	public static enum STATE { bought,paid,sent,received,lost,cancelled};
 	
+	static final Logger logger = LogManager.getLogger(OrderService.class.getName());
 	
 	
 	
@@ -43,7 +46,6 @@ public class OrderService {
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "order", Order.class);
 	 		xstream.addImplicitCollection(Order.class, "article", Article.class);
-	 		
 	 		xstream.ignoreUnknownElements();
 	}
 
@@ -57,12 +59,21 @@ public class OrderService {
 		if(min!=null)
 			link+="/"+min;
 		
+		 logger.debug("LINK="+link);
 		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
          connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
          connection.connect() ;
 
          String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		 
+         logger.debug("RESP="+xml);
+		 
          Response res = (Response)xstream.fromXML(xml);
+         
+         for(Order o : res.getOrder())
+        	 for(Article art : o.getArticle())
+        		 art.getProduct().setIdProduct(art.getIdProduct());
+         
          
          return res.getOrder();
 	}
@@ -70,13 +81,14 @@ public class OrderService {
 	public Order getOrderById(int id) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/order/"+id;
-		
+		 logger.debug("LINK="+link);
+		 
 		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
          connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
          connection.connect() ;
 
          String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-       
+		 logger.debug("RESP="+xml);
          Response res = (Response)xstream.fromXML(xml);
      	
          return res.getOrder().get(0);

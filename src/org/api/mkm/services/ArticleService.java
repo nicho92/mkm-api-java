@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.tools.MkmAPIConfig;
@@ -28,7 +30,8 @@ public class ArticleService {
 
 	private AuthenticationServices auth;
 	private XStream xstream;
-	
+	static final Logger logger = LogManager.getLogger(ArticleService.class.getName());
+
 	
 	public ArticleService() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
@@ -45,6 +48,8 @@ public class ArticleService {
 	public List<Article> find(User u,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/users/"+u.getUsername()+"/articles";
+		logger.debug("LINK="+link);
+		
 		if(atts!=null)
 			if(atts.size()>0)
 	    	{
@@ -69,6 +74,8 @@ public class ArticleService {
 	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
     	String link = "https://www.mkmapi.eu/ws/v2.0/articles/"+p.getIdProduct();
+    	logger.debug("LINK="+link);
+    	
     	if(atts!=null)
 	    	if(atts.size()>0)
 	    	{
