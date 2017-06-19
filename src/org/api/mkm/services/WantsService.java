@@ -79,7 +79,8 @@ public class WantsService {
 			temp.append("<idWant>"+w.getProduct().getIdProduct()+"</idWant>");
 		}		    
 		temp.append("</want>");
-
+		logger.debug("REQU="+temp);
+		
 		out.write(temp.toString());
 		out.close();
 		
@@ -113,6 +114,8 @@ public class WantsService {
 		temp.append("<request><action>editItem</action>");
 		temp.append(xstream.toXML(it));
 		temp.append("</request>");
+		logger.debug("REQU="+temp);
+		
 		out.write(temp.toString());
 		out.close();
 		boolean code= connection.getResponseCode()>=200 || connection.getResponseCode()<300;

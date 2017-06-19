@@ -98,6 +98,9 @@ public class ProductServices {
 			               
 		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		logger.debug("RESP="+xml);
+		
+		
 		Response res = (Response)xstream.fromXML(xml);
 		
 		
@@ -119,6 +122,7 @@ public class ProductServices {
         connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
         connection.connect() ;
         String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+        logger.debug("RESP="+xml);
      	Response res = (Response)xstream.fromXML(xml);
 		return res.getSingle();
 		
@@ -173,7 +177,8 @@ public class ProductServices {
     	
     	//horrible, but too complicated to change for beanconverter
     	xml=xml.replaceAll("<countReprints></countReprints>", "<countReprints>0</countReprints>");
-    
+    	
+    	logger.debug("RESP="+xml);
     	Response res = (Response)xstream.fromXML(xml);
 		
     	
@@ -196,6 +201,7 @@ public class ProductServices {
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		logger.debug("RESP="+xml);
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getProduct().get(0);
 	}

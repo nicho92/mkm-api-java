@@ -76,6 +76,8 @@ public class CartServices {
 			temp.append("</article>");
 		}
 		temp.append("</request>");
+		
+		logger.debug("REQU="+temp);
 		out.write(temp.toString());
 		out.close();
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
@@ -126,6 +128,8 @@ public class CartServices {
 			temp.append("</article>");
 		}
 		temp.append("</request>");
+		logger.debug("REQU="+temp);
+		
 		out.write(temp.toString());
 		out.close();
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
