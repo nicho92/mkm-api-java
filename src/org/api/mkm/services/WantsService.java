@@ -81,6 +81,7 @@ public class WantsService {
 		return (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
 	}
 	
+	//TODO : a tester
 	public boolean updateItem(Wantslist wl,WantItem it) throws IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		
@@ -136,6 +137,7 @@ public class WantsService {
 			temp.append("<idProduct>"+w.getProduct().getIdProduct()+"</idProduct>");
 			temp.append("<count>"+w.getCount()+"</count>");
 			temp.append("<mailAlert>"+w.isMailAlert()+"</mailAlert>");
+			
 			if(w.getIdLanguage().size()>0)
 				for(Integer i : w.getIdLanguage())
 					temp.append("<idLanguage>"+i+"</idLanguage>");
@@ -158,10 +160,11 @@ public class WantsService {
 		out.close();
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
 		
-		/*String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		System.out.println(xml);
-		*/
-		
+		if(ret)
+    	{
+    		//String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+    		//System.out.println(xml);
+    	}
 		return ret;
 	}
 	
@@ -214,8 +217,6 @@ public class WantsService {
         		Response res = (Response)xstream.fromXML(xml);
         		return res.getWantslist().get(0);
         	}
-        	
-        	
       	return null;
 	}
 	

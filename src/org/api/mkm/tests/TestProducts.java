@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,9 @@ import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Product;
+import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.CartServices;
 import org.api.mkm.services.OrderService;
@@ -49,9 +52,25 @@ public class TestProducts {
 		
 		orderServices.getOrderById(o.getIdOrder());
 		
-		for(Article a : o.getArticle())
-			System.out.println(a + " " + a.getPrice());
 		
+		Wantslist l = wanServices.createWantList("ORDERED");
+		List<WantItem> items = new ArrayList<WantItem>();
+		
+		for(Article a : o.getArticle())
+		{
+			a.getProduct().setIdProduct(""+a.getIdProduct());
+				WantItem it = new WantItem();
+				it.setProduct(a.getProduct());
+				it.setCount(1);
+				it.setMailAlert(false);
+				it.setPlayset(false);
+				it.setWishPrice(5);
+				it.getIdLanguage().add(1);
+				it.getIdLanguage().add(2);
+				items.add(it);
+		}
+		
+		wanServices.addItem(l, items);	
 		
 		System.exit(0);
 		
