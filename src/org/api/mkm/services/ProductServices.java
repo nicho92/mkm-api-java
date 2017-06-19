@@ -50,6 +50,9 @@ public class ProductServices {
 	 		xstream.addImplicitCollection(Product.class,"links",Link.class);
 	 		xstream.addImplicitCollection(Product.class,"localization",Localization.class);
 	 		xstream.addImplicitCollection(Product.class,"reprint",Expansion.class);
+	 		xstream.addImplicitCollection(Response.class, "single",Product.class);
+	 		xstream.addImplicitCollection(Response.class, "expansion",Expansion.class);
+	 		
 	 		xstream.ignoreUnknownElements();
 	}
 	
@@ -104,6 +107,20 @@ public class ProductServices {
 		
 		
 	}
+	
+	public List<Product> getProductByExpansion(Expansion e) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
+	{
+		String link="https://www.mkmapi.eu/ws/v2.0/expansions/"+e.getIdExpansion()+"/singles";
+		
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+        connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+        connection.connect() ;
+        String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+     	Response res = (Response)xstream.fromXML(xml);
+		return res.getSingle();
+		
+	}
+	
 	
 	public List<Product> find(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
 	{

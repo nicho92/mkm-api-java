@@ -10,6 +10,8 @@ public class Response {
 	List<Wantslist> wantslist;
 	List<Game> game;
 	List<Expansion> expansion;
+	List<Product> single;
+	
 	
 	User account;
 	String productsfile;
@@ -18,6 +20,12 @@ public class Response {
 	String stock;
 	
 	
+	public List<Product> getSingle() {
+		return single;
+	}
+	public void setSingle(List<Product> single) {
+		this.single = single;
+	}
 	public String getStock() {
 		return stock;
 	}

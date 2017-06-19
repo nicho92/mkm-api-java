@@ -9,8 +9,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
+import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.ArticleService;
@@ -33,17 +35,11 @@ public class TestProducts {
 										pricer.getProperty("APP_SECRET").toString(),
 										pricer.getProperty("APP_TOKEN").toString());
 		
-		
-		CartServices cartService = new CartServices();
-		
-		
 		ArticleService artServices = new ArticleService();
 		WantsService wanServices = new WantsService();
 		ProductServices prodServices = new ProductServices();
-		
 		StockService stockServices = new StockService();
-		
-		
+		CartServices cartService = new CartServices();
 		
 		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
