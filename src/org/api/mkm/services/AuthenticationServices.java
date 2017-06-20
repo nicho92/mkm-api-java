@@ -68,8 +68,6 @@ public class AuthenticationServices {
 		return res.getAccount();
 	}
 	
-	
-	
 	private Map<String,String> parseQueryString(String query)
 	 {
 	        Map<String,String> queryParameters = new TreeMap<String, String>();
@@ -136,8 +134,7 @@ public class AuthenticationServices {
         return authorizationProperty;
 	}
 	    
-	    
-	    public String generateOAuthSignature2(String url,String method) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException{
+	public String generateOAuthSignature2(String url,String method) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException{
 	    	
 	    	 Map<String,String> headerParams = new HashMap<String,String>();
 	         Map<String,String> encodedParams = new TreeMap<String, String>();

@@ -46,14 +46,6 @@ public class TestProducts {
 		OrderService orderServices = new OrderService();
 		
 		
-		
-		
-		orderServices.listOrders(ACTOR.buyer, STATE.sent,null);
-		
-		System.exit(0);
-		
-		
-		
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
 		Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();

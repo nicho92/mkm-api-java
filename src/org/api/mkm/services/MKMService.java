@@ -68,8 +68,6 @@ public class MKMService {
 		g.setIdGame(id);
 		return listExpansion(g);
 	}
-	
-	
 	public List<Expansion> listExpansion(Game g) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/games/"+g.getIdGame()+"/expansions";
