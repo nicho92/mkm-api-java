@@ -62,11 +62,18 @@ public class ArticlesTableModel extends DefaultTableModel{
 		
 		Article a = articles.get(row);
 		
-		try {
-			return BeanUtils.describe(a).get(columns[column]);
-		} catch (Exception e) {
-			return "";
-		} 
+		switch(column)
+		{
+			case 0: return a.getProduct();
+			case 1 : return a.getSeller();
+			case 2: return a.getPrice();
+			case 3: return a.getCondition();
+			case 4 : return a.isFoil();
+			case 5 : return a.isSigned();
+			case 6 : return a.isPlayset();
+			case 7 : return a.getComments();
+		default : return 0;
+		}
 		
 	}
 	
