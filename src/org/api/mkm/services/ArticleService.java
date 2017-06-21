@@ -65,6 +65,8 @@ public class ArticleService {
          connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
          connection.connect() ;
          String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+         logger.debug("RESP="+xml);
+  	   
          Response res = (Response)xstream.fromXML(xml);
 		
 		return res.getArticle();
@@ -86,11 +88,14 @@ public class ArticleService {
 		        
 	 	        link+=Tools.join(paramStrings, "&");
 	    	}
-    
+    	logger.debug("LINK="+link);
+    	
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		logger.debug("RESP="+xml);
+		  	  
 		Response res = (Response)xstream.fromXML(xml);
 		
 		for(Article a : res.getArticle())
