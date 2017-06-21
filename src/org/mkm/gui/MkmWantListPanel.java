@@ -143,15 +143,19 @@ public class MkmWantListPanel extends JPanel {
 	
 	}
 
-	protected void loadWantList(Wantslist selectedValue) {
-		WantsService service = new WantsService();
-		
-		try {
-			service.loadItems(selectedValue);
-			itemsTableModel.init(selectedValue);
-			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
-		}
+	protected void loadWantList(final Wantslist selectedValue) {
+		new Thread(new Runnable() {
+			public void run() {
+				WantsService service = new WantsService();
+				try {
+					service.loadItems(selectedValue);
+					itemsTableModel.init(selectedValue);
+				}
+				catch (Exception e) 
+				{
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		}).start();
 	}
 }
