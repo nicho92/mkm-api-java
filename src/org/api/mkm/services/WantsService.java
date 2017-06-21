@@ -295,6 +295,10 @@ public class WantsService {
 		
 		boolean ret = (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		
+		xml=xml.replaceAll("<idLanguage/>", "<idLanguage>0</idLanguage>");
+	    
+		
    		logger.debug("RESP="+xml);
 		Response res = (Response)xstream.fromXML(xml);
 		wl.setItem(res.getWantslist().get(0).getItem());

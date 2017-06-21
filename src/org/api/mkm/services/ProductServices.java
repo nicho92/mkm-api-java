@@ -175,7 +175,7 @@ public class ProductServices {
         connection.connect();
     	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     	
-    	//horrible, but too complicated to change for beanconverter
+    	//TODO horrible, but too complicated to change for beanconverter
     	xml=xml.replaceAll("<countReprints></countReprints>", "<countReprints>0</countReprints>");
     	
     	logger.debug("RESP="+xml);
