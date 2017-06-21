@@ -94,7 +94,7 @@ public class MkmWantListPanel extends JPanel {
 		tableItemWl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				loadArticle((Product)tableItemWl.getModel().getValueAt(tableItemWl.getSelectedRow(), 0));
+				loadArticle((Product)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0));
 			}
 		});
 		panelCenter.setViewportView(tableItemWl);

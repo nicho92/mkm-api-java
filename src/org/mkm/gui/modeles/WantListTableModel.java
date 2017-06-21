@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.api.mkm.modele.Article;
+import org.api.mkm.modele.Product;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 
@@ -62,13 +63,18 @@ public class WantListTableModel extends DefaultTableModel{
 	public Object getValueAt(int row, int column) {
 		
 		WantItem a = articles.get(row);
-		
-		try {
-			return BeanUtils.describe(a).get(columns[column]);
-		} catch (Exception e) {
-			return "";
-		} 
-		
+			switch(column)
+			{
+				case 0: return a.getProduct();
+				case 1 : return a.getWishPrice();
+				case 2: return a.getMinCondition();
+				case 3 : return a.isFoil();
+				case 4 : return a.isSigned();
+				case 5 : return a.isPlayset();
+				case 6 : return a.isMailAlert();
+				case 7 : return a.getIdLanguage();
+			default : return 0;
+			}
 	}
 	
 	

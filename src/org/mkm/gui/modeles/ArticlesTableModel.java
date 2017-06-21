@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.api.mkm.modele.Article;
+import org.api.mkm.modele.Product;
 
 public class ArticlesTableModel extends DefaultTableModel{
 
