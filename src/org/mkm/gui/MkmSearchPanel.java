@@ -30,6 +30,7 @@ import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.mkm.gui.modeles.ArticlesTableModel;
+import org.mkm.gui.renderer.ProductListRenderer;
 
 public class MkmSearchPanel extends JPanel {
 	private JTextField txtSearch;
@@ -72,6 +73,7 @@ public class MkmSearchPanel extends JPanel {
 		add(panelWest, BorderLayout.WEST);
 		productsModel = new DefaultListModel<Product>();
 		listResults = new JList<Product>(productsModel);
+		listResults.setCellRenderer(new ProductListRenderer());
 		listResults.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -95,7 +97,7 @@ public class MkmSearchPanel extends JPanel {
 		Map<PRODUCT_ATTS, String> map = new HashMap<PRODUCT_ATTS,String>();
 		
 		try {
-			List<Product> prods = services.find(text, map);
+			List<Product> prods = services.findProduct(text, map);
 			for(Product p : prods)
 				productsModel.addElement(p);
 			

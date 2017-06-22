@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
+import org.api.mkm.modele.Metaproduct;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.Response;
@@ -129,8 +130,8 @@ public class ProductServices {
 		
 	}
 	
-	
-	public List<Product> find(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
+
+	public List<Product> findProduct(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
 	{
 		
 		xstream.addImplicitCollection(Product.class,"name",Localization.class);
@@ -195,7 +196,7 @@ public class ProductServices {
 	}
 	
 
-	public Product getById(String idProduct) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	public Product getProductById(int idProduct) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		
@@ -221,8 +222,14 @@ public class ProductServices {
 			
 		}
 	}
-	
 
+	
+	
+	private boolean isEmptyMeta(List<Metaproduct> metaproduct) 
+	{
+		return metaproduct.get(0).getIdMetaproduct()==0;
+	}
+	
 	private boolean isEmpty(List<Product> product) {
 		return product.get(0).getIdProduct()==0;
 	}

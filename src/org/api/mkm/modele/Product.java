@@ -9,6 +9,7 @@ public class Product
 	
 	private int idProduct;
 	private String idMetaproduct;
+	private int idGame;
 	private Integer countReprints;
 	private String enName;
 	private List<Localization> localization;
@@ -131,6 +132,12 @@ public class Product
 		this.reprint = reprint;
 	}
 	
+	public int getIdGame() {
+		return idGame;
+	}
+	public void setIdGame(int idGame) {
+		this.idGame = idGame;
+	}
 	@Override
 	public String toString() {
 		return getEnName();

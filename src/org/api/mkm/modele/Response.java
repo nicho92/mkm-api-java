@@ -12,6 +12,8 @@ public class Response {
 	List<Expansion> expansion;
 	List<Product> single;
 	List<Order> order;
+	List<Metaproduct> metaproduct;
+	
 	
 	User account;
 	String productsfile;
@@ -97,6 +99,12 @@ public class Response {
 	}
 	public void setPriceguidefile(String priceguidefile) {
 		this.priceguidefile = priceguidefile;
+	}
+	public List<Metaproduct> getMetaproduct() {
+		return metaproduct;
+	}
+	public void setMetaproduct(List<Metaproduct> metaproduct) {
+		this.metaproduct = metaproduct;
 	}
 
 	
