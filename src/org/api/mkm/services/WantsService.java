@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
@@ -92,8 +93,10 @@ public class WantsService {
 			if(xml.contains("<idLanguage/>"))
 				xml=xml.replaceAll("<idLanguage/>", "");
 			logger.debug("RESP="+xml);
+			/*
 			Response res = (Response)xstream.fromXML(xml);
-		//	li = res.getWantslist().get(0);
+			if(res.getErrors()!=null)
+				throw new MkmException(res.getErrors());*/
 		}
 		
 		return code;

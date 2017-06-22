@@ -2,7 +2,7 @@ package org.api.mkm.exceptions;
 
 public class MkmException extends Exception {
 
-	public MkmException(Error e) {
-		super(e.toString());
+	public MkmException(org.api.mkm.modele.Error error) {
+		super(error.toString());
 	}
 }
