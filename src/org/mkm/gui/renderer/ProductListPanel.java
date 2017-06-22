@@ -11,17 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.api.mkm.modele.Product;
-import org.magic.api.beans.MagicCard;
-import org.magic.game.gui.components.DisplayableCard;
-import org.magic.gui.components.ManaPanel;
-import org.magic.services.IconSetProvider;
 
 public class ProductListPanel extends JPanel{
 	
 	Product p;
-	DisplayableCard lblNewLabel;
-	
-	
+
 	public ProductListPanel(Product p) {
 		this.p=p;
 		setBackground(Color.WHITE);

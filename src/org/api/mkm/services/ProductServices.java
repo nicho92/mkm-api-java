@@ -26,6 +26,7 @@ import org.api.mkm.modele.Metaproduct;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.Response;
+import org.api.mkm.tools.IntConverter;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.Tools;
 
@@ -49,11 +50,15 @@ public class ProductServices {
 	 		xstream.alias("response", Response.class);
 	 		xstream.addImplicitCollection(Response.class,"product", Product.class);
 	 		xstream.addImplicitCollection(Response.class,"links",Link.class);
+	 		xstream.addImplicitCollection(Response.class, "single",Product.class);
+	 		xstream.addImplicitCollection(Response.class, "expansion",Expansion.class);
+	 		xstream.addImplicitCollection(Response.class,"metaproduct", Metaproduct.class);
 	 		xstream.addImplicitCollection(Product.class,"links",Link.class);
 	 		xstream.addImplicitCollection(Product.class,"localization",Localization.class);
 	 		xstream.addImplicitCollection(Product.class,"reprint",Expansion.class);
-	 		xstream.addImplicitCollection(Response.class, "single",Product.class);
-	 		xstream.addImplicitCollection(Response.class, "expansion",Expansion.class);
+	 		xstream.addImplicitCollection(Metaproduct.class,"localization",Localization.class);
+	 		
+	 		xstream.registerConverter(new IntConverter());
 	 		
 	 		xstream.ignoreUnknownElements();
 	}
@@ -130,7 +135,6 @@ public class ProductServices {
 		
 	}
 	
-
 	public List<Product> findProduct(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
 	{
 		
@@ -177,9 +181,6 @@ public class ProductServices {
         connection.connect();
     	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     	
-    	//TODO horrible, but too complicated to change for beanconverter
-    	xml=xml.replaceAll("<countReprints></countReprints>", "<countReprints>0</countReprints>");
-    	
     	logger.debug("RESP="+xml);
     	Response res = (Response)xstream.fromXML(xml);
 		
@@ -194,8 +195,23 @@ public class ProductServices {
 	
 		return res.getProduct();
 	}
-	
 
+	public Metaproduct getMetaProductById(int idMeta) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	{
+		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
+ 		
+    	String link = "https://www.mkmapi.eu/ws/v2.0/metaproducts/"+idMeta;
+    	logger.debug("LINK="+link);
+        
+	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.connect() ;
+		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		logger.debug("RESP="+xml);
+		Response res = (Response)xstream.fromXML(xml);
+		return res.getMetaproduct().get(0);
+	}
+	
 	public Product getProductById(int idProduct) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
@@ -221,13 +237,6 @@ public class ProductServices {
 		} catch (Exception e1) {
 			
 		}
-	}
-
-	
-	
-	private boolean isEmptyMeta(List<Metaproduct> metaproduct) 
-	{
-		return metaproduct.get(0).getIdMetaproduct()==0;
 	}
 	
 	private boolean isEmpty(List<Product> product) {

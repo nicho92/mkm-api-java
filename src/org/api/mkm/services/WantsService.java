@@ -136,7 +136,7 @@ public class WantsService {
 					temp.append("<minCondition>").append(it.getMinCondition()).append("</minCondition>");
 				else
 					temp.append("<minCondition/>");
-				
+			
 				for(Integer i : it.getIdLanguage())
 					temp.append("<idLanguage>").append(i).append("</idLanguage>");
 				

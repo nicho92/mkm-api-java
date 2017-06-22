@@ -5,9 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,14 +18,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
+import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.ArticleService;
-import org.api.mkm.services.AuthenticationServices;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
-import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.renderer.ProductListRenderer;
 
@@ -111,16 +106,7 @@ public class MkmSearchPanel extends JPanel {
 
 	public MkmSearchPanel() {
 		initGUI();
-		
-		MagicCardMarketPricer2 pricer = new MagicCardMarketPricer2();
-		
-		MkmAPIConfig.getInstance().init(pricer.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
-										pricer.getProperty("APP_ACCESS_TOKEN").toString(),
-										pricer.getProperty("APP_SECRET").toString(),
-										pricer.getProperty("APP_TOKEN").toString());
-		
-		
-		
+			
 		try {
 			label.setText("Connected as " + MkmAPIConfig.getInstance().getAuthenticator().getAuthenticatedUser());
 		}  catch (Exception e) {

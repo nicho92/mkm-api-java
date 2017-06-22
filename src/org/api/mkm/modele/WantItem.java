@@ -9,7 +9,7 @@ public class WantItem {
 		    int count;   
 		    double wishPrice;      
 		    private MkmBoolean mailAlert;
-		    String type="product";
+		    String type;//="product";
 		    private Product product;
 		    private List<Integer> idLanguage;
 		    private String minCondition;

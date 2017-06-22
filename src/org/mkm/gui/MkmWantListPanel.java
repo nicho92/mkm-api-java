@@ -5,39 +5,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 
-import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
-import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.modele.Product;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
-import org.api.mkm.services.AuthenticationServices;
-import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.WantsService;
-import org.api.mkm.tools.MkmAPIConfig;
-import org.magic.api.pricers.impl.MagicCardMarketPricer2;
-import org.magic.tests.todelete.MKMOnlineWantListExport.WantList;
 import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.modeles.WantListTableModel;
-
-import javax.swing.JButton;
 
 public class MkmWantListPanel extends JPanel {
 	private JPanel PanelSouth;
