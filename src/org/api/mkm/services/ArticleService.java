@@ -69,10 +69,20 @@ public class ArticleService {
   	   
          Response res = (Response)xstream.fromXML(xml);
 		
+     	if(isEmpty(res.getArticle()))
+    		return new ArrayList<Article>();
+    
+         
+         
 		return res.getArticle();
 	}
 	
 	
+	private boolean isEmpty(List<Article> article) {
+		
+		return (article.get(0).getIdArticle()==0);
+	}
+
 	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
     	String link = "https://www.mkmapi.eu/ws/v2.0/articles/"+p.getIdProduct();

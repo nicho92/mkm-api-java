@@ -15,7 +15,7 @@ public class MkmFrame extends JFrame{
 		
 		tpane.add("Search", pane);
 		tpane.add("WantList", pane2);
-		tpane.add("Cart", pane3);
+		tpane.add("Order", pane3);
 		
 		getContentPane().add(tpane);
 		setSize(750, 550);
