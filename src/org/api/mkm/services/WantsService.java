@@ -331,8 +331,20 @@ public class WantsService {
 		
    		logger.debug("RESP="+xml);
 		Response res = (Response)xstream.fromXML(xml);
+		
+		if(isEmpty(res.getWantslist().get(0)))
+		{
+			wl.setItem(new ArrayList<WantItem>());
+			return;
+		}
 		wl.setItem(res.getWantslist().get(0).getItem());
 	}
+
+	private boolean isEmpty(Wantslist wantslist) {
+		return wantslist.getItem().get(0).getProduct()==null;
+	}
+	
+	
 	
 	
 }

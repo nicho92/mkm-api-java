@@ -5,11 +5,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -38,6 +42,8 @@ public class MkmSearchPanel extends JPanel {
 	private DefaultListModel<Product> productsModel;
 	private ArticlesTableModel articlesModel;
 	private JLabel lblSearchProduct;
+	private JPanel panelEast;
+	private JLabel lblPics;
 	
 	private void initGUI()
 	{
@@ -71,8 +77,23 @@ public class MkmSearchPanel extends JPanel {
 		listResults.setCellRenderer(new ProductListRenderer());
 		listResults.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent me) {
 				loadArticle(listResults.getSelectedValue());
+				
+				try{
+					
+					Product p = listResults.getSelectedValue();
+					URL url = new URL("https://fr.magiccardmarket.eu/"+p.getImage());
+					BufferedImage im = ImageIO.read(url);
+					lblPics.setIcon(new ImageIcon(im));
+					
+					}
+					catch(Exception e)
+					{
+						
+					}
+				
+				
 			}
 		});
 		panelWest.setViewportView(listResults);
@@ -109,6 +130,12 @@ public class MkmSearchPanel extends JPanel {
 			
 		try {
 			label.setText("Connected as " + MkmAPIConfig.getInstance().getAuthenticator().getAuthenticatedUser());
+			
+			panelEast = new JPanel();
+			add(panelEast, BorderLayout.EAST);
+			
+			lblPics = new JLabel("");
+			panelEast.add(lblPics);
 		}  catch (Exception e) {
 			label.setText("Not connected");
 		}

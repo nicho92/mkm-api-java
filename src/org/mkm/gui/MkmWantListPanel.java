@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +50,8 @@ public class MkmWantListPanel extends JPanel {
 	ArticleService serviceA = new ArticleService();
 	private JButton btnEditQte;
 	private JButton btnRenameWl;
+	private JButton btnCreateWl;
+	private JButton btnDeleteWl;
 	
 	
 	
@@ -91,6 +96,49 @@ public class MkmWantListPanel extends JPanel {
 				
 			}
 		});
+		
+		btnCreateWl = new JButton("Create WL");
+		btnCreateWl.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String name = JOptionPane.showInputDialog("Name ?");
+				try {
+					Wantslist l = serviceW.createWantList(name);
+					wantListModel.addElement(l);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		panelNorth.add(btnCreateWl);
+		
+		btnDeleteWl = new JButton("Delete WL");
+		btnDeleteWl.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selected==null)
+				{
+					JOptionPane.showMessageDialog(null, "Need to select a WantList","ERROR",JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				else
+				{
+					int res = JOptionPane.showConfirmDialog(null, "delete " + selected + " ?","Confirmation",JOptionPane.YES_OPTION);
+					
+					if(res==JOptionPane.YES_OPTION)
+						{
+							try {
+								serviceW.deleteWantList(selected);
+								wantListModel.removeElement(selected);
+								selected=null;
+
+							} catch (Exception e1) {
+								JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+							} 
+						}
+				}
+				
+			}
+		});
+		panelNorth.add(btnDeleteWl);
 		panelNorth.add(btnRenameWl);
 		panelNorth.add(btnDelete);
 		
