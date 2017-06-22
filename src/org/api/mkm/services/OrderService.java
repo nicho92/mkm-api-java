@@ -8,6 +8,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -69,6 +70,9 @@ public class OrderService {
          logger.debug("RESP="+xml);
 		 
          Response res = (Response)xstream.fromXML(xml);
+        
+         if(isEmpty(res.getOrder()))
+         	return new ArrayList<Order>();
          
          for(Order o : res.getOrder())
         	 for(Article art : o.getArticle())
@@ -92,6 +96,12 @@ public class OrderService {
          Response res = (Response)xstream.fromXML(xml);
      	
          return res.getOrder().get(0);
+	}
+	
+	public boolean isEmpty(List<Order> orders)
+	{
+		return (orders.get(0).getIdOrder()==0);
+		
 	}
 	
 	

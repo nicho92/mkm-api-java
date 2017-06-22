@@ -9,6 +9,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -181,6 +182,9 @@ public class ProductServices {
     	logger.debug("RESP="+xml);
     	Response res = (Response)xstream.fromXML(xml);
 		
+    	if(isEmpty(res.getProduct()))
+    		return new ArrayList<Product>();
+    	
     	
     	for(Product p : res.getProduct())
 		{
@@ -190,6 +194,7 @@ public class ProductServices {
 		return res.getProduct();
 	}
 	
+
 	public Product getById(String idProduct) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
@@ -215,6 +220,11 @@ public class ProductServices {
 		} catch (Exception e1) {
 			
 		}
+	}
+	
+
+	private boolean isEmpty(List<Product> product) {
+		return product.get(0).getIdProduct()==0;
 	}
 	
 }

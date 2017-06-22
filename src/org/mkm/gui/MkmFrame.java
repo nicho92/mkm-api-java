@@ -18,7 +18,7 @@ public class MkmFrame extends JFrame{
 		tpane.add("Cart", pane3);
 		
 		getContentPane().add(tpane);
-		pack();
+		setSize(750, 550);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 	}
