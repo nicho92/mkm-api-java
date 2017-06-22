@@ -209,8 +209,8 @@ public class WantsService {
 			else
 				temp.append("<wishPrice/>");
 			
-			if(w.isPlayset().equals(true))
-					temp.append("<isPlayset>true</isPlayset>");
+			if(w.isPlayset()!=null)
+					temp.append("<isPlayset>"+w.isPlayset()+"</isPlayset>");
 			
 			temp.append("</product>");
 		}		    
