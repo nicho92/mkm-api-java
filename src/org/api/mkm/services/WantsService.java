@@ -75,7 +75,7 @@ public class WantsService {
 		for(WantItem w : list)
 		{
 			temp.append("<want>");
-			temp.append("<idWant>A"+w.getIdWant()+"</idWant>");
+			temp.append("<idWant>"+w.getIdWant()+"</idWant>");
 		}		    
 		temp.append("</want></request>");
 		logger.debug("REQU="+temp);
