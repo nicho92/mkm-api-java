@@ -46,7 +46,6 @@ public class WantsService {
 	 		xstream.addImplicitCollection(Wantslist.class,"links", Link.class);
 	 		xstream.addImplicitCollection(Product.class,"localization",Localization.class);
 	 		xstream.addImplicitCollection(WantItem.class,"idLanguage",Integer.class);
-		 		
 	 		xstream.addImplicitCollection(Response.class,"links",Link.class);
 	 		xstream.ignoreUnknownElements();
 	}
@@ -76,9 +75,9 @@ public class WantsService {
 		for(WantItem w : list)
 		{
 			temp.append("<want>");
-			temp.append("<idWant>"+w.getProduct().getIdProduct()+"</idWant>");
+			temp.append("<idWant>A"+w.getIdWant()+"</idWant>");
 		}		    
-		temp.append("</want>");
+		temp.append("</want></request>");
 		logger.debug("REQU="+temp);
 		
 		out.write(temp.toString());
@@ -89,7 +88,12 @@ public class WantsService {
 		if(code)
 		{
 			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+			
+			if(xml.contains("<idLanguage/>"))
+				xml=xml.replaceAll("<idLanguage/>", "");
 			logger.debug("RESP="+xml);
+			Response res = (Response)xstream.fromXML(xml);
+		//	li = res.getWantslist().get(0);
 		}
 		
 		return code;

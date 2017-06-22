@@ -25,6 +25,7 @@ import javax.swing.JTextField;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.AuthenticationServices;
@@ -32,6 +33,7 @@ import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
+import org.magic.tests.todelete.MKMOnlineWantListExport.WantList;
 import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.modeles.WantListTableModel;
 
@@ -50,6 +52,13 @@ public class MkmWantListPanel extends JPanel {
 	private JButton btnLoadWantlist;
 	private JSplitPane splitCenterPanel;
 	private JScrollPane scrollPane;
+	private JButton btnDelete;
+	private Wantslist selected;
+	
+	WantsService serviceW = new WantsService();
+	ArticleService serviceA = new ArticleService();
+	
+	
 	
 	private void initGUI()
 	{
@@ -66,6 +75,21 @@ public class MkmWantListPanel extends JPanel {
 		});
 		panelNorth.add(btnLoadWantlist);
 		
+		btnDelete = new JButton("Delete");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					WantItem it = (WantItem)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0);
+					serviceW.deleteItem(selected, it);
+					loadWantList(selected);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		panelNorth.add(btnDelete);
+		
 		PanelSouth = new JPanel();
 		add(PanelSouth, BorderLayout.SOUTH);
 		
@@ -76,7 +100,8 @@ public class MkmWantListPanel extends JPanel {
 		listResults.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				loadWantList(listResults.getSelectedValue());
+				selected = listResults.getSelectedValue();
+				loadWantList(selected);
 			}
 		});
 		panelWest.setViewportView(listResults);
@@ -94,7 +119,7 @@ public class MkmWantListPanel extends JPanel {
 		tableItemWl.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				loadArticle((Product)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0));
+				loadArticle(((WantItem)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0)).getProduct());
 			}
 		});
 		panelCenter.setViewportView(tableItemWl);
@@ -108,12 +133,11 @@ public class MkmWantListPanel extends JPanel {
 
 
 	protected void loadArticle(Product valueAt) {
-		ArticleService service = new ArticleService();
 		Map<ARTICLES_ATT, String> atts = new HashMap<ARTICLES_ATT, String>();
 								atts.put(ARTICLES_ATT.start, "0");
 								atts.put(ARTICLES_ATT.maxResults, "100");
 		try {
-			articlesTableModel.init(service.find(valueAt, atts));
+			articlesTableModel.init(serviceA.find(valueAt, atts));
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 		}
@@ -122,10 +146,9 @@ public class MkmWantListPanel extends JPanel {
 
 
 	protected void loadWantList() {
-		WantsService service = new WantsService();
-		List<Wantslist> lists;
+			List<Wantslist> lists;
 		try {
-			lists = service.getWantList();
+			lists = serviceW.getWantList();
 
 			for(Wantslist l : lists)
 				wantListModel.addElement(l);

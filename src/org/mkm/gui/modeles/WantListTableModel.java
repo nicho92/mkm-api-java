@@ -65,7 +65,7 @@ public class WantListTableModel extends DefaultTableModel{
 		WantItem a = articles.get(row);
 			switch(column)
 			{
-				case 0: return a.getProduct();
+				case 0: return a;
 				case 1 : return a.getWishPrice();
 				case 2: return a.getMinCondition();
 				case 3 : return a.isFoil();

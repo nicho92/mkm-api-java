@@ -14,7 +14,7 @@ public class Response {
 	List<Order> order;
 	List<Metaproduct> metaproduct;
 	
-	
+	Error errors;
 	User account;
 	String productsfile;
 	String mime;
@@ -22,6 +22,12 @@ public class Response {
 	String stock;
 	
 	
+	public Error getErrors() {
+		return errors;
+	}
+	public void setErrors(Error errors) {
+		this.errors = errors;
+	}
 	public List<Order> getOrder() {
 		return order;
 	}
