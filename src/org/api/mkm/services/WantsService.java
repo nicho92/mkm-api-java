@@ -3,7 +3,6 @@ package org.api.mkm.services;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
@@ -11,16 +10,20 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
+import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
+import org.api.mkm.tools.MkmBooleanConverter;
+import org.api.mkm.tools.IntConverter;
 import org.api.mkm.tools.MkmAPIConfig;
 
 import com.thoughtworks.xstream.XStream;
@@ -49,6 +52,8 @@ public class WantsService {
 	 		xstream.addImplicitCollection(WantItem.class,"idLanguage",Integer.class);
 	 		xstream.addImplicitCollection(Response.class,"links",Link.class);
 	 		xstream.ignoreUnknownElements();
+	 		xstream.registerConverter(new IntConverter());
+	 		xstream.registerConverter(new MkmBooleanConverter());
 	}
 	
 	public boolean deleteItem(Wantslist li, WantItem it) throws Exception
@@ -89,27 +94,24 @@ public class WantsService {
 		if(code)
 		{
 			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-			
-			if(xml.contains("<idLanguage/>"))
-				xml=xml.replaceAll("<idLanguage/>", "");
 			logger.debug("RESP="+xml);
-			/*
 			Response res = (Response)xstream.fromXML(xml);
 			if(res.getErrors()!=null)
-				throw new MkmException(res.getErrors());*/
+				throw new MkmException(res.getErrors());
+			
+			//li = ((Response)xstream.fromXML(xml)).getWantslist().get(0);
 		}
-		
 		return code;
 	}
 	
 	//TODO : a tester
-	public boolean updateItem(Wantslist wl,WantItem it) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean updateItem(Wantslist wl,WantItem it) throws Exception
 	{
 		
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 		logger.debug("LINK="+link);
-	    
-    	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+	   
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
@@ -119,8 +121,28 @@ public class WantsService {
 		StringBuffer temp = new StringBuffer();
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request><action>editItem</action>");
-		temp.append(xstream.toXML(it));
+			temp.append("<want>");
+				temp.append("<idWant>").append(it.getIdWant()).append("</idWant>");
+		
+				temp.append("<count>").append(it.getCount()).append("</count>");
+				temp.append("<wishPrice>").append(it.getWishPrice()).append("</wishPrice>");
+				temp.append("<mailAlert>").append(it.isMailAlert()).append("</mailAlert>");
+				temp.append("<isFoil>").append(it.isFoil()).append("</isFoil>");
+				temp.append("<isAltered>").append(it.isAltered()).append("</isAltered>");
+				temp.append("<isPlayset>").append(it.isPlayset()).append("</isPlayset>");
+				temp.append("<isSigned>").append(it.isSigned()).append("</isSigned>");
+
+				if(it.getMinCondition()!=null)
+					temp.append("<minCondition>").append(it.getMinCondition()).append("</minCondition>");
+				else
+					temp.append("<minCondition/>");
+				
+				for(Integer i : it.getIdLanguage())
+					temp.append("<idLanguage>").append(i).append("</idLanguage>");
+				
+			temp.append("</want>");
 		temp.append("</request>");
+
 		logger.debug("REQU="+temp);
 		
 		out.write(temp.toString());
@@ -130,6 +152,10 @@ public class WantsService {
 		{
 			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 			logger.debug("RESP="+xml);
+			Response res = (Response)xstream.fromXML(xml);
+			if(res.getErrors()!=null)
+				throw new MkmException(res.getErrors());
+		
 		}
 		return code;
 	}
@@ -183,7 +209,7 @@ public class WantsService {
 			else
 				temp.append("<wishPrice/>");
 			
-			if(w.isPlayset())
+			if(w.isPlayset().equals(true))
 					temp.append("<isPlayset>true</isPlayset>");
 			
 			temp.append("</product>");
@@ -302,9 +328,6 @@ public class WantsService {
 		
 		boolean ret = (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		
-		xml=xml.replaceAll("<idLanguage/>", "<idLanguage>0</idLanguage>");
-	    
 		
    		logger.debug("RESP="+xml);
 		Response res = (Response)xstream.fromXML(xml);

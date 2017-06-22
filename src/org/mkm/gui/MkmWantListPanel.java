@@ -57,6 +57,8 @@ public class MkmWantListPanel extends JPanel {
 	
 	WantsService serviceW = new WantsService();
 	ArticleService serviceA = new ArticleService();
+	private JButton btnEditQte;
+	private JButton btnRenameWl;
 	
 	
 	
@@ -88,7 +90,42 @@ public class MkmWantListPanel extends JPanel {
 				
 			}
 		});
+		
+		btnRenameWl = new JButton("Rename WL");
+		btnRenameWl.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String res =JOptionPane.showInputDialog("New Name ?",selected.toString());
+				try {
+					serviceW.renameWantList(selected, res);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		panelNorth.add(btnRenameWl);
 		panelNorth.add(btnDelete);
+		
+		btnEditQte = new JButton("Edit Qte");
+		btnEditQte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				try {
+					WantItem it = (WantItem)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0);
+					
+					String res = JOptionPane.showInputDialog("Change quantity by ");
+					
+					int qte= Integer.parseInt(res);
+					it.setCount(qte);
+										
+					serviceW.updateItem(selected, it);
+					loadWantList(selected);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		panelNorth.add(btnEditQte);
 		
 		PanelSouth = new JPanel();
 		add(PanelSouth, BorderLayout.SOUTH);
@@ -132,15 +169,23 @@ public class MkmWantListPanel extends JPanel {
 	}
 
 
-	protected void loadArticle(Product valueAt) {
-		Map<ARTICLES_ATT, String> atts = new HashMap<ARTICLES_ATT, String>();
-								atts.put(ARTICLES_ATT.start, "0");
-								atts.put(ARTICLES_ATT.maxResults, "100");
-		try {
-			articlesTableModel.init(serviceA.find(valueAt, atts));
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
-		}
+	protected void loadArticle(final Product valueAt) {
+		
+		new Thread(new Runnable() {
+			public void run() {
+				Map<ARTICLES_ATT, String> atts = new HashMap<ARTICLES_ATT, String>();
+				atts.put(ARTICLES_ATT.start, "0");
+				atts.put(ARTICLES_ATT.maxResults, "100");
+					try {
+					articlesTableModel.init(serviceA.find(valueAt, atts));
+					} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					}
+			}
+		});
+		
+		
+		
 		
 	}
 

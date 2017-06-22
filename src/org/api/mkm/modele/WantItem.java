@@ -8,15 +8,17 @@ public class WantItem {
 	 		String idWant;         
 		    int count;   
 		    double wishPrice;      
-		    boolean mailAlert;
+		    private MkmBoolean mailAlert;
 		    String type="product";
 		    private Product product;
 		    private List<Integer> idLanguage;
 		    private String minCondition;
-		    private boolean isFoil;
-		    private boolean isSigned;
-		    private boolean isPlayset;
-		    private boolean isAltered;
+		    private MkmBoolean isFoil;
+		    private MkmBoolean isSigned;
+		    private MkmBoolean isPlayset;
+		    private MkmBoolean isAltered;
+		    private MkmBoolean isFirstEd;//only yugiho
+		    
 		    
 		    @Override
 		    public String toString() {
@@ -46,10 +48,10 @@ public class WantItem {
 			public void setWishPrice(double wishPrice) {
 				this.wishPrice = wishPrice;
 			}
-			public boolean isMailAlert() {
+			public MkmBoolean isMailAlert() {
 				return mailAlert;
 			}
-			public void setMailAlert(boolean mailAlert) {
+			public void setMailAlert(MkmBoolean mailAlert) {
 				this.mailAlert = mailAlert;
 			}
 			public String getType() {
@@ -76,29 +78,35 @@ public class WantItem {
 			public void setMinCondition(String minCondition) {
 				this.minCondition = minCondition;
 			}
-			public boolean isFoil() {
+			public MkmBoolean isFoil() {
 				return isFoil;
 			}
-			public void setFoil(boolean isFoil) {
+			public void setFoil(MkmBoolean isFoil) {
 				this.isFoil = isFoil;
 			}
-			public boolean isSigned() {
+			public MkmBoolean isSigned() {
 				return isSigned;
 			}
-			public void setSigned(boolean isSigned) {
+			public void setSigned(MkmBoolean isSigned) {
 				this.isSigned = isSigned;
 			}
-			public boolean isPlayset() {
+			public MkmBoolean isPlayset() {
 				return isPlayset;
 			}
-			public void setPlayset(boolean isPlayset) {
+			public void setPlayset(MkmBoolean isPlayset) {
 				this.isPlayset = isPlayset;
 			}
-			public boolean isAltered() {
+			public MkmBoolean isAltered() {
 				return isAltered;
 			}
-			public void setAltered(boolean isAltered) {
+			public void setAltered(MkmBoolean isAltered) {
 				this.isAltered = isAltered;
+			}
+			public MkmBoolean isFirstEd() {
+				return isFirstEd;
+			}
+			public void setFirstEd(MkmBoolean isFirstEd) {
+				this.isFirstEd = isFirstEd;
 			}
 
 	
