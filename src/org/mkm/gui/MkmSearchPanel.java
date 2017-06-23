@@ -6,27 +6,40 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.modele.WantItem;
+import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
+import org.api.mkm.services.CartServices;
 import org.api.mkm.services.ProductServices;
+import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.renderer.ProductListRenderer;
@@ -41,9 +54,15 @@ public class MkmSearchPanel extends JPanel {
 	private JTable tableArticles;
 	private DefaultListModel<Product> productsModel;
 	private ArticlesTableModel articlesModel;
+	
 	private JLabel lblSearchProduct;
 	private JPanel panelEast;
 	private JLabel lblPics;
+	private JButton btnAddWantlist;
+	private JButton btnBasket;
+	
+	private Product selectedProduct;
+	private Article selectedArticle;
 	
 	private void initGUI()
 	{
@@ -64,6 +83,30 @@ public class MkmSearchPanel extends JPanel {
 		panelNorth.add(txtSearch);
 		txtSearch.setColumns(15);
 		
+		btnAddWantlist = new JButton("Add WantList");
+		btnAddWantlist.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) 
+			{
+			
+			}
+		});
+		btnAddWantlist.setEnabled(false);
+		panelNorth.add(btnAddWantlist);
+		
+		btnBasket = new JButton("add to Basket");
+		btnBasket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CartServices serv = new CartServices();
+				try {
+					serv.addArticle(selectedArticle);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+				} 
+			}
+		});
+		btnBasket.setEnabled(false);
+		panelNorth.add(btnBasket);
+		
 		PanelSouth = new JPanel();
 		add(PanelSouth, BorderLayout.SOUTH);
 		
@@ -78,6 +121,8 @@ public class MkmSearchPanel extends JPanel {
 		listResults.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
+				btnAddWantlist.setEnabled(true);
+				
 				loadArticle(listResults.getSelectedValue());
 				
 				try{
@@ -90,7 +135,7 @@ public class MkmSearchPanel extends JPanel {
 					}
 					catch(Exception e)
 					{
-						
+						e.printStackTrace();
 					}
 				
 				
@@ -103,6 +148,13 @@ public class MkmSearchPanel extends JPanel {
 		
 		articlesModel = new ArticlesTableModel();
 		tableArticles = new JTable(articlesModel);
+		tableArticles.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent me) {
+				btnBasket.setEnabled(true);
+				selectedArticle = (Article)articlesModel.getValueAt(tableArticles.getSelectedRow(), 0);
+			}
+		});
 		panelCenter.setViewportView(tableArticles);
 		
 	}

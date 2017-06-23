@@ -70,7 +70,8 @@ public class MkmWantListPanel extends JPanel {
 		});
 		panelNorth.add(btnLoadWantlist);
 		
-		btnDelete = new JButton("Delete");
+		btnDelete = new JButton("Delete Item");
+		btnDelete.setEnabled(false);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -85,6 +86,7 @@ public class MkmWantListPanel extends JPanel {
 		});
 		
 		btnRenameWl = new JButton("Rename WL");
+		btnRenameWl.setEnabled(false);
 		btnRenameWl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String res =JOptionPane.showInputDialog("New Name ?",selected.toString());
@@ -112,6 +114,7 @@ public class MkmWantListPanel extends JPanel {
 		panelNorth.add(btnCreateWl);
 		
 		btnDeleteWl = new JButton("Delete WL");
+		btnDeleteWl.setEnabled(false);
 		btnDeleteWl.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(selected==null)
@@ -143,6 +146,7 @@ public class MkmWantListPanel extends JPanel {
 		panelNorth.add(btnDelete);
 		
 		btnEditQte = new JButton("Edit Qte");
+		btnEditQte.setEnabled(false);
 		btnEditQte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				try {
@@ -207,6 +211,9 @@ public class MkmWantListPanel extends JPanel {
 
 	protected void loadArticle(final Product valueAt) {
 		
+		btnEditQte.setEnabled(true);
+		btnDelete.setEnabled(true);
+		
 		new Thread(new Runnable() {
 			public void run() {
 				Map<ARTICLES_ATT, String> atts = new HashMap<ARTICLES_ATT, String>();
@@ -218,7 +225,7 @@ public class MkmWantListPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 					}
 			}
-		});
+		}).start();
 		
 		
 		
@@ -234,6 +241,8 @@ public class MkmWantListPanel extends JPanel {
 			for(Wantslist l : lists)
 				wantListModel.addElement(l);
 			
+			btnDeleteWl.setEnabled(true);
+			btnRenameWl.setEnabled(true);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 		
@@ -248,11 +257,11 @@ public class MkmWantListPanel extends JPanel {
 	}
 
 	protected void loadWantList(final Wantslist selectedValue) {
+		
 		new Thread(new Runnable() {
 			public void run() {
-				WantsService service = new WantsService();
 				try {
-					service.loadItems(selectedValue);
+					serviceW.loadItems(selectedValue);
 					itemsTableModel.init(selectedValue);
 				}
 				catch (Exception e) 

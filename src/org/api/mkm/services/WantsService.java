@@ -104,7 +104,7 @@ public class WantsService {
 		return code;
 	}
 	
-	//TODO : a tester
+	//TODO : ERROR  Product with ID '' doesn't belong to Metaproduct with ID 'XXXX'
 	public boolean updateItem(Wantslist wl,WantItem it) throws Exception
 	{
 		
@@ -174,6 +174,14 @@ public class WantsService {
 		return res.getWantslist();
 	}
 	
+	public boolean addItem(Wantslist wl, WantItem item) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	{
+		ArrayList<WantItem> list = new ArrayList<WantItem>();
+		list.add(item);
+		return addItem(wl, list);
+	}
+	
+	
 	public boolean addItem(Wantslist wl, List<WantItem> items) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
@@ -223,6 +231,8 @@ public class WantsService {
 		if(ret)
     	{
     		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+    		Response res = (Response)xstream.fromXML(xml);
+    		System.out.println(res.getErrors());
     		logger.debug("RESP="+xml);
     	}
 		return ret;
@@ -319,7 +329,7 @@ public class WantsService {
 	
 	public void loadItems(Wantslist wl) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{
-    	String link = "https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
+		String link = "https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
     	logger.debug("LINK="+link);
     	
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();

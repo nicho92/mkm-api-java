@@ -1,14 +1,10 @@
 package org.mkm.gui.modeles;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.api.mkm.modele.Article;
-import org.api.mkm.modele.Product;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 
