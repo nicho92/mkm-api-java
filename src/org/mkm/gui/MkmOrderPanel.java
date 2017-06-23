@@ -3,24 +3,19 @@ package org.mkm.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import org.api.mkm.modele.Order;
 import org.api.mkm.services.OrderService;
 import org.api.mkm.services.OrderService.ACTOR;
 import org.api.mkm.services.OrderService.STATE;
 import org.mkm.gui.modeles.OrderTableModel;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 public class MkmOrderPanel extends JPanel{
 	JComboBox<STATE> comboBox;

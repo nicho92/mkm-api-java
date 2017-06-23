@@ -1,14 +1,11 @@
 package org.mkm.gui.modeles;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.api.mkm.modele.Article;
-import org.api.mkm.modele.Product;
 
 public class ArticlesTableModel extends DefaultTableModel{
 
@@ -64,7 +61,7 @@ public class ArticlesTableModel extends DefaultTableModel{
 		
 		switch(column)
 		{
-			case 0: return a.getProduct();
+			case 0: return a;
 			case 1 : return a.getSeller();
 			case 2: return a.getPrice();
 			case 3: return a.getCondition();

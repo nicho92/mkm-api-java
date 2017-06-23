@@ -15,17 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -87,7 +83,33 @@ public class MkmSearchPanel extends JPanel {
 		btnAddWantlist.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) 
 			{
-			
+				JWantListChooser choose;
+				try {
+					choose = new JWantListChooser();
+					choose.setVisible(true);
+					
+					Wantslist l = choose.getSelected();
+					
+					WantsService service = new WantsService();
+					
+					WantItem it = new WantItem();
+						it.setProduct(selectedProduct);
+						it.setCount(1);
+					
+					service.addItem(l, it);
+					
+					
+				} catch (InvalidKeyException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NoSuchAlgorithmException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
 		});
 		btnAddWantlist.setEnabled(false);
@@ -127,8 +149,8 @@ public class MkmSearchPanel extends JPanel {
 				
 				try{
 					
-					Product p = listResults.getSelectedValue();
-					URL url = new URL("https://fr.magiccardmarket.eu/"+p.getImage());
+					selectedProduct = listResults.getSelectedValue();
+					URL url = new URL("https://fr.magiccardmarket.eu/"+selectedProduct.getImage());
 					BufferedImage im = ImageIO.read(url);
 					lblPics.setIcon(new ImageIcon(im));
 					

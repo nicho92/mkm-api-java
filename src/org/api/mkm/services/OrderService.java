@@ -1,7 +1,6 @@
 package org.api.mkm.services;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,8 +14,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
-import org.api.mkm.modele.Expansion;
-import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Response;

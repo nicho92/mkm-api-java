@@ -12,13 +12,10 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.modele.Article;
-import org.api.mkm.modele.Basket;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
-import org.api.mkm.modele.ShoppingCart;
 import org.api.mkm.tools.MkmAPIConfig;
 
 import com.thoughtworks.xstream.XStream;

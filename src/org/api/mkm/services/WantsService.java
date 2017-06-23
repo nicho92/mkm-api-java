@@ -10,21 +10,19 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
-import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
-import org.api.mkm.tools.MkmBooleanConverter;
 import org.api.mkm.tools.IntConverter;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmBooleanConverter;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;

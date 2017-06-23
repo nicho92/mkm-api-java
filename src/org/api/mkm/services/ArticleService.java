@@ -15,12 +15,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
-import org.api.mkm.tools.MkmAPIConfig;
-import org.api.mkm.tools.Tools;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.User;
+import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;

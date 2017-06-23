@@ -24,7 +24,6 @@ import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
-import org.api.mkm.modele.WantItem;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.Tools;
 

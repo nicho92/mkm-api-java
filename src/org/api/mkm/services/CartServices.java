@@ -16,9 +16,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Basket;
-import org.api.mkm.modele.Response;
 import org.api.mkm.modele.ShoppingCart;
-import org.api.mkm.modele.WantItem;
 import org.api.mkm.tools.MkmAPIConfig;
 
 import com.thoughtworks.xstream.XStream;

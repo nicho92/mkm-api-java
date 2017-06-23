@@ -1,9 +1,5 @@
 package org.api.mkm.modele;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.apache.commons.beanutils.BeanUtils;
-
 public class PriceGuide {
 
 	
