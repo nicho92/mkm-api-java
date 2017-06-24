@@ -1,5 +1,6 @@
 package org.api.mkm.tools;
 
+import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.services.AuthenticationServices;
 
 public class MkmAPIConfig {
@@ -9,7 +10,7 @@ public class MkmAPIConfig {
 	AuthenticationServices auth;
 	
 	
-	public void init( String accessSecret ,String accessToken ,String appSecret,String appToken)
+	public void init( String accessSecret ,String accessToken ,String appSecret,String appToken) throws MkmException
 	{
 		auth=new AuthenticationServices(accessSecret, accessToken, appSecret, appToken);
 	}

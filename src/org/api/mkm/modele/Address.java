@@ -9,7 +9,10 @@ public class Address {
 		private String city;
 		private String country;
 		
-		
+		@Override
+		public String toString() {
+			return getCountry();
+		}
 		
 		public String getName() {
 			return name;

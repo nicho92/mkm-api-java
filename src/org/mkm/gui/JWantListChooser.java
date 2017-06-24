@@ -20,7 +20,7 @@ public class JWantListChooser extends JDialog {
 	Wantslist selected;
 	JComboBox<Wantslist> cboList;
 	
-	public JWantListChooser() throws InvalidKeyException, NoSuchAlgorithmException, IOException {
+	public JWantListChooser() throws Exception {
 		setModal(true);
 		DefaultComboBoxModel<Wantslist> model = new DefaultComboBoxModel<Wantslist>();
 		

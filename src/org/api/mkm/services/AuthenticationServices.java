@@ -1,13 +1,9 @@
 package org.api.mkm.services;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +17,8 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.exceptions.AbstractMKMException;
+import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.User;
@@ -41,22 +39,31 @@ public class AuthenticationServices {
 	
 	static final Logger logger = LogManager.getLogger(AuthenticationServices.class.getName());
 
-	public AuthenticationServices(String accessSecret,String accessToken,String appSecret,String appToken) {
+	public AuthenticationServices(String accessSecret,String accessToken,String appSecret,String appToken) throws MkmException {
 		this.accessSecret=accessSecret;
 		this.accessToken=accessToken;
 		this.appSecret=appSecret;
 		this.appToken=appToken;
-	}
-	
-	public User getAuthenticatedUser() throws IOException, InvalidKeyException, NoSuchAlgorithmException
-	{
+		
+		
+		if(accessSecret==null||accessToken==null||appSecret==null||appToken==null)
+			throw new MkmException("API authentication field must be filled");
+		
+		
 		xstream = new XStream(new StaxDriver());
 		XStream.setupDefaultSecurity(xstream);
  		xstream.addPermission(AnyTypePermission.ANY);
  		xstream.alias("response", Response.class);
  		xstream.ignoreUnknownElements();
  		xstream.addImplicitCollection(Response.class,"links",Link.class);
- 		
+		
+	}
+	
+	public User getAuthenticatedUser() throws AbstractMKMException 
+	{
+	
+		try{
+			
 		String link="https://www.mkmapi.eu/ws/v2.0/account";
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", generateOAuthSignature2(link,"GET")) ;
@@ -66,6 +73,11 @@ public class AuthenticationServices {
 		
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getAccount();
+		}
+		catch(Exception e)
+		{
+			throw new MkmException(e.getMessage());
+		}
 	}
 	
 	private Map<String,String> parseQueryString(String query)
@@ -87,8 +99,9 @@ public class AuthenticationServices {
 	 }
 	 
 	@Deprecated
-	public String generateOAuthSignature(String link,String method) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException {
+	public String generateOAuthSignature(String link,String method) throws AbstractMKMException {
 
+		try{
         String realm = link ;
         String oauth_version =  "1.0" ;
         String oauth_consumer_key = appToken ;
@@ -132,10 +145,16 @@ public class AuthenticationServices {
         
         
         return authorizationProperty;
+		}
+		catch(Exception e)
+		{
+			throw new MkmException(e.getMessage());
+		}
 	}
 	    
-	public String generateOAuthSignature2(String url,String method) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException{
-	    	
+	public String generateOAuthSignature2(String url,String method) throws AbstractMKMException{
+	    	try{
+	    		
 	    	 Map<String,String> headerParams = new HashMap<String,String>();
 	         Map<String,String> encodedParams = new TreeMap<String, String>();
 	         int index = url.indexOf("?");
@@ -200,6 +219,11 @@ public class AuthenticationServices {
 	         
 	         String authHeader = "OAuth " + Tools.join(headerParamStrings,", ");
 	     	return authHeader;
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		throw new MkmException(e.getMessage());
+	    	}
 	    }
 
 	    

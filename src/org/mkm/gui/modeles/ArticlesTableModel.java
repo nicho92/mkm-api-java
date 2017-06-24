@@ -9,7 +9,7 @@ import org.api.mkm.modele.Article;
 
 public class ArticlesTableModel extends DefaultTableModel{
 
-	private static final String[] columns={"product","seller","price","condition","foil","signed","playset","comments"};
+	private static final String[] columns={"product","seller","Localization","price","condition","foil","signed","playset","comments"};
 	
 	List<Article> articles;
 	
@@ -28,6 +28,9 @@ public class ArticlesTableModel extends DefaultTableModel{
 	public Class<?> getColumnClass(int columnIndex) {
 		
 		try {
+			if(columnIndex==2)
+				return String.class;
+			
 			return PropertyUtils.getPropertyType(new Article(), columns[columnIndex]);
 		} catch (Exception e) {
 			return super.getColumnClass(columnIndex);
@@ -63,12 +66,13 @@ public class ArticlesTableModel extends DefaultTableModel{
 		{
 			case 0: return a;
 			case 1 : return a.getSeller();
-			case 2: return a.getPrice();
-			case 3: return a.getCondition();
-			case 4 : return a.isFoil();
-			case 5 : return a.isSigned();
-			case 6 : return a.isPlayset();
-			case 7 : return a.getComments();
+			case 2: return a.getSeller().getAddress();
+			case 3: return a.getPrice();
+			case 4: return a.getCondition();
+			case 5 : return a.isFoil();
+			case 6 : return a.isSigned();
+			case 7 : return a.isPlayset();
+			case 8 : return a.getComments();
 		default : return 0;
 		}
 		

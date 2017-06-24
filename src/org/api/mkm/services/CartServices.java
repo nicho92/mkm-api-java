@@ -7,13 +7,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.exceptions.AbstractMKMException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Basket;
 import org.api.mkm.modele.ShoppingCart;
@@ -41,7 +41,7 @@ public class CartServices {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public boolean addArticle(Article a) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean addArticle(Article a) throws IOException, InvalidKeyException, AbstractMKMException
 	{
 		List<Article> list = new ArrayList<Article>();
 		list.add(a);
@@ -49,7 +49,7 @@ public class CartServices {
 	}
 	
 	
-	public boolean addArticles(List<Article> articles) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean addArticles(List<Article> articles) throws IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
 		logger.debug("LINK="+link);
@@ -86,7 +86,7 @@ public class CartServices {
 		
 		return ret;
 	}
-	public boolean empty() throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean empty() throws IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
 		logger.debug("LINK="+link);
@@ -101,7 +101,7 @@ public class CartServices {
 	}
 	
 	
-	public boolean removeArticles(List<Article> articles) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean removeArticles(List<Article> articles) throws IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
 		logger.debug("LINK="+link);
@@ -134,7 +134,7 @@ public class CartServices {
 		return ret;
 	}
 	
-	public Basket getBasket() throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public Basket getBasket() throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/shoppingcart";
 		logger.debug("LINK="+link);

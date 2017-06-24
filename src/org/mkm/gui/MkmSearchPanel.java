@@ -99,16 +99,10 @@ public class MkmSearchPanel extends JPanel {
 					service.addItem(l, it);
 					
 					
-				} catch (InvalidKeyException e1) {
+				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				} catch (NoSuchAlgorithmException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				} 
 				
 			}
 		});

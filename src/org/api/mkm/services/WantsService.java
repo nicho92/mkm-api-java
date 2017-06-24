@@ -6,13 +6,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.exceptions.AbstractMKMException;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
@@ -158,7 +158,7 @@ public class WantsService {
 		return code;
 	}
 	
-	public List<Wantslist> getWantList() throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	public List<Wantslist> getWantList() throws InvalidKeyException, IOException, AbstractMKMException
 	{
     	String link = "https://www.mkmapi.eu/ws/v2.0/wantslist";
     	
@@ -172,7 +172,7 @@ public class WantsService {
 		return res.getWantslist();
 	}
 	
-	public boolean addItem(Wantslist wl, WantItem item) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	public boolean addItem(Wantslist wl, WantItem item) throws InvalidKeyException, AbstractMKMException, IOException
 	{
 		ArrayList<WantItem> list = new ArrayList<WantItem>();
 		list.add(item);
@@ -180,7 +180,7 @@ public class WantsService {
 	}
 	
 	
-	public boolean addItem(Wantslist wl, List<WantItem> items) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	public boolean addItem(Wantslist wl, List<WantItem> items) throws InvalidKeyException, AbstractMKMException, IOException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -236,7 +236,7 @@ public class WantsService {
 		return ret;
 	}
 	
-	public boolean renameWantList(Wantslist wl , String name) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean renameWantList(Wantslist wl , String name) throws IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -271,7 +271,7 @@ public class WantsService {
 		
 	}
 	
-	public Wantslist createWantList(String name) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public Wantslist createWantList(String name) throws IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/wantslist";
 		logger.debug("LINK="+link);
@@ -299,7 +299,7 @@ public class WantsService {
       	return null;
 	}
 	
-	public boolean deleteWantList(Wantslist l) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean deleteWantList(Wantslist l) throws IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/wantslist/"+l.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -325,7 +325,7 @@ public class WantsService {
       	return ret;
 	}
 	
-	public void loadItems(Wantslist wl) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	public void loadItems(Wantslist wl) throws InvalidKeyException, AbstractMKMException, IOException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
     	logger.debug("LINK="+link);

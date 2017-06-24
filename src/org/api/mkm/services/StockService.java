@@ -9,7 +9,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.exceptions.AbstractMKMException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Game;
@@ -48,19 +48,19 @@ public class StockService {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public List<Article> getStock(int idGame,String name) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public List<Article> getStock(int idGame,String name) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		Game g = new Game();
 		g.setIdGame(idGame);
 		return getStock(g, null);
 	}
 	
-	public List<Article> getStock() throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public List<Article> getStock() throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		return getStock(null, null);
 	}
 	
-	public List<Article> getStock(Game game,String name) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public List<Article> getStock(Game game,String name) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/stock";
 		logger.debug("LINK="+link);
@@ -81,14 +81,14 @@ public class StockService {
 		return res.getArticle();
 	}
 	
-	public boolean addArticle(Article a) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean addArticle(Article a) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		ArrayList<Article> list = new ArrayList<Article>();
 		list.add(a);
 		return addArticles(list);
 	}
 	
-	public boolean addArticles(List<Article> list) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean addArticles(List<Article> list) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
 		logger.debug("LINK="+link);
@@ -125,14 +125,14 @@ public class StockService {
 		return ret;
 	}
 	
-	public boolean removeArticle(Article a) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean removeArticle(Article a) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		ArrayList<Article> list = new ArrayList<Article>();
 		list.add(a);
 		return removeArticles(list);
 	}
 	
-	public boolean removeArticles(List<Article> list) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean removeArticles(List<Article> list) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
 		logger.debug("LINK="+link);
@@ -163,12 +163,12 @@ public class StockService {
 		return ret;
 	}
 	
-	public void exportStockFile(File f) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public void exportStockFile(File f) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		exportStockFile(f,null);
 	}
 	
-	public void exportStockFile(File f,Map<ARTICLES_ATT,String> atts) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public void exportStockFile(File f,Map<ARTICLES_ATT,String> atts) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/stock/file";
 		
@@ -201,13 +201,13 @@ public class StockService {
 	}
 	
 	
-	public boolean changeQte(Article a, int qte) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean changeQte(Article a, int qte) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		ArrayList<Article> list = new ArrayList<Article>();
 		list.add(a);
 		return changeQte(list, qte);
 	}
-	public boolean changeQte(List<Article> list, int qte) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public boolean changeQte(List<Article> list, int qte) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
 		

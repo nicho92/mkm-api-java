@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.exceptions.AbstractMKMException;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
@@ -63,12 +63,12 @@ public class ProductServices {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public void exportPriceGuide(File f) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public void exportPriceGuide(File f) throws IOException, InvalidKeyException, AbstractMKMException
 	{
 		exportPriceGuide(f,null);
 	}
 	
-	public void exportPriceGuide(File f,Integer idGame) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public void exportPriceGuide(File f,Integer idGame) throws IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/priceguide";
 	
@@ -93,7 +93,7 @@ public class ProductServices {
 	}
 	
 	
-	public void exportProductList(File f) throws IOException, InvalidKeyException, NoSuchAlgorithmException
+	public void exportProductList(File f) throws IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/productlist";
 		logger.debug("LINK="+link);
@@ -120,7 +120,7 @@ public class ProductServices {
 		
 	}
 	
-	public List<Product> getProductByExpansion(Expansion e) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
+	public List<Product> getProductByExpansion(Expansion e) throws InvalidKeyException, AbstractMKMException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/expansions/"+e.getIdExpansion()+"/singles";
 		logger.debug("LINK="+link);
@@ -135,7 +135,7 @@ public class ProductServices {
 		
 	}
 	
-	public List<Product> findProduct(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
+	public List<Product> findProduct(String name,Map<PRODUCT_ATTS,String> atts) throws InvalidKeyException, AbstractMKMException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
 	{
 		
 		xstream.addImplicitCollection(Product.class,"name",Localization.class);
@@ -196,7 +196,7 @@ public class ProductServices {
 		return res.getProduct();
 	}
 
-	public Metaproduct getMetaProductById(int idMeta) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	public Metaproduct getMetaProductById(int idMeta) throws InvalidKeyException, AbstractMKMException, IOException
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		
@@ -212,7 +212,7 @@ public class ProductServices {
 		return res.getMetaproduct().get(0);
 	}
 	
-	public Product getProductById(int idProduct) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	public Product getProductById(int idProduct) throws InvalidKeyException, AbstractMKMException, IOException
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		

@@ -21,7 +21,7 @@ public class Article
 
 	@Override
 	public String toString() {
-		return String.valueOf(getProduct()) +" ("+count +")";
+		return String.valueOf(getProduct());
 	}
 	
 	public Product getProduct() {

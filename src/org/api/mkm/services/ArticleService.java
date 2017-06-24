@@ -13,6 +13,7 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.exceptions.AbstractMKMException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Link;
@@ -45,7 +46,7 @@ public class ArticleService {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public List<Article> find(User u,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	public List<Article> find(User u,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException, AbstractMKMException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/users/"+u.getUsername()+"/articles";
 		logger.debug("LINK="+link);
@@ -83,7 +84,7 @@ public class ArticleService {
 		return (article.get(0).getIdArticle()==0);
 	}
 
-	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException, AbstractMKMException
 	{
     	String link = "https://www.mkmapi.eu/ws/v2.0/articles/"+p.getIdProduct();
     	logger.debug("LINK="+link);

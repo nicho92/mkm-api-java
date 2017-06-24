@@ -6,12 +6,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.exceptions.AbstractMKMException;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
@@ -43,7 +43,7 @@ public class MKMService {
 	}
 	
 	
-	public List<Game> listGames() throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public List<Game> listGames() throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/games";
 		logger.debug("LINK="+link);
@@ -59,13 +59,13 @@ public class MKMService {
 		return res.getGame();
 		
 	}
-	public List<Expansion> listExpansion(Integer id) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public List<Expansion> listExpansion(Integer id) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		Game g = new Game();
 		g.setIdGame(id);
 		return listExpansion(g);
 	}
-	public List<Expansion> listExpansion(Game g) throws MalformedURLException, IOException, InvalidKeyException, NoSuchAlgorithmException
+	public List<Expansion> listExpansion(Game g) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/games/"+g.getIdGame()+"/expansions";
 		logger.debug("LINK="+link);
