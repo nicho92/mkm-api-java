@@ -55,6 +55,9 @@ public class AuthenticationServices {
 		if(accessSecret==null||accessToken==null||appSecret==null||appToken==null)
 			throw new MkmException("API authentication field must be filled");
 		
+		if(accessSecret.equals("")||accessToken.equals("")||appSecret.equals("")||appToken.equals(""))
+			throw new MkmException("API authentication field must be filled");
+		
 		
 		xstream = new XStream(new StaxDriver());
 		XStream.setupDefaultSecurity(xstream);
