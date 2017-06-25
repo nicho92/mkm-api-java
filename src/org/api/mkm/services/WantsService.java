@@ -70,7 +70,6 @@ public class WantsService {
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
 				    		connection.connect();
-				    		MkmAPIConfig.getInstance().updateCount(connection);
 				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuffer temp = new StringBuffer();
@@ -86,6 +85,7 @@ public class WantsService {
 		
 		out.write(temp.toString());
 		out.close();
+		MkmAPIConfig.getInstance().updateCount(connection);
 		
 		boolean code= connection.getResponseCode()>=200 || connection.getResponseCode()<300;
 		
@@ -97,7 +97,7 @@ public class WantsService {
 			if(res.getErrors()!=null)
 				throw new MkmException(res.getErrors());
 			
-			//li = ((Response)xstream.fromXML(xml)).getWantslist().get(0);
+			li = ((Response)xstream.fromXML(xml)).getWantslist().get(0); //todo update wantlist parameter
 		}
 		else
 		{
@@ -118,7 +118,6 @@ public class WantsService {
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
 				    		connection.connect();
-				    		MkmAPIConfig.getInstance().updateCount(connection);
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuffer temp = new StringBuffer();
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
@@ -149,6 +148,8 @@ public class WantsService {
 		
 		out.write(temp.toString());
 		out.close();
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
 		boolean code= connection.getResponseCode()>=200 || connection.getResponseCode()<300;
 		if(code)
 		{
@@ -204,8 +205,7 @@ public class WantsService {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
-		MkmAPIConfig.getInstance().updateCount(connection);
-		
+			
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
 		StringBuffer temp = new StringBuffer();
@@ -240,6 +240,8 @@ public class WantsService {
 		logger.debug("REQU="+temp);
 		out.write(temp.toString());
 		out.close();
+		
+		MkmAPIConfig.getInstance().updateCount(connection);
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
 		
 		if(ret)
@@ -266,7 +268,6 @@ public class WantsService {
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
 				    		connection.connect();
-				    		MkmAPIConfig.getInstance().updateCount(connection);
 				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuffer temp = new StringBuffer();
@@ -278,6 +279,7 @@ public class WantsService {
 		
 		out.write(temp.toString());
 		out.close();
+		MkmAPIConfig.getInstance().updateCount(connection);
 		
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
 		
@@ -308,12 +310,12 @@ public class WantsService {
         				  connection.setRequestMethod("POST");
         				  connection.setRequestProperty( "charset", "utf-8");
         				  connection.connect() ;
-        				  MkmAPIConfig.getInstance().updateCount(connection);
-        				  
         				  OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         				  out.write(temp.toString());
         				  out.close();
+         				  MkmAPIConfig.getInstance().updateCount(connection);
         				  
+         			          				  
         	boolean ret = (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
         	if(ret)
         	{
@@ -341,12 +343,14 @@ public class WantsService {
         				  connection.setRequestMethod("DELETE");
         				  connection.setRequestProperty( "charset", "utf-8");
         				  connection.connect() ;
-        				  MkmAPIConfig.getInstance().updateCount(connection);
         				  
         				  OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         				  out.write(temp.toString());
         				  out.close();
+         				  
         boolean ret = (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		MkmAPIConfig.getInstance().updateCount(connection);
+			    
         if(ret)
     	{
     		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);

@@ -60,8 +60,7 @@ public class CartServices {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
-		MkmAPIConfig.getInstance().updateCount(connection);
-		
+	
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
 		StringBuffer temp = new StringBuffer();
@@ -81,7 +80,8 @@ public class CartServices {
 		logger.debug("REQU="+temp);
 		out.write(temp.toString());
 		out.close();
-	
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
 	 	if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
@@ -122,7 +122,6 @@ public class CartServices {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
-		MkmAPIConfig.getInstance().updateCount(connection);
 		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
@@ -143,6 +142,8 @@ public class CartServices {
 		
 		out.write(temp.toString());
 		out.close();
+		MkmAPIConfig.getInstance().updateCount(connection);
+
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
 	 	if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());

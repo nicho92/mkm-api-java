@@ -74,8 +74,11 @@ public class MkmWantListPanel extends JPanel {
 				try {
 					WantItem it = (WantItem)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0);
 					serviceW.deleteItem(selected, it);
-					loadWantList(selected);
+					itemsTableModel.init(selected);
+					
+					//loadWantList(selected);
 				} catch (Exception e) {
+					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 				
