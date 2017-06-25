@@ -5,15 +5,14 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.AbstractMKMException;
 import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
@@ -54,7 +53,7 @@ public class WantsService {
 	 		xstream.registerConverter(new MkmBooleanConverter());
 	}
 	
-	public boolean deleteItem(Wantslist li, WantItem it) throws Exception
+	public boolean deleteItem(Wantslist li, WantItem it) throws IOException, MkmException,MkmNetworkException
 	{
 		List<WantItem> lst = new ArrayList<WantItem>();
 		lst.add(it);
@@ -62,7 +61,7 @@ public class WantsService {
 		return deleteItems(li, lst);
 	}
 	
-	public boolean deleteItems(Wantslist li, List<WantItem> list) throws Exception
+	public boolean deleteItems(Wantslist li, List<WantItem> list) throws IOException, MkmException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+li.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -71,7 +70,8 @@ public class WantsService {
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
 				    		connection.connect();
-
+				    		MkmAPIConfig.getInstance().updateCount(connection);
+				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuffer temp = new StringBuffer();
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
@@ -99,11 +99,15 @@ public class WantsService {
 			
 			//li = ((Response)xstream.fromXML(xml)).getWantslist().get(0);
 		}
+		else
+		{
+			throw new MkmNetworkException(connection.getResponseCode());
+		}
 		return code;
 	}
 	
 	//TODO : ERROR  Product with ID '' doesn't belong to Metaproduct with ID 'XXXX'
-	public boolean updateItem(Wantslist wl,WantItem it) throws Exception
+	public boolean updateItem(Wantslist wl,WantItem it) throws IOException, MkmException, MkmNetworkException
 	{
 		
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
@@ -114,7 +118,7 @@ public class WantsService {
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
 				    		connection.connect();
-
+				    		MkmAPIConfig.getInstance().updateCount(connection);
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuffer temp = new StringBuffer();
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
@@ -155,24 +159,34 @@ public class WantsService {
 				throw new MkmException(res.getErrors());
 		
 		}
+		else
+		{
+			throw new MkmNetworkException(connection.getResponseCode());
+		}
 		return code;
 	}
 	
-	public List<Wantslist> getWantList() throws InvalidKeyException, IOException, AbstractMKMException
+	public List<Wantslist> getWantList() throws IOException, MkmException, MkmNetworkException
 	{
     	String link = "https://www.mkmapi.eu/ws/v2.0/wantslist";
     	
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
+			               MkmAPIConfig.getInstance().updateCount(connection);
+			               
 		boolean code= connection.getResponseCode()>=200 || connection.getResponseCode()<300;
+		
+		if(!code)
+			throw new MkmNetworkException(connection.getResponseCode());
+		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		logger.debug("RESP="+xml);
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getWantslist();
 	}
 	
-	public boolean addItem(Wantslist wl, WantItem item) throws InvalidKeyException, AbstractMKMException, IOException
+	public boolean addItem(Wantslist wl, WantItem item) throws IOException, MkmException, MkmNetworkException
 	{
 		ArrayList<WantItem> list = new ArrayList<WantItem>();
 		list.add(item);
@@ -180,7 +194,7 @@ public class WantsService {
 	}
 	
 	
-	public boolean addItem(Wantslist wl, List<WantItem> items) throws InvalidKeyException, AbstractMKMException, IOException
+	public boolean addItem(Wantslist wl, List<WantItem> items) throws IOException, MkmException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -190,6 +204,8 @@ public class WantsService {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
 		StringBuffer temp = new StringBuffer();
@@ -233,10 +249,14 @@ public class WantsService {
     		System.out.println(res.getErrors());
     		logger.debug("RESP="+xml);
     	}
+		else
+		{
+			throw new MkmNetworkException(connection.getResponseCode());
+		}
 		return ret;
 	}
 	
-	public boolean renameWantList(Wantslist wl , String name) throws IOException, InvalidKeyException, AbstractMKMException
+	public boolean renameWantList(Wantslist wl , String name) throws IOException, MkmException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -246,7 +266,8 @@ public class WantsService {
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
 				    		connection.connect();
-
+				    		MkmAPIConfig.getInstance().updateCount(connection);
+				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuffer temp = new StringBuffer();
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
@@ -266,12 +287,15 @@ public class WantsService {
 			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 			logger.debug("RESP="+xml);
 		}
-		
+		else
+		{
+			throw new MkmNetworkException(connection.getResponseCode());
+		}
 		return ret;
 		
 	}
 	
-	public Wantslist createWantList(String name) throws IOException, InvalidKeyException, AbstractMKMException
+	public Wantslist createWantList(String name) throws IOException, MkmException, MkmNetworkException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/wantslist";
 		logger.debug("LINK="+link);
@@ -284,6 +308,8 @@ public class WantsService {
         				  connection.setRequestMethod("POST");
         				  connection.setRequestProperty( "charset", "utf-8");
         				  connection.connect() ;
+        				  MkmAPIConfig.getInstance().updateCount(connection);
+        				  
         				  OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         				  out.write(temp.toString());
         				  out.close();
@@ -296,10 +322,13 @@ public class WantsService {
         		Response res = (Response)xstream.fromXML(xml);
         		return res.getWantslist().get(0);
         	}
-      	return null;
+        	else
+        	{
+        		throw new MkmNetworkException(connection.getResponseCode());
+        	}
 	}
 	
-	public boolean deleteWantList(Wantslist l) throws IOException, InvalidKeyException, AbstractMKMException
+	public boolean deleteWantList(Wantslist l) throws IOException, MkmException, MkmNetworkException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/wantslist/"+l.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -312,6 +341,8 @@ public class WantsService {
         				  connection.setRequestMethod("DELETE");
         				  connection.setRequestProperty( "charset", "utf-8");
         				  connection.connect() ;
+        				  MkmAPIConfig.getInstance().updateCount(connection);
+        				  
         				  OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         				  out.write(temp.toString());
         				  out.close();
@@ -320,12 +351,16 @@ public class WantsService {
     	{
     		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     		logger.debug("RESP="+xml);
-    	}		        					  
+    	}
+        else
+        {
+        	throw new MkmNetworkException(connection.getResponseCode());
+        }
         
       	return ret;
 	}
 	
-	public void loadItems(Wantslist wl) throws InvalidKeyException, AbstractMKMException, IOException
+	public void loadItems(Wantslist wl) throws IOException, MkmException, MkmNetworkException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
     	logger.debug("LINK="+link);
@@ -333,8 +368,12 @@ public class WantsService {
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
-		
+			               MkmAPIConfig.getInstance().updateCount(connection);
+			               
 		boolean ret = (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		if(!ret)
+			throw new MkmNetworkException(connection.getResponseCode());
+		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		
    		logger.debug("RESP="+xml);

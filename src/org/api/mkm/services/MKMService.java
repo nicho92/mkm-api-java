@@ -11,7 +11,8 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.AbstractMKMException;
+import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
@@ -43,7 +44,7 @@ public class MKMService {
 	}
 	
 	
-	public List<Game> listGames() throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public List<Game> listGames() throws IOException, MkmException, MkmNetworkException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/games";
 		logger.debug("LINK="+link);
@@ -51,7 +52,12 @@ public class MKMService {
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
-		
+			               MkmAPIConfig.getInstance().updateCount(connection);
+		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	 	if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+
+			               
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		
 
@@ -59,13 +65,16 @@ public class MKMService {
 		return res.getGame();
 		
 	}
-	public List<Expansion> listExpansion(Integer id) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	
+	
+	public List<Expansion> listExpansion(Integer id) throws IOException, MkmException, MkmNetworkException
 	{
 		Game g = new Game();
 		g.setIdGame(id);
 		return listExpansion(g);
 	}
-	public List<Expansion> listExpansion(Game g) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	
+	public List<Expansion> listExpansion(Game g) throws IOException, MkmException, MkmNetworkException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/games/"+g.getIdGame()+"/expansions";
 		logger.debug("LINK="+link);
@@ -73,11 +82,19 @@ public class MKMService {
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
-		
+			               MkmAPIConfig.getInstance().updateCount(connection);
+		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	 	if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		Response res = (Response)xstream.fromXML(xml);
 		
 		return res.getExpansion();
 	}
 	
+	
+	
+	
+
 }

@@ -13,7 +13,8 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.AbstractMKMException;
+import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Basket;
 import org.api.mkm.modele.ShoppingCart;
@@ -41,7 +42,7 @@ public class CartServices {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public boolean addArticle(Article a) throws IOException, InvalidKeyException, AbstractMKMException
+	public boolean addArticle(Article a) throws IOException, MkmException, MkmNetworkException
 	{
 		List<Article> list = new ArrayList<Article>();
 		list.add(a);
@@ -49,7 +50,7 @@ public class CartServices {
 	}
 	
 	
-	public boolean addArticles(List<Article> articles) throws IOException, InvalidKeyException, AbstractMKMException
+	public boolean addArticles(List<Article> articles) throws IOException, MkmException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
 		logger.debug("LINK="+link);
@@ -59,6 +60,8 @@ public class CartServices {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
 		StringBuffer temp = new StringBuffer();
@@ -78,7 +81,10 @@ public class CartServices {
 		logger.debug("REQU="+temp);
 		out.write(temp.toString());
 		out.close();
+	
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	 	if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
 		
 		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
@@ -86,7 +92,7 @@ public class CartServices {
 		
 		return ret;
 	}
-	public boolean empty() throws IOException, InvalidKeyException, AbstractMKMException
+	public boolean empty() throws IOException, MkmException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
 		logger.debug("LINK="+link);
@@ -96,12 +102,17 @@ public class CartServices {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("DELETE");
 		connection.connect();
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	 	if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+
 		return ret;
 	}
 	
 	
-	public boolean removeArticles(List<Article> articles) throws IOException, InvalidKeyException, AbstractMKMException
+	public boolean removeArticles(List<Article> articles) throws IOException, MkmException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
 		logger.debug("LINK="+link);
@@ -111,6 +122,8 @@ public class CartServices {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
 		StringBuffer temp = new StringBuffer();
@@ -131,16 +144,25 @@ public class CartServices {
 		out.write(temp.toString());
 		out.close();
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	 	if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+
+		
 		return ret;
 	}
 	
-	public Basket getBasket() throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public Basket getBasket() throws IOException, MkmException, MkmNetworkException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/shoppingcart";
 		logger.debug("LINK="+link);
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
+			               MkmAPIConfig.getInstance().updateCount(connection);
+   		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	 	if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+           
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		Basket res = (Basket)xstream.fromXML(xml);
 		return res;

@@ -1,9 +1,14 @@
 package org.api.mkm.services;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,11 +22,12 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.AbstractMKMException;
 import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.User;
+import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
@@ -59,25 +65,23 @@ public class AuthenticationServices {
 		
 	}
 	
-	public User getAuthenticatedUser() throws AbstractMKMException 
+	public User getAuthenticatedUser() throws MkmException, IOException, MkmNetworkException 
 	{
-	
-		try{
-			
 		String link="https://www.mkmapi.eu/ws/v2.0/account";
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
+			               MkmAPIConfig.getInstance().updateCount(connection);
+			               
+		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	 	if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
 			               
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getAccount();
-		}
-		catch(Exception e)
-		{
-			throw new MkmException(e.getMessage());
-		}
+	
 	}
 	
 	private Map<String,String> parseQueryString(String query)
@@ -99,7 +103,7 @@ public class AuthenticationServices {
 	 }
 	 
 	@Deprecated
-	public String generateOAuthSignature(String link,String method) throws AbstractMKMException {
+	public String generateOAuthSignature(String link,String method) throws MkmException {
 
 		try{
         String realm = link ;
@@ -146,13 +150,17 @@ public class AuthenticationServices {
         
         return authorizationProperty;
 		}
-		catch(Exception e)
+		catch(InvalidKeyException e)
 		{
+			throw new MkmException(e.getMessage());
+		} catch (UnsupportedEncodingException e) {
+			throw new MkmException(e.getMessage());
+		} catch (NoSuchAlgorithmException e) {
 			throw new MkmException(e.getMessage());
 		}
 	}
 	    
-	public String generateOAuthSignature2(String url,String method) throws AbstractMKMException{
+	public String generateOAuthSignature2(String url,String method) throws MkmException{
 	    	try{
 	    		
 	    	 Map<String,String> headerParams = new HashMap<String,String>();

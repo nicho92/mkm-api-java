@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +16,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.AbstractMKMException;
+import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Game;
@@ -48,19 +47,19 @@ public class StockService {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public List<Article> getStock(int idGame,String name) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public List<Article> getStock(int idGame,String name) throws IOException, MkmException, MkmNetworkException
 	{
 		Game g = new Game();
 		g.setIdGame(idGame);
 		return getStock(g, null);
 	}
 	
-	public List<Article> getStock() throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public List<Article> getStock() throws IOException, MkmException, MkmNetworkException
 	{
 		return getStock(null, null);
 	}
 	
-	public List<Article> getStock(Game game,String name) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public List<Article> getStock(Game game,String name) throws IOException, MkmException, MkmNetworkException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/stock";
 		logger.debug("LINK="+link);
@@ -75,20 +74,25 @@ public class StockService {
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
-		
+			               MkmAPIConfig.getInstance().updateCount(connection);
+			               
+       boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+       if(!ret)
+    	   throw new MkmNetworkException(connection.getResponseCode());
+       
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getArticle();
 	}
 	
-	public boolean addArticle(Article a) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public boolean addArticle(Article a) throws IOException, MkmException, MkmNetworkException
 	{
 		ArrayList<Article> list = new ArrayList<Article>();
 		list.add(a);
 		return addArticles(list);
 	}
 	
-	public boolean addArticles(List<Article> list) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public boolean addArticles(List<Article> list) throws IOException, MkmException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
 		logger.debug("LINK="+link);
@@ -97,6 +101,7 @@ public class StockService {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("POST");
 		connection.connect();
+		MkmAPIConfig.getInstance().updateCount(connection);
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
 		StringBuffer temp = new StringBuffer();
@@ -122,17 +127,21 @@ public class StockService {
 		out.write(temp.toString());
 		out.close();
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	 	 if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+		
+
 		return ret;
 	}
 	
-	public boolean removeArticle(Article a) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public boolean removeArticle(Article a) throws IOException, MkmException, MkmNetworkException
 	{
 		ArrayList<Article> list = new ArrayList<Article>();
 		list.add(a);
 		return removeArticles(list);
 	}
 	
-	public boolean removeArticles(List<Article> list) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public boolean removeArticles(List<Article> list) throws IOException, MkmException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
 		logger.debug("LINK="+link);
@@ -142,6 +151,7 @@ public class StockService {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("DELETE");
 		connection.connect();
+		MkmAPIConfig.getInstance().updateCount(connection);
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
 		StringBuffer temp = new StringBuffer();
@@ -160,15 +170,19 @@ public class StockService {
 		out.write(temp.toString());
 		out.close();
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	 	 if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+		
+
 		return ret;
 	}
 	
-	public void exportStockFile(File f) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public void exportStockFile(File f) throws IOException, MkmException, MkmNetworkException
 	{
 		exportStockFile(f,null);
 	}
 	
-	public void exportStockFile(File f,Map<ARTICLES_ATT,String> atts) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public void exportStockFile(File f,Map<ARTICLES_ATT,String> atts) throws IOException, MkmException, MkmNetworkException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/stock/file";
 		
@@ -187,7 +201,14 @@ public class StockService {
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
-		
+			               MkmAPIConfig.getInstance().updateCount(connection);
+			               
+   		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+   		if(!ret)
+   			throw new MkmNetworkException(connection.getResponseCode());
+	
+
+			               
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		
 		Response res = (Response)xstream.fromXML(xml);
@@ -201,13 +222,14 @@ public class StockService {
 	}
 	
 	
-	public boolean changeQte(Article a, int qte) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	public boolean changeQte(Article a, int qte) throws IOException, MkmException, MkmNetworkException
 	{
 		ArrayList<Article> list = new ArrayList<Article>();
 		list.add(a);
 		return changeQte(list, qte);
 	}
-	public boolean changeQte(List<Article> list, int qte) throws MalformedURLException, IOException, InvalidKeyException, AbstractMKMException
+	
+	public boolean changeQte(List<Article> list, int qte) throws IOException, MkmException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
 		
@@ -223,6 +245,8 @@ public class StockService {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
 		StringBuffer temp = new StringBuffer();
@@ -244,6 +268,9 @@ public class StockService {
 		out.write(temp.toString());
 		out.close();
 		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+	 	 if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+		
 		return ret;
 	}
 	

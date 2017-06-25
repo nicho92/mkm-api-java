@@ -22,7 +22,6 @@ public class MkmFrame extends JFrame{
 										pricer.getProperty("APP_SECRET").toString(),
 										pricer.getProperty("APP_TOKEN").toString());
 		
-		
 		MkmSearchPanel pane = new MkmSearchPanel();
 		MkmWantListPanel pane2 = new MkmWantListPanel();
 		MkmOrderPanel pane3 = new MkmOrderPanel();
