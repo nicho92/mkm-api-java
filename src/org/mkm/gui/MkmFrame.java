@@ -2,11 +2,15 @@ package org.mkm.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
 
 public class MkmFrame extends JFrame{
@@ -21,6 +25,15 @@ public class MkmFrame extends JFrame{
 										pricer.getProperty("APP_ACCESS_TOKEN").toString(),
 										pricer.getProperty("APP_SECRET").toString(),
 										pricer.getProperty("APP_TOKEN").toString());
+		
+		
+		ProductServices serv = new ProductServices();
+		
+		Map<PRODUCT_ATTS,String> atts = new HashMap<PRODUCT_ATTS,String>();
+		atts.put(PRODUCT_ATTS.idLanguage, "1");
+		serv.findMetaProduct("swamp", atts);
+		
+		System.exit(0);
 		
 		MkmSearchPanel pane = new MkmSearchPanel();
 		MkmWantListPanel pane2 = new MkmWantListPanel();

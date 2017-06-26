@@ -80,7 +80,7 @@ public class ProductServices {
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
-       boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+       boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
        if(!ret)
     	   throw new MkmNetworkException(connection.getResponseCode());
 			      	 	 
@@ -105,7 +105,7 @@ public class ProductServices {
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
-       boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+       boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
        if(!ret)
     	   throw new MkmNetworkException(connection.getResponseCode());	               
 		
@@ -134,7 +134,7 @@ public class ProductServices {
         connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
         connection.connect() ;
         MkmAPIConfig.getInstance().updateCount(connection);
-        boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+        boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
         
@@ -191,7 +191,7 @@ public class ProductServices {
         connection.connect();
         MkmAPIConfig.getInstance().updateCount(connection);
         
-        boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+        boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
         
@@ -211,6 +211,75 @@ public class ProductServices {
 	
 		return res.getProduct();
 	}
+	
+	public List<Metaproduct> findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
+	{
+		
+		xstream.addImplicitCollection(Metaproduct.class,"name",Localization.class);
+		xstream.addImplicitCollection(Metaproduct.class,"product",Product.class);
+ 		
+		String link = "https://www.mkmapi.eu/ws/v1.1/metaproducts/:name/:idGame/:idLanguage";
+		
+		if(atts.containsKey(PRODUCT_ATTS.idGame))
+			link=link.replaceAll(":idGame", atts.get(PRODUCT_ATTS.idGame));
+		else
+			link=link.replaceAll(":idGame", "1");
+		
+		if(atts.containsKey(PRODUCT_ATTS.idLanguage))
+			link=link.replaceAll(":idLanguage", atts.get(PRODUCT_ATTS.idLanguage));
+		else
+			link=link.replaceAll(":idLanguage", "1");
+		
+		link=link.replaceAll(":name", URLEncoder.encode(name,"UTF-8"));
+		
+		logger.debug("LINK="+link);
+		
+			               
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+	    connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
+        connection.connect();
+	    
+		
+		/*
+		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8");
+		if(atts.size()>0)
+    	{
+			link+="&";
+    		List<String> paramStrings = new ArrayList<String>();
+ 	        for(PRODUCT_ATTS parameter:atts.keySet())
+	             paramStrings.add(parameter + "=" + atts.get(parameter));
+	        
+ 	        link+=Tools.join(paramStrings, "&");
+    	}
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.connect() ;
+			               
+		*/
+        MkmAPIConfig.getInstance().updateCount(connection);
+        
+        boolean ret=(connection.getResponseCode()>=200 && connection.getResponseCode()<300);
+       
+        if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+        
+    	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+    	
+    	logger.debug("RESP="+xml);
+    	Response res = (Response)xstream.fromXML(xml);
+		
+    	//if(isEmpty(res.getMetaproduct()))
+    	//	return new ArrayList<Metaproduct>();
+    	
+    	
+//    	for(Metaproduct p : res.getMetaproduct())
+//		{
+//			p.setEnName(p.getName().get(0).getProductName());
+//		}
+
+		return res.getMetaproduct();
+	}
+	
 
 	public Metaproduct getMetaProductById(int idMeta)throws IOException, MkmException, MkmNetworkException
 	{
@@ -224,7 +293,7 @@ public class ProductServices {
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
-       boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+       boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
        if(!ret)
  		throw new MkmNetworkException(connection.getResponseCode());
 
@@ -246,7 +315,7 @@ public class ProductServices {
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
-       boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+       boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
        if(!ret)
     	   throw new MkmNetworkException(connection.getResponseCode());
        

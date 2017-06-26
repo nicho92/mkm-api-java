@@ -76,7 +76,7 @@ public class StockService {
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
-       boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+       boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
        if(!ret)
     	   throw new MkmNetworkException(connection.getResponseCode());
        
@@ -126,7 +126,7 @@ public class StockService {
 		temp.append("</request>");
 		out.write(temp.toString());
 		out.close();
-		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
 		
@@ -169,7 +169,7 @@ public class StockService {
 		temp.append("</request>");
 		out.write(temp.toString());
 		out.close();
-		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
 		
@@ -203,7 +203,7 @@ public class StockService {
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
-   		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+   		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
    		if(!ret)
    			throw new MkmNetworkException(connection.getResponseCode());
 	
@@ -267,7 +267,7 @@ public class StockService {
 		temp.append("</request>");
 		out.write(temp.toString());
 		out.close();
-		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
 		

@@ -87,7 +87,7 @@ public class WantsService {
 		out.close();
 		MkmAPIConfig.getInstance().updateCount(connection);
 		
-		boolean code= connection.getResponseCode()>=200 || connection.getResponseCode()<300;
+		boolean code= connection.getResponseCode()>=200 && connection.getResponseCode()<300;
 		
 		if(code)
 		{
@@ -158,7 +158,7 @@ public class WantsService {
 		out.close();
 		MkmAPIConfig.getInstance().updateCount(connection);
 		
-		boolean code= connection.getResponseCode()>=200 || connection.getResponseCode()<300;
+		boolean code= connection.getResponseCode()>=200 && connection.getResponseCode()<300;
 		if(code)
 		{
 			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
@@ -184,7 +184,7 @@ public class WantsService {
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
-		boolean code= connection.getResponseCode()>=200 || connection.getResponseCode()<300;
+		boolean code= connection.getResponseCode()>=200 && connection.getResponseCode()<300;
 		
 		if(!code)
 			throw new MkmNetworkException(connection.getResponseCode());
@@ -250,7 +250,7 @@ public class WantsService {
 		out.close();
 		
 		MkmAPIConfig.getInstance().updateCount(connection);
-		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 		
 		if(ret)
     	{
@@ -289,7 +289,7 @@ public class WantsService {
 		out.close();
 		MkmAPIConfig.getInstance().updateCount(connection);
 		
-		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 		
 		if(ret)
 		{
@@ -324,7 +324,7 @@ public class WantsService {
          				  MkmAPIConfig.getInstance().updateCount(connection);
         				  
          			          				  
-        	boolean ret = (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+        	boolean ret = (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
         	if(ret)
         	{
         		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
@@ -356,7 +356,7 @@ public class WantsService {
         				  out.write(temp.toString());
         				  out.close();
          				  
-        boolean ret = (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+        boolean ret = (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 		MkmAPIConfig.getInstance().updateCount(connection);
 			    
         if(ret)
@@ -382,7 +382,7 @@ public class WantsService {
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
-		boolean ret = (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		boolean ret = (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 		if(!ret)
 			throw new MkmNetworkException(connection.getResponseCode());
 		

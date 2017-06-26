@@ -65,7 +65,7 @@ public class ArticleService {
          connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
          connection.connect() ;
          MkmAPIConfig.getInstance().updateCount(connection);
-     	boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+     	boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
      	if(!ret)
      		throw new MkmNetworkException(connection.getResponseCode());
          
@@ -111,7 +111,7 @@ public class ArticleService {
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
-		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
 			         	               

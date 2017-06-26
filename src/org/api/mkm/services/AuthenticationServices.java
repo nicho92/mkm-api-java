@@ -76,7 +76,7 @@ public class AuthenticationServices {
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
-		boolean ret= (connection.getResponseCode()>=200 || connection.getResponseCode()<300);
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
 			               
