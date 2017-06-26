@@ -45,7 +45,7 @@ public class MkmWantListPanel extends JPanel {
 	
 	WantsService serviceW = new WantsService();
 	ArticleService serviceA = new ArticleService();
-	private JButton btnEditQte;
+	private JButton btnEditItem;
 	private JButton btnRenameWl;
 	private JButton btnCreateWl;
 	private JButton btnDeleteWl;
@@ -143,18 +143,18 @@ public class MkmWantListPanel extends JPanel {
 		panelNorth.add(btnRenameWl);
 		panelNorth.add(btnDelete);
 		
-		btnEditQte = new JButton("Edit Qte");
-		btnEditQte.setEnabled(false);
-		btnEditQte.addActionListener(new ActionListener() {
+		btnEditItem = new JButton("Edit");
+		btnEditItem.setEnabled(false);
+		btnEditItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					WantItem it = (WantItem)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0);
 					
-					String res = JOptionPane.showInputDialog("Change quantity by ");
+					WantListItemEditorPanel dialog = new WantListItemEditorPanel(it);
+					dialog.setVisible(true);
 					
-					int qte= Integer.parseInt(res);
-					it.setCount(qte);
-										
+					it = dialog.getItem();
+					
 					serviceW.updateItem(selected, it);
 					loadWantList(selected);
 				} catch (Exception e) {
@@ -163,7 +163,7 @@ public class MkmWantListPanel extends JPanel {
 				
 			}
 		});
-		panelNorth.add(btnEditQte);
+		panelNorth.add(btnEditItem);
 		
 		PanelSouth = new JPanel();
 		add(PanelSouth, BorderLayout.SOUTH);
@@ -209,7 +209,7 @@ public class MkmWantListPanel extends JPanel {
 
 	protected void loadArticle(final Product valueAt) {
 		
-		btnEditQte.setEnabled(true);
+		btnEditItem.setEnabled(true);
 		btnDelete.setEnabled(true);
 		
 		new Thread(new Runnable() {

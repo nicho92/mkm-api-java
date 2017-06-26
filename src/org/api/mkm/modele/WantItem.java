@@ -5,6 +5,10 @@ import java.util.List;
 
 public class WantItem {
 
+	
+			public static String[] CONDITIONS = {"MT","NM","EX","GD","LP","PL","PO"}; 
+	
+	
 	 		String idWant;         
 		    int count;   
 		    double wishPrice;      

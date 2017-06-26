@@ -4,7 +4,7 @@ public class MkmBoolean{
 	
 	String value;
 	
-	
+	public static String[] VALUES= {"true","false",""};
 	
 	@Override
 	public int hashCode() {
