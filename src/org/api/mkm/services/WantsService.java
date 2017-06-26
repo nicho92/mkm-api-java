@@ -53,7 +53,7 @@ public class WantsService {
 	 		xstream.registerConverter(new MkmBooleanConverter());
 	}
 	
-	public boolean deleteItem(Wantslist li, WantItem it) throws IOException, MkmException,MkmNetworkException
+	public Wantslist deleteItem(Wantslist li, WantItem it) throws IOException, MkmException,MkmNetworkException
 	{
 		List<WantItem> lst = new ArrayList<WantItem>();
 		lst.add(it);
@@ -61,7 +61,7 @@ public class WantsService {
 		return deleteItems(li, lst);
 	}
 	
-	public boolean deleteItems(Wantslist li, List<WantItem> list) throws IOException, MkmException, MkmNetworkException
+	public Wantslist deleteItems(Wantslist li, List<WantItem> list) throws IOException, MkmException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+li.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -97,13 +97,21 @@ public class WantsService {
 			if(res.getErrors()!=null)
 				throw new MkmException(res.getErrors());
 			
-			li = ((Response)xstream.fromXML(xml)).getWantslist().get(0); //todo update wantlist parameter
+			Wantslist li2 = ((Response)xstream.fromXML(xml)).getWantslist().get(0);
+			
+			if(isEmpty(li2))
+			{
+				li2.setItem(new ArrayList<WantItem>());
+				return li2;
+			}
+			
+			return ((Response)xstream.fromXML(xml)).getWantslist().get(0);
 		}
 		else
 		{
 			throw new MkmNetworkException(connection.getResponseCode());
 		}
-		return code;
+		
 	}
 	
 	//TODO : ERROR  Product with ID '' doesn't belong to Metaproduct with ID 'XXXX'
