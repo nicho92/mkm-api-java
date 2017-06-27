@@ -24,8 +24,10 @@ public class Product
 	private PriceGuide priceGuide;
 	private List<Expansion> reprint;
 	private List<Link> links;
+	private Category category;
 	
-	private List<Localization> name;
+	
+	@Deprecated private List<Localization> name;
 	
 	@Deprecated
 	public List<Localization> getName() {
@@ -35,6 +37,16 @@ public class Product
 	public void setName(List<Localization> name) {
 		this.name = name;
 	}
+	
+	public Category getCategory() {
+		return category;
+	}
+	
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+	
+	
 	public int getIdProduct() {
 		return idProduct;
 	}

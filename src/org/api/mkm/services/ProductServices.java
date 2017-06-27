@@ -51,7 +51,6 @@ public class ProductServices {
 	 		xstream.addImplicitCollection(Response.class,"links",Link.class);
 	 		xstream.addImplicitCollection(Response.class, "single",Product.class);
 	 		xstream.addImplicitCollection(Response.class, "expansion",Expansion.class);
-	 		xstream.addImplicitCollection(Response.class,"metaproduct", Metaproduct.class);
 	 		xstream.addImplicitCollection(Product.class,"links",Link.class);
 	 		xstream.addImplicitCollection(Product.class,"localization",Localization.class);
 	 		xstream.addImplicitCollection(Product.class,"reprint",Expansion.class);
@@ -212,12 +211,14 @@ public class ProductServices {
 		return res.getProduct();
 	}
 	
-	public List<Metaproduct> findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
+	public Metaproduct findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
 	{
 		
 		xstream.addImplicitCollection(Metaproduct.class,"name",Localization.class);
 		xstream.addImplicitCollection(Metaproduct.class,"product",Product.class);
- 		
+		xstream.addImplicitCollection(Metaproduct.class,"idProduct",Integer.class);
+		
+		
 		String link = "https://www.mkmapi.eu/ws/v1.1/metaproducts/:name/:idGame/:idLanguage";
 		
 		if(atts.containsKey(PRODUCT_ATTS.idGame))
@@ -266,17 +267,13 @@ public class ProductServices {
     	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     	
     	logger.debug("RESP="+xml);
+    	
+    	//horrible code needed for 1.1 api
+    	xml=xml.replaceAll("<products>","").replaceAll("</products>", "");
+    	
+    	
     	Response res = (Response)xstream.fromXML(xml);
-		
-    	//if(isEmpty(res.getMetaproduct()))
-    	//	return new ArrayList<Metaproduct>();
     	
-    	
-//    	for(Metaproduct p : res.getMetaproduct())
-//		{
-//			p.setEnName(p.getName().get(0).getProductName());
-//		}
-
 		return res.getMetaproduct();
 	}
 	
@@ -300,7 +297,7 @@ public class ProductServices {
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		logger.debug("RESP="+xml);
 		Response res = (Response)xstream.fromXML(xml);
-		return res.getMetaproduct().get(0);
+		return res.getMetaproduct();
 	}
 	
 	public Product getProductById(int idProduct) throws IOException, MkmException, MkmNetworkException

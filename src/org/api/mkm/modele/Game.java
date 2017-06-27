@@ -5,9 +5,9 @@ public class Game {
 	 private String name; 
 	 private String abbreviation;
 	 private Link links;
-	
+
 	 @Override
-	public String toString() {
+	 public String toString() {
 		return getName();
 	}
 	 

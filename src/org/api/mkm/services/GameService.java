@@ -23,14 +23,15 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 
-public class MKMService {
+public class GameService {
 
 	private AuthenticationServices auth;
 	private XStream xstream;
-	static final Logger logger = LogManager.getLogger(MKMService.class.getName());
+	static final Logger logger = LogManager.getLogger(GameService.class.getName());
 	
+	private List<Game> games;
 	
-	public MKMService() {
+	public GameService() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
 		
 		xstream = new XStream(new StaxDriver());
@@ -41,6 +42,20 @@ public class MKMService {
 	 		xstream.addImplicitCollection(Response.class, "expansion", Expansion.class);
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.ignoreUnknownElements();
+	}
+	
+	
+	public Game getGame(int id) throws IOException, MkmException, MkmNetworkException
+	{
+		if(games==null)
+			games=listGames();
+		
+		for(Game g : games)
+			if(g.getIdGame()==id)
+				return g;
+		
+		return null;
+		
 	}
 	
 	
@@ -62,7 +77,9 @@ public class MKMService {
 		
 
 		Response res = (Response)xstream.fromXML(xml);
-		return res.getGame();
+		games=res.getGame();
+		
+		return games;
 		
 	}
 	

@@ -9,8 +9,11 @@ import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+import org.api.mkm.modele.Metaproduct;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.services.GameService;
 import org.api.mkm.services.ProductServices;
+import org.api.mkm.services.UserService;
 import org.api.mkm.tools.MkmAPIConfig;
 
 public class MkmFrame extends JFrame{
@@ -26,25 +29,26 @@ public class MkmFrame extends JFrame{
 										pricer.getProperty("APP_SECRET").toString(),
 										pricer.getProperty("APP_TOKEN").toString());
 		
+		UserService serv = new UserService();
 		
-		ProductServices serv = new ProductServices();
-		
-		Map<PRODUCT_ATTS,String> atts = new HashMap<PRODUCT_ATTS,String>();
-		atts.put(PRODUCT_ATTS.idLanguage, "1");
-		serv.findMetaProduct("swamp", atts);
+		System.out.println(serv.getMessages(null));
 		
 		System.exit(0);
 		
+		
+		
 		MkmSearchPanel pane = new MkmSearchPanel();
+		MkmMetaSearchPanel pane4 = new MkmMetaSearchPanel();
 		MkmWantListPanel pane2 = new MkmWantListPanel();
 		MkmOrderPanel pane3 = new MkmOrderPanel();
 		
 		JTabbedPane tpane = new JTabbedPane();
 		
 		tpane.add("Search", pane);
+		tpane.add("Meta", pane4);
 		tpane.add("WantList", pane2);
 		tpane.add("Order", pane3);
-		
+
 		getContentPane().add(tpane);
 		setSize(750, 550);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -10,7 +10,7 @@ public class MkmNetworkException extends Exception{
 	static Map<Integer,String> map;
 	
 	public MkmNetworkException(int code) {
-		super(parse(code));
+		super(code + ":" + parse(code));
 	}
 
 	static String parse(int code)

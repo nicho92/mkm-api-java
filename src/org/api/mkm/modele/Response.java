@@ -12,7 +12,9 @@ public class Response {
 	List<Expansion> expansion;
 	List<Product> single;
 	List<Order> order;
-	List<Metaproduct> metaproduct;
+	List<Thread> thread;
+	
+	Metaproduct metaproduct;
 	
 	Error errors;
 	User account;
@@ -22,6 +24,12 @@ public class Response {
 	String stock;
 	
 	
+	public List<Thread> getThread() {
+		return thread;
+	}
+	public void setThread(List<Thread> thread) {
+		this.thread = thread;
+	}
 	public Error getErrors() {
 		return errors;
 	}
@@ -106,10 +114,10 @@ public class Response {
 	public void setPriceguidefile(String priceguidefile) {
 		this.priceguidefile = priceguidefile;
 	}
-	public List<Metaproduct> getMetaproduct() {
+	public Metaproduct getMetaproduct() {
 		return metaproduct;
 	}
-	public void setMetaproduct(List<Metaproduct> metaproduct) {
+	public void setMetaproduct(Metaproduct metaproduct) {
 		this.metaproduct = metaproduct;
 	}
 

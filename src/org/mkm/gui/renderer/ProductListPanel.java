@@ -5,17 +5,24 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.IOException;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.exceptions.MkmNetworkException;
+import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Product;
+import org.api.mkm.services.GameService;
 
 public class ProductListPanel extends JPanel{
 	
 	Product p;
-
+	
+	
 	public ProductListPanel(Product p) {
 		this.p=p;
 		setBackground(Color.WHITE);
@@ -48,22 +55,21 @@ public class ProductListPanel extends JPanel{
 		gbc_lblName.gridy = 0;
 		add(lblName, gbc_lblName);
 		
-		JLabel lblType = new JLabel(p.getIdGame()+"");
-		GridBagConstraints gbc_lblType = new GridBagConstraints();
-		gbc_lblType.gridwidth = 2;
-		gbc_lblType.insets = new Insets(0, 0, 5, 0);
-		gbc_lblType.anchor = GridBagConstraints.WEST;
-		gbc_lblType.gridx = 1;
-		gbc_lblType.gridy = 1;
-		add(lblType, gbc_lblType);
-		
 		JLabel lblEdition = new JLabel(p.getExpansionName());
 		GridBagConstraints gbc_lblEdition = new GridBagConstraints();
+		gbc_lblEdition.insets = new Insets(0, 0, 5, 0);
 		gbc_lblEdition.gridwidth = 2;
 		gbc_lblEdition.anchor = GridBagConstraints.WEST;
 		gbc_lblEdition.gridx = 1;
-		gbc_lblEdition.gridy = 2;
+		gbc_lblEdition.gridy = 1;
 		add(lblEdition, gbc_lblEdition);
+		
+		JLabel lblGame = new JLabel(p.getGameName());
+		GridBagConstraints gbc_lblGame = new GridBagConstraints();
+		gbc_lblGame.insets = new Insets(0, 0, 0, 5);
+		gbc_lblGame.gridx = 1;
+		gbc_lblGame.gridy = 2;
+		add(lblGame, gbc_lblGame);
 		
 		//lblEdition.setIcon();
 	
