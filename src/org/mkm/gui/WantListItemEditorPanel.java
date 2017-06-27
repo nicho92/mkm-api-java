@@ -214,7 +214,7 @@ public class WantListItemEditorPanel extends JDialog {
 	
 	public void save() {
 		try{
-			wantItem.setCount(Integer.parseInt(this.txtCount.getText()));
+			wantItem.setCount(Integer.parseInt(txtCount.getText()));
 		}catch(Exception e)
 		{ }
 		
@@ -223,7 +223,8 @@ public class WantListItemEditorPanel extends JDialog {
 		}catch(Exception e)
 		{ }
 		
-		
+		wantItem.getIdLanguage().remove(0);
+		wantItem.getIdLanguage().add(1);
 		wantItem.setAltered((MkmBoolean)cboAltered.getSelectedItem());
 		wantItem.setFoil((MkmBoolean)cboFoil.getSelectedItem());
 		wantItem.setMailAlert((MkmBoolean)cboMailAlert.getSelectedItem());

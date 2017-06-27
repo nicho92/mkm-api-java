@@ -2,16 +2,12 @@ package org.mkm.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
-import org.api.mkm.modele.Metaproduct;
-import org.api.mkm.modele.Product.PRODUCT_ATTS;
-import org.api.mkm.services.GameService;
+import org.api.mkm.modele.User;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.UserService;
 import org.api.mkm.tools.MkmAPIConfig;
@@ -29,13 +25,11 @@ public class MkmFrame extends JFrame{
 										pricer.getProperty("APP_SECRET").toString(),
 										pricer.getProperty("APP_TOKEN").toString());
 		
-		UserService serv = new UserService();
 		
-		System.out.println(serv.getMessages(null));
+		ProductServices serv = new ProductServices();
+		serv.getMetaProductById(6896);
 		
 		System.exit(0);
-		
-		
 		
 		MkmSearchPanel pane = new MkmSearchPanel();
 		MkmMetaSearchPanel pane4 = new MkmMetaSearchPanel();

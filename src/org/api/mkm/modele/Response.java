@@ -13,6 +13,8 @@ public class Response {
 	List<Product> single;
 	List<Order> order;
 	List<Thread> thread;
+	List<User> users;
+	
 	
 	Metaproduct metaproduct;
 	
@@ -24,6 +26,12 @@ public class Response {
 	String stock;
 	
 	
+	public List<User> getUsers() {
+		return users;
+	}
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 	public List<Thread> getThread() {
 		return thread;
 	}

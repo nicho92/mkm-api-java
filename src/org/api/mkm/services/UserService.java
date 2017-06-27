@@ -40,18 +40,41 @@ public class UserService {
  		xstream.ignoreUnknownElements();
  		xstream.addImplicitCollection(Response.class,"links",Link.class);
  		xstream.addImplicitCollection(Response.class,"thread",Thread.class);
+ 		xstream.addImplicitCollection(Response.class,"users",User.class);
  		xstream.addImplicitCollection(Thread.class,"links",Link.class);
  		
 	}
 	
-	public User getUser() throws MkmException, IOException, MkmNetworkException
+	public List<User> findUsers(String name) throws IOException, MkmNetworkException, MkmException
 	{
-		return MkmAPIConfig.getInstance().getAuthenticator().getAuthenticatedUser();
+		String link="https://www.mkmapi.eu/ws/v2.0/users/find?search="+name.toLowerCase();
+		logger.debug("LINK="+link);
+		
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.connect() ;
+			               MkmAPIConfig.getInstance().updateCount(connection);
+			               
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
+	 	if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+	 	
+	 	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+	 	logger.debug("RESP="+xml);
+		Response res = (Response)xstream.fromXML(xml);
+		if(res.getErrors()!=null)
+			throw new MkmException(res.getErrors());
+	 	
+		return res.getUsers();
+		
+	 	
 	}
+	
 	
 	public boolean setVacation(boolean vacation) throws IOException, MkmNetworkException, MkmException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/account?onVacation="+vacation;
+		logger.debug("LINK="+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
@@ -66,11 +89,6 @@ public class UserService {
 		
 	 	return true;
 	}
-	
-	
-	
-	
-	
 	
 	public boolean sendMessage(User u, String message)throws IOException, MkmNetworkException, MkmException
 	{
@@ -114,13 +132,14 @@ public class UserService {
 		
 	}
 	
-	
 	public List<Thread> getMessages(User other) throws IOException, MkmNetworkException, MkmException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/account/messages";
 		
 		if(other!=null)
 			link+="/"+other.getIdUser();
+		
+		logger.debug("LINK="+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
