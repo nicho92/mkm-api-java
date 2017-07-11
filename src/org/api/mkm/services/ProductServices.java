@@ -151,35 +151,8 @@ public class ProductServices {
 	
 	public List<Product> findProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
 	{
-		
-		xstream.addImplicitCollection(Product.class,"name",Localization.class);
- 		xstream.aliasField("expansion", Product.class, "expansionName");
- 		/*
-		String link = "https://www.mkmapi.eu/ws/v1.1/products/:name/:idGame/:idLanguage/:isExact";
-		
-		if(atts.containsKey(PRODUCT_ATTS.exact))
-			link=link.replaceAll(":isExact", atts.get(PRODUCT_ATTS.exact));
-		else
-			link=link.replaceAll(":isExact", "false");
-		
-		if(atts.containsKey(PRODUCT_ATTS.idGame))
-			link=link.replaceAll(":idGame", atts.get(PRODUCT_ATTS.idGame));
-		else
-			link=link.replaceAll(":idGame", "1");
-		
-		if(atts.containsKey(PRODUCT_ATTS.idLanguage))
-			link=link.replaceAll(":idLanguage", atts.get(PRODUCT_ATTS.idLanguage));
-		else
-			link=link.replaceAll(":idLanguage", "1");
-		
-		link=link.replaceAll(":name", URLEncoder.encode(name,"UTF-8"));
-		
-		
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-	    connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
-        connection.connect();
-        */
-		
+		xstream.aliasField("expansion", Product.class, "expansionName");
+ 		
 		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8").replaceAll("\\+", "%");
 		if(atts.size()>0)
     	{
@@ -208,14 +181,8 @@ public class ProductServices {
 		
     	if(isEmpty(res.getProduct()))
     		return new ArrayList<Product>();
-    	
-    	
-    	/*for(Product p : res.getProduct())
-		{
-			p.setEnName(p.getName().get(0).getProductName());
-		}*/
-	
-		return res.getProduct();
+
+	return res.getProduct();
 	}
 	
 	public List<Product> findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
