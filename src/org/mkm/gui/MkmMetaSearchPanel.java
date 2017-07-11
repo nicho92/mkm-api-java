@@ -45,6 +45,8 @@ public class MkmMetaSearchPanel extends JPanel {
 	private Product selectedProduct;
 	private Article selectedArticle;
 	private JComboBox comboBox;
+	private JLabel lblOrById;
+	private JTextField txtIdMeta;
 	
 	private void initGUI()
 	{
@@ -67,6 +69,18 @@ public class MkmMetaSearchPanel extends JPanel {
 		panelNorth.add(comboBox);
 		panelNorth.add(txtSearch);
 		txtSearch.setColumns(15);
+		
+		lblOrById = new JLabel("or by id : ");
+		panelNorth.add(lblOrById);
+		
+		txtIdMeta = new JTextField();
+		txtIdMeta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				searchID(Integer.parseInt(txtIdMeta.getText()));
+			}
+		});
+		panelNorth.add(txtIdMeta);
+		txtIdMeta.setColumns(10);
 		
 		PanelSouth = new JPanel();
 		add(PanelSouth, BorderLayout.SOUTH);
@@ -98,13 +112,24 @@ public class MkmMetaSearchPanel extends JPanel {
 		panelCenter.setViewportView(tableArticles);
 		
 	}
-	
+	protected void searchID(int id) {
+		ProductServices services = new ProductServices();
+		try {
+			productsModel.removeAllElements();
+			
+			Product p = services.getMetaProductById(id);
+				productsModel.addElement(p);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+		} 
+		
+	}
 	
 	protected void search(String text) {
 		ProductServices services = new ProductServices();
 		Map<PRODUCT_ATTS, String> map = new HashMap<PRODUCT_ATTS,String>();
 		map.put(PRODUCT_ATTS.idLanguage, ""+(comboBox.getSelectedIndex()+1));
-		
+		productsModel.removeAllElements();
 		
 		try {
 			for(Product p : services.findMetaProduct(text, map))
