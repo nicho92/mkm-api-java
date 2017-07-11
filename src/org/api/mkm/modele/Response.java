@@ -14,10 +14,7 @@ public class Response {
 	List<Order> order;
 	List<Thread> thread;
 	List<User> users;
-	
-	
-	Metaproduct metaproduct;
-	
+
 	Error errors;
 	User account;
 	String productsfile;
@@ -122,13 +119,5 @@ public class Response {
 	public void setPriceguidefile(String priceguidefile) {
 		this.priceguidefile = priceguidefile;
 	}
-	public Metaproduct getMetaproduct() {
-		return metaproduct;
-	}
-	public void setMetaproduct(Metaproduct metaproduct) {
-		this.metaproduct = metaproduct;
-	}
-
-	
 
 }

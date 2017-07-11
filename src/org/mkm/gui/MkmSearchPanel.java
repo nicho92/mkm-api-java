@@ -187,6 +187,7 @@ public class MkmSearchPanel extends JPanel {
 			
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 		} 
 		

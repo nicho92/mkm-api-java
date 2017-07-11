@@ -104,7 +104,7 @@ public class AuthenticationServices {
 	        }
 	        return queryParameters;
 	 }
-	 
+	 /*
 	@Deprecated
 	public String generateOAuthSignature(String link,String method) throws MkmException {
 
@@ -161,7 +161,7 @@ public class AuthenticationServices {
 		} catch (NoSuchAlgorithmException e) {
 			throw new MkmException(e.getMessage());
 		}
-	}
+	}*/
 	    
 	public String generateOAuthSignature2(String url,String method) throws MkmException{
 	    	try{

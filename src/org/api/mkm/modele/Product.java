@@ -26,18 +26,6 @@ public class Product
 	private List<Link> links;
 	private Category category;
 	
-	
-	@Deprecated private List<Localization> name;
-	
-	@Deprecated
-	public List<Localization> getName() {
-		return name;
-	}
-	@Deprecated
-	public void setName(List<Localization> name) {
-		this.name = name;
-	}
-	
 	public Category getCategory() {
 		return category;
 	}

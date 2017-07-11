@@ -21,7 +21,6 @@ import javax.swing.JTextField;
 
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
-import org.api.mkm.modele.Metaproduct;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.ArticleService;
@@ -64,7 +63,7 @@ public class MkmMetaSearchPanel extends JPanel {
 		lblSearchProduct = new JLabel("Search meta product : ");
 		panelNorth.add(lblSearchProduct);
 		
-		comboBox = new JComboBox<String>(new DefaultComboBoxModel<String>(Metaproduct.getLangs()));
+		comboBox = new JComboBox<String>(new DefaultComboBoxModel<String>(ProductServices.getLangs()));
 		panelNorth.add(comboBox);
 		panelNorth.add(txtSearch);
 		txtSearch.setColumns(15);
@@ -108,12 +107,8 @@ public class MkmMetaSearchPanel extends JPanel {
 		
 		
 		try {
-			Metaproduct prods = services.findMetaProduct(text, map);
-			
-			System.out.println(prods.getIdProduct());
-			
-			for(Integer p : prods.getIdProduct())
-				productsModel.addElement(services.getProductById(p));
+			for(Product p : services.findMetaProduct(text, map))
+				productsModel.addElement(p);
 			
 			
 		} catch (Exception e) {

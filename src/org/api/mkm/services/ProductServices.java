@@ -21,7 +21,6 @@ import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
-import org.api.mkm.modele.Metaproduct;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.Response;
@@ -38,7 +37,16 @@ public class ProductServices {
 	private AuthenticationServices auth;
 	private XStream xstream;
 	static final Logger logger = LogManager.getLogger(ProductServices.class.getName());
-
+	public static String ENGLISH="1";
+	public static String FRENCH="2";
+	public static String GERMAN="3";
+	public static String SPANISH="4";
+	public static String ITALIAN="5";
+	
+	public static String[] getLangs()
+	{
+		return new String[]{"ENGLISH","FRENCH","GERMAN","SPANISH","ITALIAN"};
+	}
 	
 	public ProductServices() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
@@ -54,10 +62,7 @@ public class ProductServices {
 	 		xstream.addImplicitCollection(Product.class,"links",Link.class);
 	 		xstream.addImplicitCollection(Product.class,"localization",Localization.class);
 	 		xstream.addImplicitCollection(Product.class,"reprint",Expansion.class);
-	 		xstream.addImplicitCollection(Metaproduct.class,"localization",Localization.class);
-	 		
 	 		xstream.registerConverter(new IntConverter());
-	 		
 	 		xstream.ignoreUnknownElements();
 	}
 	
@@ -149,7 +154,7 @@ public class ProductServices {
 		
 		xstream.addImplicitCollection(Product.class,"name",Localization.class);
  		xstream.aliasField("expansion", Product.class, "expansionName");
- 		
+ 		/*
 		String link = "https://www.mkmapi.eu/ws/v1.1/products/:name/:idGame/:idLanguage/:isExact";
 		
 		if(atts.containsKey(PRODUCT_ATTS.exact))
@@ -169,10 +174,13 @@ public class ProductServices {
 		
 		link=link.replaceAll(":name", URLEncoder.encode(name,"UTF-8"));
 		
-		logger.debug("LINK="+link);
-	    
 		
-		/*String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8");
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+	    connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
+        connection.connect();
+        */
+		
+		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8").replaceAll("\\+", "%");
 		if(atts.size()>0)
     	{
 			link+="&";
@@ -182,13 +190,12 @@ public class ProductServices {
 	        
  	        link+=Tools.join(paramStrings, "&");
     	}
+		logger.debug("LINK="+link);
+		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
-			               connection.connect() ;*/
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-	    connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
-        connection.connect();
-        MkmAPIConfig.getInstance().updateCount(connection);
+			               connection.connect() ;
+		MkmAPIConfig.getInstance().updateCount(connection);
         
         boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
@@ -203,46 +210,17 @@ public class ProductServices {
     		return new ArrayList<Product>();
     	
     	
-    	for(Product p : res.getProduct())
+    	/*for(Product p : res.getProduct())
 		{
 			p.setEnName(p.getName().get(0).getProductName());
-		}
+		}*/
 	
 		return res.getProduct();
 	}
 	
-	public Metaproduct findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
+	public List<Product> findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
 	{
-		
-		xstream.addImplicitCollection(Metaproduct.class,"name",Localization.class);
-		xstream.addImplicitCollection(Metaproduct.class,"product",Product.class);
-		xstream.addImplicitCollection(Metaproduct.class,"idProduct",Integer.class);
-		
-		
-		String link = "https://www.mkmapi.eu/ws/v1.1/metaproducts/:name/:idGame/:idLanguage";
-		
-		if(atts.containsKey(PRODUCT_ATTS.idGame))
-			link=link.replaceAll(":idGame", atts.get(PRODUCT_ATTS.idGame));
-		else
-			link=link.replaceAll(":idGame", "1");
-		
-		if(atts.containsKey(PRODUCT_ATTS.idLanguage))
-			link=link.replaceAll(":idLanguage", atts.get(PRODUCT_ATTS.idLanguage));
-		else
-			link=link.replaceAll(":idLanguage", "1");
-		
-		link=link.replaceAll(":name", URLEncoder.encode(name,"UTF-8"));
-		
-		logger.debug("LINK="+link);
-		
-			               
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-	    connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
-        connection.connect();
-	    
-		
-		/*
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8");
+		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8").replaceAll("\\+", "%");
 		if(atts.size()>0)
     	{
 			link+="&";
@@ -252,11 +230,13 @@ public class ProductServices {
 	        
  	        link+=Tools.join(paramStrings, "&");
     	}
+		logger.debug("LINK="+link);
+		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               
-		*/
+		
         MkmAPIConfig.getInstance().updateCount(connection);
         
         boolean ret=(connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -267,18 +247,11 @@ public class ProductServices {
     	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     	
     	logger.debug("RESP="+xml);
-    	
-    	//horrible code needed for 1.1 api
-    	xml=xml.replaceAll("<products>","").replaceAll("</products>", "");
-    	
-    	
     	Response res = (Response)xstream.fromXML(xml);
-    	
-		return res.getMetaproduct();
+    	return res.getProduct();
 	}
-	
 
-	public Metaproduct getMetaProductById(int idMeta)throws IOException, MkmException, MkmNetworkException
+	public Product getMetaProductById(int idMeta)throws IOException, MkmException, MkmNetworkException
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		
@@ -297,7 +270,7 @@ public class ProductServices {
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		logger.debug("RESP="+xml);
 		Response res = (Response)xstream.fromXML(xml);
-		return res.getMetaproduct();
+		return res.getProduct().get(0);
 	}
 	
 	public Product getProductById(int idProduct) throws IOException, MkmException, MkmNetworkException
