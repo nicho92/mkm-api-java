@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.WantItem;
 
@@ -33,7 +35,12 @@ public class WantListItemEditorPanel extends JDialog {
 	private JTextField txtWishPrice;
 	
 	public WantListItemEditorPanel(WantItem wl) {
-		this.wantItem=wl;
+		try {
+			this.wantItem=(WantItem)BeanUtils.cloneBean(wl);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		initgui();
 		pack();
 		setTitle(wl.getProduct().toString());
@@ -42,7 +49,7 @@ public class WantListItemEditorPanel extends JDialog {
 	
 	private void initgui()
 	{
-
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{94, 124, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -58,7 +65,7 @@ public class WantListItemEditorPanel extends JDialog {
 		gbc_lblCount.gridy = 0;
 		getContentPane().add(lblCount, gbc_lblCount);
 		
-		txtCount = new JTextField(wantItem.getCount());
+		txtCount = new JTextField(""+wantItem.getCount());
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -93,6 +100,7 @@ public class WantListItemEditorPanel extends JDialog {
 		getContentPane().add(lblAltered, gbc_lblAltered);
 		
 		cboAltered = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
+		cboAltered.setSelectedItem(wantItem.isAltered());
 		GridBagConstraints gbc_cboAltered = new GridBagConstraints();
 		gbc_cboAltered.insets = new Insets(0, 0, 5, 0);
 		gbc_cboAltered.fill = GridBagConstraints.HORIZONTAL;

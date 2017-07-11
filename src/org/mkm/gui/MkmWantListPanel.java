@@ -19,6 +19,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
 import org.api.mkm.modele.Article.ARTICLES_ATT;
+import org.apache.commons.beanutils.BeanUtils;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
@@ -152,11 +153,10 @@ public class MkmWantListPanel extends JPanel {
 					
 					WantListItemEditorPanel dialog = new WantListItemEditorPanel(it);
 					dialog.setVisible(true);
-					
 					it = dialog.getItem();
-					
 					serviceW.updateItem(selected, it);
 					loadWantList(selected);
+					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 				}

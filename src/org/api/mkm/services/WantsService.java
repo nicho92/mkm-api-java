@@ -126,13 +126,13 @@ public class WantsService {
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("PUT");
 				    		connection.connect();
+				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuffer temp = new StringBuffer();
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request><action>editItem</action>");
 			temp.append("<want>");
 				temp.append("<idWant>").append(it.getIdWant()).append("</idWant>");
-		
 				temp.append("<count>").append(it.getCount()).append("</count>");
 				temp.append("<wishPrice>").append(it.getWishPrice()).append("</wishPrice>");
 				temp.append("<mailAlert>").append(it.isMailAlert()).append("</mailAlert>");
