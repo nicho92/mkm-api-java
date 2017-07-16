@@ -3,6 +3,8 @@ package org.api.mkm.services;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -153,7 +155,8 @@ public class ProductServices {
 	{
 		xstream.aliasField("expansion", Product.class, "expansionName");
  		
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8").replaceAll("\\+", "%");
+		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+name.replaceAll("\\ ", "%");
+
 		if(atts.size()>0)
     	{
 			link+="&";
@@ -187,7 +190,7 @@ public class ProductServices {
 	
 	public List<Product> findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
 	{
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8").replaceAll("\\+", "%");
+		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+name.replaceAll("\\ ", "%");
 		if(atts.size()>0)
     	{
 			link+="&";

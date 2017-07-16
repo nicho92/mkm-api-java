@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -104,7 +105,7 @@ public class AuthenticationServices {
 	        }
 	        return queryParameters;
 	 }
-	 /*
+	
 	@Deprecated
 	public String generateOAuthSignature(String link,String method) throws MkmException {
 
@@ -161,11 +162,12 @@ public class AuthenticationServices {
 		} catch (NoSuchAlgorithmException e) {
 			throw new MkmException(e.getMessage());
 		}
-	}*/
+	}
 	    
 	public String generateOAuthSignature2(String url,String method) throws MkmException{
 	    	try{
 	    		
+	    	
 	    	 Map<String,String> headerParams = new HashMap<String,String>();
 	         Map<String,String> encodedParams = new TreeMap<String, String>();
 	         int index = url.indexOf("?");
@@ -203,8 +205,11 @@ public class AuthenticationServices {
 	         
 	         for (String k : headerParams.keySet())
 	             if (false == k.equalsIgnoreCase("realm"))
-	                 encodedParams.put(URLEncoder.encode(k,encode), URLEncoder.encode(headerParams.get(k),encode));
-	         
+	             {
+	            	 encodedParams.put(URLEncoder.encode(k,encode), URLEncoder.encode(headerParams.get(k),encode));
+	            	 
+	             }
+	            
 	         List<String> paramStrings = new ArrayList<String>();
 	        
 	         for(String parameter:encodedParams.keySet())
@@ -229,6 +234,7 @@ public class AuthenticationServices {
 	             headerParamStrings.add(parameter + "=\"" + headerParams.get(parameter) + "\"");
 	         
 	         String authHeader = "OAuth " + Tools.join(headerParamStrings,", ");
+	         
 	     	return authHeader;
 	    	}
 	    	catch(Exception e)

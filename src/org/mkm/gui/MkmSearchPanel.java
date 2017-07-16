@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.security.InvalidKeyException;
@@ -18,6 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -26,6 +28,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product;
@@ -59,6 +63,7 @@ public class MkmSearchPanel extends JPanel {
 	
 	private Product selectedProduct;
 	private Article selectedArticle;
+	private JButton btnExportPriceGuid;
 	
 	private void initGUI()
 	{
@@ -123,6 +128,34 @@ public class MkmSearchPanel extends JPanel {
 		btnBasket.setEnabled(false);
 		panelNorth.add(btnBasket);
 		
+		btnExportPriceGuid = new JButton("Export PriceGuide");
+		btnExportPriceGuid.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setDialogTitle("Choose Location");   
+				 
+				int userSelection = fileChooser.showSaveDialog(null);
+				 
+				if (userSelection == JFileChooser.APPROVE_OPTION) 
+				{
+				    File fileToSave = fileChooser.getSelectedFile();
+				    ProductServices services = new ProductServices();
+				    try {
+						services.exportPriceGuide(fileToSave);
+					} 
+				    catch (Exception e) 
+				    {
+						JOptionPane.showMessageDialog(null, e, "ERROR", JOptionPane.ERROR_MESSAGE);
+					}
+				    
+				}
+				
+				
+			}
+		});
+		panelNorth.add(btnExportPriceGuid);
+		
 		PanelSouth = new JPanel();
 		add(PanelSouth, BorderLayout.SOUTH);
 		
@@ -181,6 +214,7 @@ public class MkmSearchPanel extends JPanel {
 		Map<PRODUCT_ATTS, String> map = new HashMap<PRODUCT_ATTS,String>();
 		
 		try {
+			productsModel.removeAllElements();
 			List<Product> prods = services.findProduct(text, map);
 			for(Product p : prods)
 				productsModel.addElement(p);
