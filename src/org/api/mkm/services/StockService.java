@@ -123,6 +123,9 @@ public class StockService {
 			temp.append("</article>");
 		}		    
 		temp.append("</request>");
+		logger.debug("REQ="+temp);
+		   
+		
 		out.write(temp.toString());
 		out.close();
 		MkmAPIConfig.getInstance().updateCount(connection);
