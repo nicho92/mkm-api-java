@@ -18,7 +18,7 @@ public class MkmFrame extends JFrame{
 	{
 		
 		Properties pricer = new Properties();
-		pricer.load(new FileInputStream(new File("C:\\Users\\Nicolas\\magicDeskCompanion\\pricers\\Magic Card Market 2.conf")));
+		pricer.load(new FileInputStream(new File("C:\\Users\\Pihen\\magicDeskCompanion\\pricers\\Magic Card Market 2.conf")));
 		
 		MkmAPIConfig.getInstance().init(pricer.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
 										pricer.getProperty("APP_ACCESS_TOKEN").toString(),

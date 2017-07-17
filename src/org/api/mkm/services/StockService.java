@@ -51,7 +51,7 @@ public class StockService {
 	{
 		Game g = new Game();
 		g.setIdGame(idGame);
-		return getStock(g, null);
+		return getStock(g, name);
 	}
 	
 	public List<Article> getStock() throws IOException, MkmException, MkmNetworkException

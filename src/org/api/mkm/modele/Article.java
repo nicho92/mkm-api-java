@@ -14,10 +14,19 @@ public class Article
 	private boolean isFoil;
 	private boolean isSigned;
 	private boolean isPlayset;
+	private boolean isAltered;
 	private Product product;
 	private Link links;
 	
 	public static enum ARTICLES_ATT {start,maxResults,userType ,minUserScore ,idLanguage ,minCondition,isFoil ,isSigned,isAltered,minAvailable};
+
+	public boolean isAltered() {
+		return isAltered;
+	}
+
+	public void setAltered(boolean isAltered) {
+		this.isAltered = isAltered;
+	}
 
 	@Override
 	public String toString() {

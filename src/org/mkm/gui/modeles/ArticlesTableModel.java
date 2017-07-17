@@ -9,7 +9,7 @@ import org.api.mkm.modele.Article;
 
 public class ArticlesTableModel extends DefaultTableModel{
 
-	private static final String[] columns={"product","seller","Localization","price","condition","foil","signed","playset","comments"};
+	private static final String[] columns={"product","seller","Localization","price","condition","foil","signed","playset","altered","comments"};
 	
 	List<Article> articles;
 	
@@ -72,7 +72,8 @@ public class ArticlesTableModel extends DefaultTableModel{
 			case 5 : return a.isFoil();
 			case 6 : return a.isSigned();
 			case 7 : return a.isPlayset();
-			case 8 : return a.getComments();
+			case 8 : return a.isAltered();
+			case 9 : return a.getComments();
 		default : return 0;
 		}
 		
