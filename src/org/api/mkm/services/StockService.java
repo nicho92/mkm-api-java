@@ -101,7 +101,6 @@ public class StockService {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("POST");
 		connection.connect();
-		MkmAPIConfig.getInstance().updateCount(connection);
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
 		StringBuffer temp = new StringBuffer();
@@ -126,6 +125,8 @@ public class StockService {
 		temp.append("</request>");
 		out.write(temp.toString());
 		out.close();
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
