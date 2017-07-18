@@ -155,7 +155,15 @@ public class ProductServices {
 	{
 		xstream.aliasField("expansion", Product.class, "expansionName");
  		
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+name.replaceAll("\\ ", "%");
+		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8");
+		
+		try {
+			URI r = new URI("https","www.mkmapi.eu","/ws/v2.0/products/find","search="+name,null);
+			link=r.toASCIIString();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		
 
 		if(atts.size()>0)
     	{
