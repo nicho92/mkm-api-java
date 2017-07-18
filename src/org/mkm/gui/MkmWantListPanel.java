@@ -34,13 +34,10 @@ public class MkmWantListPanel extends JPanel {
 	private JList<Wantslist> listResults;
 	private JScrollPane panelCenter;
 	private JTable tableItemWl;
-	private JTable tableArticles;
 	private DefaultListModel<Wantslist> wantListModel;
 	private WantListTableModel itemsTableModel;
-	private ArticlesTableModel articlesTableModel;
 	private JButton btnLoadWantlist;
-	private JSplitPane splitCenterPanel;
-	private JScrollPane scrollPane;
+	private JPanel centerpanel;
 	private JButton btnDelete;
 	private Wantslist selected;
 	
@@ -183,53 +180,23 @@ public class MkmWantListPanel extends JPanel {
 		
 		itemsTableModel = new WantListTableModel();
 		
-		splitCenterPanel = new JSplitPane();
-		splitCenterPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		add(splitCenterPanel, BorderLayout.CENTER);
+		centerpanel = new JPanel();
+		centerpanel.setLayout(new BorderLayout());
+		add(centerpanel, BorderLayout.CENTER);
 		
 		panelCenter = new JScrollPane();
 		
-		splitCenterPanel.setLeftComponent(panelCenter);
+		centerpanel.add(panelCenter);
 		tableItemWl = new JTable(itemsTableModel);
 		tableItemWl.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				loadArticle(((WantItem)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0)).getProduct());
+			public void mouseClicked(MouseEvent me) {
+				btnEditItem.setEnabled(true);
+				
 			}
 		});
+		
 		panelCenter.setViewportView(tableItemWl);
-		
-		scrollPane = new JScrollPane();
-		splitCenterPanel.setRightComponent(scrollPane);
-		articlesTableModel = new ArticlesTableModel();
-		tableArticles = new JTable(articlesTableModel);
-		scrollPane.setViewportView(tableArticles);
 	}
-
-
-	protected void loadArticle(final Product valueAt) {
-		
-		btnEditItem.setEnabled(true);
-		btnDelete.setEnabled(true);
-		
-		new Thread(new Runnable() {
-			public void run() {
-				Map<ARTICLES_ATT, String> atts = new HashMap<ARTICLES_ATT, String>();
-				atts.put(ARTICLES_ATT.start, "0");
-				atts.put(ARTICLES_ATT.maxResults, "100");
-					try {
-					articlesTableModel.init(serviceA.find(valueAt, atts));
-					} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
-					}
-			}
-		}).start();
-		
-		
-		
-		
-	}
-
 
 	protected void loadWantList() {
 			List<Wantslist> lists;

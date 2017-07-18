@@ -64,6 +64,8 @@ public class MkmSearchPanel extends JPanel {
 	private Product selectedProduct;
 	private Article selectedArticle;
 	private JButton btnExportPriceGuid;
+	private JLabel lblOrById;
+	private JTextField txtID;
 	
 	private void initGUI()
 	{
@@ -111,6 +113,19 @@ public class MkmSearchPanel extends JPanel {
 				
 			}
 		});
+		
+		lblOrById = new JLabel("or by id :");
+		panelNorth.add(lblOrById);
+		
+		txtID = new JTextField();
+		txtID.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				search(Integer.parseInt(txtID.getText()));
+				
+			}
+		});
+		panelNorth.add(txtID);
+		txtID.setColumns(10);
 		btnAddWantlist.setEnabled(false);
 		panelNorth.add(btnAddWantlist);
 		
@@ -227,6 +242,19 @@ public class MkmSearchPanel extends JPanel {
 		
 	}
 
+	protected void search(int id) {
+		ProductServices services = new ProductServices();
+		try {
+			productsModel.removeAllElements();
+			Product p = services.getProductById(id);
+			productsModel.addElement(p);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+		} 
+		
+	}
 
 	public MkmSearchPanel() {
 		initGUI();

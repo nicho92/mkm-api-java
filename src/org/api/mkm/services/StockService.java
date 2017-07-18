@@ -115,6 +115,7 @@ public class StockService {
 				temp.append("<count>").append(a.getCount()).append("</count>");
 				if(a.getLanguage()!=null)
 					temp.append("<idLanguage>").append(a.getLanguage().getIdLanguage()).append("</idLanguage>");
+				
 				temp.append("<price>").append(a.getPrice()).append("</price>");
 				temp.append("<condition>").append(a.getCondition()).append("</condition>");
 				temp.append("<isFoil>").append(a.isFoil()).append("</isFoil>");
