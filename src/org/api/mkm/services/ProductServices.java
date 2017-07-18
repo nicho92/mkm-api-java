@@ -155,7 +155,7 @@ public class ProductServices {
 	{
 		xstream.aliasField("expansion", Product.class, "expansionName");
  		
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+URLEncoder.encode(name,"UTF-8");
+		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+name;
 		
 		try {
 			URI r = new URI("https","www.mkmapi.eu","/ws/v2.0/products/find","search="+name,null);
