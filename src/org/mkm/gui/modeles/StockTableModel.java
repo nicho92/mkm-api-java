@@ -7,9 +7,9 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.api.mkm.modele.Article;
 
-public class ArticlesTableModel extends DefaultTableModel{
+public class StockTableModel extends DefaultTableModel{
 
-	private static final String[] columns={"product","seller","Localization","price","condition","foil","signed","playset","altered","comments"};
+	private static final String[] columns={"product","price","condition","foil","signed","playset","altered","comments","count"};
 	
 	List<Article> articles;
 	
@@ -28,9 +28,6 @@ public class ArticlesTableModel extends DefaultTableModel{
 	public Class<?> getColumnClass(int columnIndex) {
 		
 		try {
-			if(columnIndex==2)
-				return String.class;
-			
 			return PropertyUtils.getPropertyType(new Article(), columns[columnIndex]);
 		} catch (Exception e) {
 			return super.getColumnClass(columnIndex);
@@ -65,15 +62,14 @@ public class ArticlesTableModel extends DefaultTableModel{
 		switch(column)
 		{
 			case 0: return a;
-			case 1 : return a.getSeller();
-			case 2: return (a.getSeller()!=null)? a.getSeller().getAddress() : null;
-			case 3: return a.getPrice();
-			case 4: return a.getCondition();
-			case 5 : return a.isFoil();
-			case 6 : return a.isSigned();
-			case 7 : return a.isPlayset();
-			case 8 : return a.isAltered();
-			case 9 : return a.getComments();
+			case 1: return a.getPrice();
+			case 2: return a.getCondition();
+			case 3 : return a.isFoil();
+			case 4 : return a.isSigned();
+			case 5 : return a.isPlayset();
+			case 6 : return a.isAltered();
+			case 7 : return a.getComments();
+			case 8 : return a.getCount();
 		default : return 0;
 		}
 		

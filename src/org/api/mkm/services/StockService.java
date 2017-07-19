@@ -62,7 +62,6 @@ public class StockService {
 	public List<Article> getStock(Game game,String name) throws IOException, MkmException, MkmNetworkException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/stock";
-		logger.debug("LINK="+link);
 		
 		if(name!=null)
 			link=link+"/"+URLEncoder.encode(name, "UTF-8");
@@ -70,6 +69,7 @@ public class StockService {
 		if(game!=null)
 			link=link+"/"+game.getIdGame();
 		
+		logger.debug("LINK="+link);
 		
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
@@ -96,7 +96,8 @@ public class StockService {
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
 		logger.debug("LINK="+link);
-	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+	    
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"POST")) ;
 		connection.setDoOutput(true);
 		connection.setRequestMethod("POST");
@@ -172,8 +173,13 @@ public class StockService {
 			temp.append("</article>");
 		}		    
 		temp.append("</request>");
+		
+		logger.debug("REQ="+temp.toString());
+		  
 		out.write(temp.toString());
 		out.close();
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
@@ -206,6 +212,7 @@ public class StockService {
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
+		
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
    		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -250,7 +257,6 @@ public class StockService {
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
-		MkmAPIConfig.getInstance().updateCount(connection);
 		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
@@ -262,7 +268,7 @@ public class StockService {
 		for(Article a : list)
 		{
 			temp.append("<article>");
-				temp.append("<idProduct>").append(a.getIdProduct()).append("</idProduct>");
+				temp.append("<idArticle>").append(a.getIdArticle()).append("</idArticle>");
 				temp.append("<amount>").append(Math.abs(qte)).append("</amount>");
 			temp.append("</article>");
 			
@@ -270,12 +276,20 @@ public class StockService {
 			
 		}		    
 		temp.append("</request>");
+		logger.debug("REQ="+temp.toString());
+		
 		out.write(temp.toString());
 		out.close();
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
-		
+	 	 
+	 	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+        logger.debug("RESP="+xml);
+	 	 
+	 	 
 		return ret;
 	}
 	

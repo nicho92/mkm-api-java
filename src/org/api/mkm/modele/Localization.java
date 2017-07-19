@@ -5,16 +5,7 @@ public class Localization {
 	private int idLanguage;
 	private String name;
 	private String languageName;
-	@Deprecated private String productName;
 	
-	@Deprecated
-	public String getProductName() {
-		return productName;
-	}
-	@Deprecated
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
 
 	@Override
 	public String toString() {
@@ -40,6 +31,18 @@ public class Localization {
 		this.languageName = languageName;
 	}
 	
-	
+	/**
+	 * 1 - English
+2 - French
+3 - German
+4 - Spanish
+5 - Italian
+6 - Simplified Chinese
+7 - Japanese
+8 - Portuguese
+9 - Russian
+10 - Korean
+11 - Traditional Chinese
+	 * */
 	
 }
