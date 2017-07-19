@@ -194,20 +194,25 @@ public class AuthenticationServices {
 	                 + URLEncoder.encode(baseUri, encode)
 	                 + "&";
 	         
+	         logger.trace("baseString="+baseString);
+	         
 	         if (index > 0)
 	         {
 	             String urlParams = url.substring(index+1);
 	             Map<String,String> args = parseQueryString(urlParams);
 
 	             for (String k : args.keySet())
+	             {
 	            	 headerParams.put(k, args.get(k));
+	            	 logger.trace("headerParams.put("+k+","+args.get(k)+")");
+	             }
 	         }
 	         
 	         for (String k : headerParams.keySet())
 	             if (false == k.equalsIgnoreCase("realm"))
 	             {
-	            	 encodedParams.put(URLEncoder.encode(k,encode), URLEncoder.encode(headerParams.get(k),encode));
-	            	 
+	            	 encodedParams.put(URLEncoder.encode(k,encode), headerParams.get(k));
+	            	 logger.trace("encodedParams.put("+URLEncoder.encode(k,encode)+","+headerParams.get(k)+")");
 	             }
 	            
 	         List<String> paramStrings = new ArrayList<String>();
@@ -215,10 +220,12 @@ public class AuthenticationServices {
 	         for(String parameter:encodedParams.keySet())
 	         {
 	        	 paramStrings.add(parameter + "=" + encodedParams.get(parameter));
+	        	 logger.trace("paramStrings.add("+parameter+"="+encodedParams.get(parameter)+")");
 	         }
 	         
-	         String paramString = URLEncoder.encode(Tools.join(paramStrings, "&"),encode);
+	         String paramString = URLEncoder.encode(Tools.join(paramStrings, "&"),encode).replaceAll("'", "%27");
 	         
+	         logger.trace("paramString="+paramString);
 	         baseString += paramString;
 	         
 	         Mac mac = Mac.getInstance("HmacSHA1");
@@ -234,7 +241,7 @@ public class AuthenticationServices {
 	             headerParamStrings.add(parameter + "=\"" + headerParams.get(parameter) + "\"");
 	         
 	         String authHeader = "OAuth " + Tools.join(headerParamStrings,", ");
-	         
+	         logger.trace("authHeader="+authHeader);
 	     	return authHeader;
 	    	}
 	    	catch(Exception e)

@@ -6,7 +6,6 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,7 @@ import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.Response;
+import org.api.mkm.tools.EncodingUtils;
 import org.api.mkm.tools.IntConverter;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.Tools;
@@ -155,25 +155,18 @@ public class ProductServices {
 	{
 		xstream.aliasField("expansion", Product.class, "expansionName");
  		
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+name;
-		
-		try {
-			URI r = new URI("https","www.mkmapi.eu","/ws/v2.0/products/find","search="+name,null);
-			link=r.toASCIIString();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
-		
-
-		if(atts.size()>0)
-    	{
-			link+="&";
-    		List<String> paramStrings = new ArrayList<String>();
- 	        for(PRODUCT_ATTS parameter:atts.keySet())
-	             paramStrings.add(parameter + "=" + atts.get(parameter));
-	        
- 	        link+=Tools.join(paramStrings, "&");
-    	}
+		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+EncodingUtils.EncodeString(name);
+	
+		if(atts!=null)
+			if(atts.size()>0)
+	    	{
+				link+="&";
+	    		List<String> paramStrings = new ArrayList<String>();
+	 	        for(PRODUCT_ATTS parameter:atts.keySet())
+		             paramStrings.add(parameter + "=" + atts.get(parameter));
+		        
+	 	        link+=Tools.join(paramStrings, "&");
+	    	}
 		logger.debug("LINK="+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
@@ -198,7 +191,7 @@ public class ProductServices {
 	
 	public List<Product> findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
 	{
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+name.replaceAll("\\ ", "%");
+		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+EncodingUtils.EncodeString(name);
 		if(atts.size()>0)
     	{
 			link+="&";
