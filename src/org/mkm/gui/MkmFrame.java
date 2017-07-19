@@ -11,12 +11,13 @@ import org.api.mkm.modele.User;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.UserService;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.magic.services.MTGControler;
+import org.magic.tools.InstallCert;
 
 public class MkmFrame extends JFrame{
 
 	public MkmFrame() throws Exception
 	{
-		
 		Properties pricer = new Properties();
 		pricer.load(new FileInputStream(new File("C:\\Users\\Pihen\\magicDeskCompanion\\pricers\\MagicCardMarket.conf")));
 		

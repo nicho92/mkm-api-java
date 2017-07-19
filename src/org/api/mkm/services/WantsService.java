@@ -133,6 +133,7 @@ public class WantsService {
 		temp.append("<request><action>editItem</action>");
 			temp.append("<want>");
 				temp.append("<idWant>").append(it.getIdWant()).append("</idWant>");
+				temp.append("<idProduct>").append(it.getProduct().getIdProduct()).append("</idProduct>");
 				temp.append("<count>").append(it.getCount()).append("</count>");
 				temp.append("<wishPrice>").append(it.getWishPrice()).append("</wishPrice>");
 				temp.append("<mailAlert>").append(it.isMailAlert()).append("</mailAlert>");
@@ -140,7 +141,7 @@ public class WantsService {
 				temp.append("<isAltered>").append(it.isAltered()).append("</isAltered>");
 				temp.append("<isPlayset>").append(it.isPlayset()).append("</isPlayset>");
 				temp.append("<isSigned>").append(it.isSigned()).append("</isSigned>");
-
+				
 				if(it.getMinCondition()!=null)
 					temp.append("<minCondition>").append(it.getMinCondition()).append("</minCondition>");
 				else

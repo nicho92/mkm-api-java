@@ -238,6 +238,8 @@ public class WantListItemEditorPanel extends JDialog {
 		wantItem.setMailAlert((MkmBoolean)cboMailAlert.getSelectedItem());
 		wantItem.setPlayset((MkmBoolean)cboPlaySet.getSelectedItem());
 		wantItem.setSigned((MkmBoolean)cboSigned.getSelectedItem());
+		
+		wantItem.setMinCondition(String.valueOf(cboMinCondition.getSelectedItem()));
 	}
 
 	public WantItem getItem() {
