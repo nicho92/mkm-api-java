@@ -36,7 +36,7 @@ public class WantListItemEditorPanel extends JDialog {
 	
 	public WantListItemEditorPanel(WantItem wl) {
 		try {
-			this.wantItem=(WantItem)BeanUtils.cloneBean(wl);
+			this.wantItem=wl;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -100,7 +100,9 @@ public class WantListItemEditorPanel extends JDialog {
 		getContentPane().add(lblAltered, gbc_lblAltered);
 		
 		cboAltered = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
-		cboAltered.setSelectedItem(wantItem.isAltered());
+		cboAltered.setSelectedItem(new MkmBoolean(wantItem.isAltered()));
+		System.out.println(wantItem.isAltered());
+		
 		GridBagConstraints gbc_cboAltered = new GridBagConstraints();
 		gbc_cboAltered.insets = new Insets(0, 0, 5, 0);
 		gbc_cboAltered.fill = GridBagConstraints.HORIZONTAL;
@@ -117,7 +119,7 @@ public class WantListItemEditorPanel extends JDialog {
 		getContentPane().add(lblFoil, gbc_lblFoil);
 		
 		cboFoil = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
-		cboFoil.setSelectedItem(wantItem.isFoil());
+		cboFoil.setSelectedItem(new MkmBoolean(wantItem.isFoil()));
 		GridBagConstraints gbc_cboFoil = new GridBagConstraints();
 		gbc_cboFoil.insets = new Insets(0, 0, 5, 0);
 		gbc_cboFoil.fill = GridBagConstraints.HORIZONTAL;
@@ -134,7 +136,7 @@ public class WantListItemEditorPanel extends JDialog {
 		getContentPane().add(lblPlayset, gbc_lblPlayset);
 		
 		cboPlaySet = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
-		cboPlaySet.setSelectedItem(wantItem.isPlayset());
+		cboPlaySet.setSelectedItem(new MkmBoolean(wantItem.isPlayset()));
 		GridBagConstraints gbc_cboPlaySet = new GridBagConstraints();
 		gbc_cboPlaySet.insets = new Insets(0, 0, 5, 0);
 		gbc_cboPlaySet.fill = GridBagConstraints.HORIZONTAL;
@@ -151,7 +153,7 @@ public class WantListItemEditorPanel extends JDialog {
 		getContentPane().add(lblMailAlert, gbc_lblMailAlert);
 
 		cboMailAlert = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
-		cboMailAlert.setSelectedItem(wantItem.isMailAlert());
+		cboMailAlert.setSelectedItem(new MkmBoolean(wantItem.isMailAlert()));
 		GridBagConstraints gbc_cboMailAlert = new GridBagConstraints();
 		gbc_cboMailAlert.insets = new Insets(0, 0, 5, 0);
 		gbc_cboMailAlert.fill = GridBagConstraints.HORIZONTAL;
@@ -185,7 +187,7 @@ public class WantListItemEditorPanel extends JDialog {
 		getContentPane().add(lblSigned, gbc_lblSigned);
 		
 		cboSigned = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
-		cboSigned.setSelectedItem(wantItem.isSigned());
+		cboSigned.setSelectedItem(new MkmBoolean(wantItem.isSigned()));
 		GridBagConstraints gbc_cboSigned = new GridBagConstraints();
 		gbc_cboSigned.insets = new Insets(0, 0, 5, 0);
 		gbc_cboSigned.fill = GridBagConstraints.HORIZONTAL;
@@ -213,6 +215,7 @@ public class WantListItemEditorPanel extends JDialog {
 		JButton btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent paramActionEvent) {
+				wantItem=null;
 				dispose();
 			}
 		});

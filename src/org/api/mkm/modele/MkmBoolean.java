@@ -4,23 +4,32 @@ public class MkmBoolean{
 	
 	String value;
 	
-	public static String[] VALUES= {"true","false",""};
-	
 	@Override
 	public int hashCode() {
 		return value.hashCode();
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Boolean)
 			return Boolean.parseBoolean(value)==Boolean.valueOf(obj.toString());
+		if(obj instanceof MkmBoolean)
+			return value.equals(((MkmBoolean)obj).toString());
 		
 		return super.equals(obj);
 	}
 	
+	public MkmBoolean(MkmBoolean m)
+	{
+		if(m==null)
+			value="";
+		else
+			value=m.toString();
+	}
+	
 	public MkmBoolean(String value) {
 		this.value=value;
-		if(value==null)
+		if(value==null || value.equals(""))
 			value="";
 	}
 	
@@ -33,14 +42,14 @@ public class MkmBoolean{
 	}
 	
 	public MkmBoolean(Integer i) {
-		
-		if(i==0)
-			value="false";
-		if(i>0)
-			value="true";
-		
+
 		if(i==null)
 			value="";
+		else if(i<=0)
+			value="false";
+		else if(i>0)
+			value="true";
+		
 		
 	}
 	
@@ -52,7 +61,7 @@ public class MkmBoolean{
 		return value;
 	}
 	
-	public boolean getValue()
+	public boolean getBooleanValue()
 	{
 		if(value.equalsIgnoreCase("true")||value.equalsIgnoreCase("1"))
 			return true;

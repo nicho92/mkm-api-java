@@ -147,12 +147,14 @@ public class MkmWantListPanel extends JPanel {
 			public void actionPerformed(ActionEvent ae) {
 				try {
 					WantItem it = (WantItem)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0);
-					
 					WantListItemEditorPanel dialog = new WantListItemEditorPanel(it);
 					dialog.setVisible(true);
-					it = dialog.getItem();
-					serviceW.updateItem(selected, it);
-					loadWantList(selected);
+					if(dialog.getItem()!=null)
+					{
+						it = dialog.getItem();
+						serviceW.updateItem(selected, it);
+						loadWantList(selected);
+					}
 					
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);

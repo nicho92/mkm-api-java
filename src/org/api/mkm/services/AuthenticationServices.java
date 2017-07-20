@@ -75,8 +75,9 @@ public class AuthenticationServices {
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
-			               MkmAPIConfig.getInstance().updateCount(connection);
-			               
+		logger.debug("LINK="+link);
+        MkmAPIConfig.getInstance().updateCount(connection);
+    	               
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());

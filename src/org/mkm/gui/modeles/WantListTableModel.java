@@ -10,7 +10,7 @@ import org.api.mkm.modele.Wantslist;
 
 public class WantListTableModel extends DefaultTableModel{
 
-	private static final String[] columns={"product","wishPrice","count","minCondition","foil","signed","playset","mailAlert","idLanguage","type"};
+	private static final String[] columns={"product","wishPrice","count","minCondition","foil","signed","playset","altered","mailAlert","idLanguage","type"};
 	
 	List<WantItem> articles;
 	
@@ -64,13 +64,14 @@ public class WantListTableModel extends DefaultTableModel{
 				case 0: return a;
 				case 1 : return a.getWishPrice();
 				case 2 : return a.getCount();
-				case 3: return a.getMinCondition();
+				case 3:  return a.getMinCondition();
 				case 4 : return a.isFoil();
 				case 5 : return a.isSigned();
 				case 6 : return a.isPlayset();
-				case 7 : return a.isMailAlert();
-				case 8 : return a.getIdLanguage();
-				case 9 : return a.getType();
+				case 7 : return a.isAltered();
+				case 8 : return a.isMailAlert();
+				case 9 : return a.getIdLanguage();
+				case 10 : return a.getType();
 			default : return 0;
 			}
 	}
