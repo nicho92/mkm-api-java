@@ -85,15 +85,17 @@ public class ProductServices {
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
-			               MkmAPIConfig.getInstance().updateCount(connection);
+	   	               
        boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
        if(!ret)
+       {
+    	   System.out.println(IOUtils.toString(connection.getInputStream()));
     	   throw new MkmNetworkException(connection.getResponseCode());
-			      	 	 
+       }
+       MkmAPIConfig.getInstance().updateCount(connection);	      	 	 
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		
 		Response res = (Response)xstream.fromXML(xml);
-		
+	
 		byte[] bytes = Base64.decodeBase64(res.getPriceguidefile());
 		File temp =  new File("mkm_temp.gz");
 		FileUtils.writeByteArrayToFile(temp, bytes );

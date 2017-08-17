@@ -7,24 +7,27 @@ import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
-import org.api.mkm.modele.User;
 import org.api.mkm.services.ProductServices;
-import org.api.mkm.services.UserService;
 import org.api.mkm.tools.MkmAPIConfig;
-import org.magic.services.MTGControler;
-import org.magic.tools.InstallCert;
+
 
 public class MkmFrame extends JFrame{
 
 	public MkmFrame() throws Exception
 	{
 		Properties pricer = new Properties();
-		pricer.load(new FileInputStream(new File("C:\\Users\\Pihen\\magicDeskCompanion\\pricers\\MagicCardMarket.conf")));
+		pricer.load(new FileInputStream(new File("C:\\Users\\Nicolas\\magicDeskCompanion\\pricers\\MagicCardMarket.conf")));
 		
 		MkmAPIConfig.getInstance().init(pricer.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
 										pricer.getProperty("APP_ACCESS_TOKEN").toString(),
 										pricer.getProperty("APP_SECRET").toString(),
 										pricer.getProperty("APP_TOKEN").toString());
+		
+		
+		ProductServices serv = new ProductServices();
+						serv.exportPriceGuide(new File("c:/price.csv"));
+		
+		System.exit(0);
 		
 		
 		MkmSearchPanel pane = new MkmSearchPanel();
@@ -44,6 +47,7 @@ public class MkmFrame extends JFrame{
 		
 		getContentPane().add(tpane);
 		setSize(750, 550);
+		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 		
