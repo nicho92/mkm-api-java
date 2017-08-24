@@ -242,7 +242,7 @@ public class AuthenticationServices {
 	             headerParamStrings.add(parameter + "=\"" + headerParams.get(parameter) + "\"");
 	         
 	         String authHeader = "OAuth " + Tools.join(headerParamStrings,", ");
-	         logger.trace("authHeader="+authHeader);
+	         logger.debug("authHeader="+authHeader);
 	     	return authHeader;
 	    	}
 	    	catch(Exception e)
