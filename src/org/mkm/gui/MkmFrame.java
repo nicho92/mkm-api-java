@@ -46,6 +46,7 @@ public class MkmFrame extends JFrame{
 		setSize(750, 550);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
+		setTitle("MKM API - Samples");
 		
 		
 		
