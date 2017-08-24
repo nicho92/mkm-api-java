@@ -24,12 +24,7 @@ public class MkmFrame extends JFrame{
 										pricer.getProperty("APP_TOKEN").toString());
 		
 		
-		ProductServices serv = new ProductServices();
-						serv.exportPriceGuide(new File("c:/price.csv"));
-		
-		System.exit(0);
-		
-		
+
 		MkmSearchPanel pane = new MkmSearchPanel();
 		MkmMetaSearchPanel pane4 = new MkmMetaSearchPanel();
 		MkmWantListPanel pane2 = new MkmWantListPanel();
