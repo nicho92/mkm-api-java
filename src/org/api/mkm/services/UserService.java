@@ -13,10 +13,9 @@ import org.apache.log4j.Logger;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Link;
-import org.api.mkm.modele.Thread;
 import org.api.mkm.modele.Response;
+import org.api.mkm.modele.Thread;
 import org.api.mkm.modele.User;
-import org.api.mkm.modele.WantItem;
 import org.api.mkm.tools.MkmAPIConfig;
 
 import com.thoughtworks.xstream.XStream;

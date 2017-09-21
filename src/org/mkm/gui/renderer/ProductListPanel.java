@@ -5,18 +5,12 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.IOException;
-import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import org.api.mkm.exceptions.MkmException;
-import org.api.mkm.exceptions.MkmNetworkException;
-import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Product;
-import org.api.mkm.services.GameService;
 
 public class ProductListPanel extends JPanel{
 	

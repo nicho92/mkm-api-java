@@ -1,13 +1,11 @@
 package org.api.mkm.tools;
 
 import java.net.HttpURLConnection;
-import java.net.URL;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.services.AuthenticationServices;
-import org.api.mkm.services.StockService;
 
 public class MkmAPIConfig {
 

@@ -2,10 +2,8 @@ package org.api.mkm.services;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;

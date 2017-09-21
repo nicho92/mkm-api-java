@@ -5,7 +5,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -15,7 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.WantItem;
 

@@ -3,8 +3,6 @@ package org.api.mkm.exceptions;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections.map.HashedMap;
-
 public class MkmNetworkException extends Exception{
 
 	static Map<Integer,String> map;

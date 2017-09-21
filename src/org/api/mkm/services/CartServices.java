@@ -3,10 +3,8 @@ package org.api.mkm.services;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -7,7 +7,6 @@ import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
-import org.api.mkm.services.ProductServices;
 import org.api.mkm.tools.MkmAPIConfig;
 
 
