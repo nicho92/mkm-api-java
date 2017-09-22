@@ -12,7 +12,7 @@ public class Expansion {
 	private String releaseDate;
 	private boolean isReleased;
 	private int idGame;
-	private List<Link> links;
+	private Link links;
 	
 	
 	public String getAbbreviation() {
@@ -55,11 +55,11 @@ public class Expansion {
 		this.idGame = idGame;
 	}
 
-	public List<Link> getLinks() {
+	public Link getLinks() {
 		return links;
 	}
 
-	public void setLinks(List<Link> links) {
+	public void setLinks(Link links) {
 		this.links = links;
 	}
 

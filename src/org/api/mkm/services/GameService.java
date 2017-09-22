@@ -103,6 +103,7 @@ public class GameService {
 	 		throw new MkmNetworkException(connection.getResponseCode());
 
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		logger.trace(xml);
 		Response res = (Response)xstream.fromXML(xml);
 		
 		return res.getExpansion();
