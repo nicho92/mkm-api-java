@@ -114,7 +114,6 @@ public class WantsService {
 		
 	}
 	
-	//TODO : ERROR  Product with ID '' doesn't belong to Metaproduct with ID 'XXXX'
 	public boolean updateItem(Wantslist wl,WantItem it) throws IOException, MkmException, MkmNetworkException
 	{
 		
