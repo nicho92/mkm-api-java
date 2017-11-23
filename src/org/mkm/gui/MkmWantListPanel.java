@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -13,24 +14,29 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
+import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.WantsService;
+import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.modeles.WantListTableModel;
 
 public class MkmWantListPanel extends JPanel {
 	private JPanel PanelSouth;
 	private JScrollPane panelWest;
 	private JList<Wantslist> listResults;
-	private JScrollPane panelCenter;
+	private JScrollPane scrollitems;
 	private JTable tableItemWl;
 	private DefaultListModel<Wantslist> wantListModel;
 	private WantListTableModel itemsTableModel;
+	private ArticlesTableModel articlesTableModel;
 	private JButton btnLoadWantlist;
-	private JPanel centerpanel;
+	private JSplitPane rightPanel;
 	private JButton btnDelete;
 	private Wantslist selected;
 	
@@ -40,6 +46,8 @@ public class MkmWantListPanel extends JPanel {
 	private JButton btnRenameWl;
 	private JButton btnCreateWl;
 	private JButton btnDeleteWl;
+	private JScrollPane scrollArticles;
+	private JTable tableArticles;
 	
 	
 	
@@ -174,23 +182,36 @@ public class MkmWantListPanel extends JPanel {
 		panelWest.setViewportView(listResults);
 		
 		itemsTableModel = new WantListTableModel();
+		articlesTableModel = new ArticlesTableModel();
 		
-		centerpanel = new JPanel();
-		centerpanel.setLayout(new BorderLayout());
-		add(centerpanel, BorderLayout.CENTER);
 		
-		panelCenter = new JScrollPane();
+		rightPanel = new JSplitPane();
+		rightPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		add(rightPanel, BorderLayout.CENTER);
 		
-		centerpanel.add(panelCenter);
+		scrollitems = new JScrollPane();
+		
+		rightPanel.setLeftComponent(scrollitems);
 		tableItemWl = new JTable(itemsTableModel);
 		tableItemWl.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent me) {
 				btnEditItem.setEnabled(true);
-				
+				WantItem it = (WantItem)itemsTableModel.getValueAt(tableItemWl.rowAtPoint(me.getPoint()), 0);
+				try {
+					articlesTableModel.init(serviceA.find(it.getProduct(), null));
+				} catch (Exception e) {
+					e.printStackTrace();
+				} 
 			}
 		});
 		
-		panelCenter.setViewportView(tableItemWl);
+		scrollitems.setViewportView(tableItemWl);
+		
+		scrollArticles = new JScrollPane();
+		rightPanel.setRightComponent(scrollArticles);
+		
+		tableArticles = new JTable(articlesTableModel);
+		scrollArticles.setViewportView(tableArticles);
 	}
 
 	protected void loadWantList() {
