@@ -20,7 +20,7 @@ public class MkmFrame extends JFrame{
 	public MkmFrame() throws Exception
 	{
 		Properties pricer = new Properties();
-		pricer.load(new FileInputStream(new File("C:\\Users\\Nicolas\\magicDeskCompanion\\pricers\\MagicCardMarket.conf")));
+		pricer.load(new FileInputStream(new File("C:\\Users\\Pihen\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf")));
 		
 		MkmAPIConfig.getInstance().init(pricer.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
 										pricer.getProperty("APP_ACCESS_TOKEN").toString(),
@@ -29,7 +29,7 @@ public class MkmFrame extends JFrame{
 		
 		
 		
-		ProductServices serv = new ProductServices();
+		/*ProductServices serv = new ProductServices();
 		GameService gam = new GameService();
 		Game g = gam.getGame(1);
 		List<Expansion> list = gam.listExpansion(g);
@@ -38,7 +38,7 @@ public class MkmFrame extends JFrame{
 			System.out.println(s.getEnName() + " " + s.getIdExpansion());
 		}
 		
-		System.exit(0);
+		System.exit(0);*/
 
 		MkmSearchPanel pane = new MkmSearchPanel();
 		MkmMetaSearchPanel pane4 = new MkmMetaSearchPanel();

@@ -9,7 +9,7 @@ import org.api.mkm.modele.Article;
 
 public class ArticlesTableModel extends DefaultTableModel{
 
-	private static final String[] columns={"product","seller","Localization","price","condition","foil","signed","playset","altered","comments"};
+	private static final String[] columns={"product","expansion","seller","Localization","price","condition","foil","signed","playset","altered","comments"};
 	
 	List<Article> articles;
 	
@@ -27,14 +27,14 @@ public class ArticlesTableModel extends DefaultTableModel{
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		
-		try {
+		/*try {
 			if(columnIndex==2)
 				return String.class;
 			
 			return PropertyUtils.getPropertyType(new Article(), columns[columnIndex]);
-		} catch (Exception e) {
+		} catch (Exception e) {*/
 			return super.getColumnClass(columnIndex);
-		}
+		/*}*/
 	
 	}
 	
@@ -61,19 +61,19 @@ public class ArticlesTableModel extends DefaultTableModel{
 	public Object getValueAt(int row, int column) {
 		
 		Article a = articles.get(row);
-		
 		switch(column)
 		{
 			case 0: return a;
-			case 1 : return a.getSeller();
-			case 2: return (a.getSeller()!=null)? a.getSeller().getAddress() : null;
-			case 3: return a.getPrice();
-			case 4: return a.getCondition();
-			case 5 : return a.isFoil();
-			case 6 : return a.isSigned();
-			case 7 : return a.isPlayset();
-			case 8 : return a.isAltered();
-			case 9 : return a.getComments();
+			case 1 : return a.getProduct().getExpansionName();
+			case 2 : return a.getSeller();
+			case 3: return (a.getSeller()!=null)? a.getSeller().getAddress() : null;
+			case 4: return a.getPrice();
+			case 5: return a.getCondition();
+			case 6 : return a.isFoil();
+			case 7 : return a.isSigned();
+			case 8 : return a.isPlayset();
+			case 9 : return a.isAltered();
+			case 10 : return a.getComments();
 		default : return 0;
 		}
 		
