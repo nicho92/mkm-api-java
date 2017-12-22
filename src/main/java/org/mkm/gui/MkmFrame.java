@@ -20,7 +20,7 @@ public class MkmFrame extends JFrame{
 	public MkmFrame() throws Exception
 	{
 		Properties pricer = new Properties();
-		pricer.load(new FileInputStream(new File("C:\\Users\\Pihen\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf")));
+		pricer.load(new FileInputStream(new File("C:\\Users\\XXXX\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf")));
 		
 		MkmAPIConfig.getInstance().init(pricer.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
 										pricer.getProperty("APP_ACCESS_TOKEN").toString(),
