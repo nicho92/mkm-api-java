@@ -1,45 +1,15 @@
 package org.mkm.gui;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.List;
-import java.util.Properties;
-
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-
-import org.api.mkm.modele.Expansion;
-import org.api.mkm.modele.Game;
-import org.api.mkm.services.GameService;
-import org.api.mkm.services.ProductServices;
-import org.api.mkm.tools.MkmAPIConfig;
 
 
 public class MkmFrame extends JFrame{
 
-	public MkmFrame() throws Exception
+	public MkmFrame()
 	{
-		Properties pricer = new Properties();
-		pricer.load(new FileInputStream(new File("C:\\Users\\XXXX\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf")));
-		
-		MkmAPIConfig.getInstance().init(pricer.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
-										pricer.getProperty("APP_ACCESS_TOKEN").toString(),
-										pricer.getProperty("APP_SECRET").toString(),
-										pricer.getProperty("APP_TOKEN").toString());
 		
 		
-		
-		/*ProductServices serv = new ProductServices();
-		GameService gam = new GameService();
-		Game g = gam.getGame(1);
-		List<Expansion> list = gam.listExpansion(g);
-		for(Expansion s : list)
-		{
-			System.out.println(s.getEnName() + " " + s.getIdExpansion());
-		}
-		
-		System.exit(0);*/
-
 		MkmSearchPanel pane = new MkmSearchPanel();
 		MkmMetaSearchPanel pane4 = new MkmMetaSearchPanel();
 		MkmWantListPanel pane2 = new MkmWantListPanel();
@@ -59,7 +29,6 @@ public class MkmFrame extends JFrame{
 		setSize(750, 550);
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
 		setTitle("MKM API - Samples");
 		
 		
