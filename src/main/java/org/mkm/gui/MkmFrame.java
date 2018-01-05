@@ -3,6 +3,8 @@ package org.mkm.gui;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
+import org.api.mkm.tools.MkmAPIConfig;
+
 
 public class MkmFrame extends JFrame{
 
@@ -30,13 +32,14 @@ public class MkmFrame extends JFrame{
 		pack();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("MKM API - Samples");
-		
+		setVisible(true);
 		
 		
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new MkmFrame();
+		new ConfigDialog();
+		
 	}
 
 }
