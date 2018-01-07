@@ -1,22 +1,21 @@
 package org.mkm.gui;
 
-import javax.swing.JFrame;
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.api.mkm.tools.MkmAPIConfig;
 
+public class MkmPanel extends JPanel{
 
-public class MkmFrame extends JFrame{
-
-	public MkmFrame()
+	public MkmPanel()
 	{
-		
-		
 		MkmSearchPanel pane = new MkmSearchPanel();
 		MkmMetaSearchPanel pane4 = new MkmMetaSearchPanel();
 		MkmWantListPanel pane2 = new MkmWantListPanel();
 		MkmOrderPanel pane3 = new MkmOrderPanel();
 		MKMStockPanel pane5 = new MKMStockPanel();
+		setLayout(new BorderLayout());
 		
 		
 		JTabbedPane tpane = new JTabbedPane();
@@ -27,12 +26,11 @@ public class MkmFrame extends JFrame{
 		tpane.add("Order", pane3);
 		tpane.add("Stock", pane5);
 		
-		getContentPane().add(tpane);
-		setSize(750, 550);
-		pack();
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("MKM API - Samples");
-		setVisible(true);
+		
+		
+		
+		add(tpane,BorderLayout.CENTER);
+		
 		
 		
 	}

@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -128,7 +129,15 @@ public class ConfigDialog extends JDialog {
 						try {
 							MkmAPIConfig.getInstance().init(txtAccessTokenSecret.getText(),txtAccessToken.getText(),txtAppSecret.getText(),txtAppToken.getText());
 							dispose();
-							new MkmFrame();
+							
+							JFrame f = new JFrame();
+							f.setSize(750, 550);
+							f.add(new MkmPanel());
+							f.pack();
+							f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+							f.setTitle("MKM API - Samples");
+							f.setVisible(true);
+							
 						} catch (MkmException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

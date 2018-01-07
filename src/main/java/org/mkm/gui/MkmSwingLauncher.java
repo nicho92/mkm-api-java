@@ -19,7 +19,7 @@ public class MkmSwingLauncher {
 										p.getProperty("APP_ACCESS_TOKEN").toString(),
 										p.getProperty("APP_SECRET").toString(),
 										p.getProperty("APP_TOKEN").toString());
-		MkmFrame f = new MkmFrame();
+		MkmPanel f = new MkmPanel();
 		f.setVisible(true);
 	}
 	
