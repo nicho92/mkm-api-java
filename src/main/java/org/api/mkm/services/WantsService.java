@@ -256,7 +256,6 @@ public class WantsService {
     	{
     		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     		Response res = (Response)xstream.fromXML(xml);
-    		System.out.println(res.getErrors());
     		logger.debug("RESP="+xml);
     	}
 		else

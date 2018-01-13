@@ -99,8 +99,7 @@ public class WantListItemEditorPanel extends JDialog {
 		
 		cboAltered = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
 		cboAltered.setSelectedItem(new MkmBoolean(wantItem.isAltered()));
-		System.out.println(wantItem.isAltered());
-		
+				
 		GridBagConstraints gbc_cboAltered = new GridBagConstraints();
 		gbc_cboAltered.insets = new Insets(0, 0, 5, 0);
 		gbc_cboAltered.fill = GridBagConstraints.HORIZONTAL;
