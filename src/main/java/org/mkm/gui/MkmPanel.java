@@ -35,9 +35,4 @@ public class MkmPanel extends JPanel{
 		
 	}
 	
-	public static void main(String[] args) throws Exception {
-		new ConfigDialog();
-		
-	}
-
 }

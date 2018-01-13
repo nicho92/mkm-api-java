@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import javax.swing.JFrame;
+
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.tools.MkmAPIConfig;
 
@@ -13,14 +15,22 @@ public class MkmSwingLauncher {
 
 	public static void main(String[] args) throws Exception {
 		Properties p = new Properties();
-		p.load(new FileInputStream(new File("C:\\Users\\XXXX\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf")));
+		File configFile = new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf");
+		p.load(new FileInputStream(configFile));
 		
 		MkmAPIConfig.getInstance().init(p.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
 										p.getProperty("APP_ACCESS_TOKEN").toString(),
 										p.getProperty("APP_SECRET").toString(),
 										p.getProperty("APP_TOKEN").toString());
-		MkmPanel f = new MkmPanel();
+		
+		JFrame f = new JFrame();
+		f.setSize(750, 550);
+		f.add(new MkmPanel());
+		f.pack();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setTitle("MKM API - Samples");
 		f.setVisible(true);
+		
 	}
 	
 }

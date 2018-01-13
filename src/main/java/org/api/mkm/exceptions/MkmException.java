@@ -9,4 +9,8 @@ public class MkmException extends Exception {
 	public MkmException(String string) {
 		super(string);
 	}
+
+	public MkmException(Exception e) {
+		super(e);
+	}
 }
