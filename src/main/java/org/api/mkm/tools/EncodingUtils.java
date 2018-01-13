@@ -10,7 +10,8 @@ public class EncodingUtils {
 				.replaceAll(":", "%3A")
 				.replaceAll(",","%2C")
 				.replaceAll("&", "%26")
-				.replaceAll("\"", "%22");
+				.replaceAll("\"", "%22")
+				.replaceAll("\u00C6", "Ae");
 		/**
 		 *   !              %21
       "              %22
