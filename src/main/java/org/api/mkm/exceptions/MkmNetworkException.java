@@ -1,9 +1,10 @@
 package org.api.mkm.exceptions;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MkmNetworkException extends Exception{
+public class MkmNetworkException extends IOException{
 
 	static Map<Integer,String> map;
 	

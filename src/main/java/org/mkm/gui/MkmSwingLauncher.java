@@ -18,10 +18,10 @@ public class MkmSwingLauncher {
 		File configFile = new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf");
 		p.load(new FileInputStream(configFile));
 		
-		MkmAPIConfig.getInstance().init(p.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
-										p.getProperty("APP_ACCESS_TOKEN").toString(),
-										p.getProperty("APP_SECRET").toString(),
-										p.getProperty("APP_TOKEN").toString());
+		MkmAPIConfig.getInstance().init(p.getProperty("APP_ACCESS_TOKEN_SECRET"),
+										p.getProperty("APP_ACCESS_TOKEN"),
+										p.getProperty("APP_SECRET"),
+										p.getProperty("APP_TOKEN"));
 		
 		JFrame f = new JFrame();
 		f.setSize(750, 550);

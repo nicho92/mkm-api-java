@@ -318,7 +318,7 @@ public class WantsService {
         				  connection.setRequestProperty( "charset", "utf-8");
         				  connection.connect() ;
         				  OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-        				  out.write(temp.toString());
+        				  out.write(temp);
         				  out.close();
          				  MkmAPIConfig.getInstance().updateCount(connection);
         				  
@@ -352,7 +352,7 @@ public class WantsService {
         				  connection.connect() ;
         				  
         				  OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-        				  out.write(temp.toString());
+        				  out.write(temp);
         				  out.close();
          				  
         boolean ret = (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
