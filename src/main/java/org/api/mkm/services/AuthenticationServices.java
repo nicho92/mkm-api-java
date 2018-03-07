@@ -90,8 +90,7 @@ public class AuthenticationServices {
 	private Map<String,String> parseQueryString(String query)
 	 {
 	        Map<String,String> queryParameters = new TreeMap<String, String>();
-	        
-	        String[] querySegments = query.split("&");
+	         String[] querySegments = query.split("&");
 	        for (String segment : querySegments)
 	        {
 	            String[] parts = segment.split("=");
@@ -245,7 +244,7 @@ public class AuthenticationServices {
 	    	}
 	    	catch(Exception e)
 	    	{
-	    		throw new MkmException(e.getMessage());
+	    		throw new MkmException(e);
 	    	}
 	    }
 

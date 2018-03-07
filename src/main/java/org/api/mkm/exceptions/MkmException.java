@@ -1,6 +1,8 @@
 package org.api.mkm.exceptions;
 
-public class MkmException extends Exception {
+import java.io.IOException;
+
+public class MkmException extends IOException {
 
 	public MkmException(org.api.mkm.modele.Error error) {
 		super(error.toString());
@@ -8,5 +10,9 @@ public class MkmException extends Exception {
 	
 	public MkmException(String string) {
 		super(string);
+	}
+
+	public MkmException(Exception e) {
+		super(e);
 	}
 }

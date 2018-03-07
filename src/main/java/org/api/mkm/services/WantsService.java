@@ -256,7 +256,6 @@ public class WantsService {
     	{
     		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     		Response res = (Response)xstream.fromXML(xml);
-    		System.out.println(res.getErrors());
     		logger.debug("RESP="+xml);
     	}
 		else
@@ -319,7 +318,7 @@ public class WantsService {
         				  connection.setRequestProperty( "charset", "utf-8");
         				  connection.connect() ;
         				  OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-        				  out.write(temp.toString());
+        				  out.write(temp);
         				  out.close();
          				  MkmAPIConfig.getInstance().updateCount(connection);
         				  
@@ -353,7 +352,7 @@ public class WantsService {
         				  connection.connect() ;
         				  
         				  OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-        				  out.write(temp.toString());
+        				  out.write(temp);
         				  out.close();
          				  
         boolean ret = (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
