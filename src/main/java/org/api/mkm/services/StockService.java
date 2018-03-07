@@ -104,7 +104,7 @@ public class StockService {
 		connection.connect();
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request>");
@@ -160,7 +160,7 @@ public class StockService {
 		MkmAPIConfig.getInstance().updateCount(connection);
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request>");
@@ -260,7 +260,7 @@ public class StockService {
 		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request>");

@@ -61,7 +61,7 @@ public class CartServices {
 	
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request><action>add</action>");
@@ -123,7 +123,7 @@ public class CartServices {
 		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request><action>remove</action>");

@@ -37,86 +37,86 @@ public class ConfigDialog extends JDialog {
 		setModal(true);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPanel.setLayout(gbl_contentPanel);
+		GridBagLayout gblcontentPanel = new GridBagLayout();
+		gblcontentPanel.columnWidths = new int[]{0, 0, 0};
+		gblcontentPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gblcontentPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gblcontentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPanel.setLayout(gblcontentPanel);
 		{
 			JLabel lblAppToken = new JLabel("App token :");
-			GridBagConstraints gbc_lblAppToken = new GridBagConstraints();
-			gbc_lblAppToken.anchor = GridBagConstraints.WEST;
-			gbc_lblAppToken.insets = new Insets(0, 0, 5, 5);
-			gbc_lblAppToken.gridx = 0;
-			gbc_lblAppToken.gridy = 0;
-			contentPanel.add(lblAppToken, gbc_lblAppToken);
+			GridBagConstraints gbclblAppToken = new GridBagConstraints();
+			gbclblAppToken.anchor = GridBagConstraints.WEST;
+			gbclblAppToken.insets = new Insets(0, 0, 5, 5);
+			gbclblAppToken.gridx = 0;
+			gbclblAppToken.gridy = 0;
+			contentPanel.add(lblAppToken, gbclblAppToken);
 		}
 		{
 			txtAppToken = new JTextField();
-			GridBagConstraints gbc_txtAppToken = new GridBagConstraints();
-			gbc_txtAppToken.insets = new Insets(0, 0, 5, 0);
-			gbc_txtAppToken.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtAppToken.gridx = 1;
-			gbc_txtAppToken.gridy = 0;
-			contentPanel.add(txtAppToken, gbc_txtAppToken);
+			GridBagConstraints gbctxtAppToken = new GridBagConstraints();
+			gbctxtAppToken.insets = new Insets(0, 0, 5, 0);
+			gbctxtAppToken.fill = GridBagConstraints.HORIZONTAL;
+			gbctxtAppToken.gridx = 1;
+			gbctxtAppToken.gridy = 0;
+			contentPanel.add(txtAppToken, gbctxtAppToken);
 			txtAppToken.setColumns(10);
 		}
 		{
 			JLabel lblAppSecret = new JLabel("App secret :");
-			GridBagConstraints gbc_lblAppSecret = new GridBagConstraints();
-			gbc_lblAppSecret.anchor = GridBagConstraints.WEST;
-			gbc_lblAppSecret.insets = new Insets(0, 0, 5, 5);
-			gbc_lblAppSecret.gridx = 0;
-			gbc_lblAppSecret.gridy = 1;
-			contentPanel.add(lblAppSecret, gbc_lblAppSecret);
+			GridBagConstraints gbclblAppSecret = new GridBagConstraints();
+			gbclblAppSecret.anchor = GridBagConstraints.WEST;
+			gbclblAppSecret.insets = new Insets(0, 0, 5, 5);
+			gbclblAppSecret.gridx = 0;
+			gbclblAppSecret.gridy = 1;
+			contentPanel.add(lblAppSecret, gbclblAppSecret);
 		}
 		{
 			txtAppSecret = new JTextField();
-			GridBagConstraints gbc_txtAppSecret = new GridBagConstraints();
-			gbc_txtAppSecret.insets = new Insets(0, 0, 5, 0);
-			gbc_txtAppSecret.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtAppSecret.gridx = 1;
-			gbc_txtAppSecret.gridy = 1;
-			contentPanel.add(txtAppSecret, gbc_txtAppSecret);
+			GridBagConstraints gbctxtAppSecret = new GridBagConstraints();
+			gbctxtAppSecret.insets = new Insets(0, 0, 5, 0);
+			gbctxtAppSecret.fill = GridBagConstraints.HORIZONTAL;
+			gbctxtAppSecret.gridx = 1;
+			gbctxtAppSecret.gridy = 1;
+			contentPanel.add(txtAppSecret, gbctxtAppSecret);
 			txtAppSecret.setColumns(10);
 		}
 		{
 			JLabel lblAccessToken = new JLabel("Access token :");
-			GridBagConstraints gbc_lblAccessToken = new GridBagConstraints();
-			gbc_lblAccessToken.anchor = GridBagConstraints.WEST;
-			gbc_lblAccessToken.insets = new Insets(0, 0, 5, 5);
-			gbc_lblAccessToken.gridx = 0;
-			gbc_lblAccessToken.gridy = 2;
-			contentPanel.add(lblAccessToken, gbc_lblAccessToken);
+			GridBagConstraints gbclblAccessToken = new GridBagConstraints();
+			gbclblAccessToken.anchor = GridBagConstraints.WEST;
+			gbclblAccessToken.insets = new Insets(0, 0, 5, 5);
+			gbclblAccessToken.gridx = 0;
+			gbclblAccessToken.gridy = 2;
+			contentPanel.add(lblAccessToken, gbclblAccessToken);
 		}
 		{
 			txtAccessToken = new JTextField();
-			GridBagConstraints gbc_txtAccessToken = new GridBagConstraints();
-			gbc_txtAccessToken.insets = new Insets(0, 0, 5, 0);
-			gbc_txtAccessToken.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtAccessToken.gridx = 1;
-			gbc_txtAccessToken.gridy = 2;
-			contentPanel.add(txtAccessToken, gbc_txtAccessToken);
+			GridBagConstraints gbctxtAccessToken = new GridBagConstraints();
+			gbctxtAccessToken.insets = new Insets(0, 0, 5, 0);
+			gbctxtAccessToken.fill = GridBagConstraints.HORIZONTAL;
+			gbctxtAccessToken.gridx = 1;
+			gbctxtAccessToken.gridy = 2;
+			contentPanel.add(txtAccessToken, gbctxtAccessToken);
 			txtAccessToken.setColumns(10);
 		}
 		{
 			JLabel lblAccessTokenSecret = new JLabel("Access token secret :");
-			GridBagConstraints gbc_lblAccessTokenSecret = new GridBagConstraints();
-			gbc_lblAccessTokenSecret.insets = new Insets(0, 0, 0, 5);
-			gbc_lblAccessTokenSecret.anchor = GridBagConstraints.EAST;
-			gbc_lblAccessTokenSecret.gridx = 0;
-			gbc_lblAccessTokenSecret.gridy = 3;
-			contentPanel.add(lblAccessTokenSecret, gbc_lblAccessTokenSecret);
+			GridBagConstraints gbclblAccessTokenSecret = new GridBagConstraints();
+			gbclblAccessTokenSecret.insets = new Insets(0, 0, 0, 5);
+			gbclblAccessTokenSecret.anchor = GridBagConstraints.EAST;
+			gbclblAccessTokenSecret.gridx = 0;
+			gbclblAccessTokenSecret.gridy = 3;
+			contentPanel.add(lblAccessTokenSecret, gbclblAccessTokenSecret);
 		}
 		{
 			txtAccessTokenSecret = new JTextField();
-			GridBagConstraints gbc_txtAccessTokenSecret = new GridBagConstraints();
-			gbc_txtAccessTokenSecret.anchor = GridBagConstraints.NORTH;
-			gbc_txtAccessTokenSecret.fill = GridBagConstraints.HORIZONTAL;
-			gbc_txtAccessTokenSecret.gridx = 1;
-			gbc_txtAccessTokenSecret.gridy = 3;
-			contentPanel.add(txtAccessTokenSecret, gbc_txtAccessTokenSecret);
+			GridBagConstraints gbctxtAccessTokenSecret = new GridBagConstraints();
+			gbctxtAccessTokenSecret.anchor = GridBagConstraints.NORTH;
+			gbctxtAccessTokenSecret.fill = GridBagConstraints.HORIZONTAL;
+			gbctxtAccessTokenSecret.gridx = 1;
+			gbctxtAccessTokenSecret.gridy = 3;
+			contentPanel.add(txtAccessTokenSecret, gbctxtAccessTokenSecret);
 			txtAccessTokenSecret.setColumns(10);
 		}
 		{

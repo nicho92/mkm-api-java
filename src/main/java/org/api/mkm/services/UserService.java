@@ -101,7 +101,7 @@ public class UserService {
 				    		connection.connect();
 				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request><message>"+message+"</message>");
 		temp.append("</request>");

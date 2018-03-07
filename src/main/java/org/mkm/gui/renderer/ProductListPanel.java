@@ -33,37 +33,37 @@ public class ProductListPanel extends JPanel{
 		
 		/*
 		lblNewLabel = new DisplayableCard(card,new Dimension(77, 107),false);
-				GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-				gbc_lblNewLabel.gridheight = 4;
-				gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_lblNewLabel.gridx = 0;
-				gbc_lblNewLabel.gridy = 0;
-				add(lblNewLabel, gbc_lblNewLabel);
+				GridBagConstraints gbclblNewLabel = new GridBagConstraints();
+				gbclblNewLabel.gridheight = 4;
+				gbclblNewLabel.insets = new Insets(0, 0, 5, 5);
+				gbclblNewLabel.gridx = 0;
+				gbclblNewLabel.gridy = 0;
+				add(lblNewLabel, gbclblNewLabel);
 		*/
 		JLabel lblName = new JLabel(p.getEnName());
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GridBagConstraints gbc_lblName = new GridBagConstraints();
-		gbc_lblName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblName.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblName.gridx = 1;
-		gbc_lblName.gridy = 0;
-		add(lblName, gbc_lblName);
+		GridBagConstraints gbclblName = new GridBagConstraints();
+		gbclblName.insets = new Insets(0, 0, 5, 5);
+		gbclblName.anchor = GridBagConstraints.NORTHWEST;
+		gbclblName.gridx = 1;
+		gbclblName.gridy = 0;
+		add(lblName, gbclblName);
 		
 		JLabel lblEdition = new JLabel(p.getExpansionName());
-		GridBagConstraints gbc_lblEdition = new GridBagConstraints();
-		gbc_lblEdition.insets = new Insets(0, 0, 5, 0);
-		gbc_lblEdition.gridwidth = 2;
-		gbc_lblEdition.anchor = GridBagConstraints.WEST;
-		gbc_lblEdition.gridx = 1;
-		gbc_lblEdition.gridy = 1;
-		add(lblEdition, gbc_lblEdition);
+		GridBagConstraints gbclblEdition = new GridBagConstraints();
+		gbclblEdition.insets = new Insets(0, 0, 5, 0);
+		gbclblEdition.gridwidth = 2;
+		gbclblEdition.anchor = GridBagConstraints.WEST;
+		gbclblEdition.gridx = 1;
+		gbclblEdition.gridy = 1;
+		add(lblEdition, gbclblEdition);
 		
 		JLabel lblGame = new JLabel(p.getGameName());
-		GridBagConstraints gbc_lblGame = new GridBagConstraints();
-		gbc_lblGame.insets = new Insets(0, 0, 0, 5);
-		gbc_lblGame.gridx = 1;
-		gbc_lblGame.gridy = 2;
-		add(lblGame, gbc_lblGame);
+		GridBagConstraints gbclblGame = new GridBagConstraints();
+		gbclblGame.insets = new Insets(0, 0, 0, 5);
+		gbclblGame.gridx = 1;
+		gbclblGame.gridy = 2;
+		add(lblGame, gbclblGame);
 		
 		//lblEdition.setIcon();
 	

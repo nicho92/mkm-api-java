@@ -72,7 +72,7 @@ public class WantsService {
 				    		connection.connect();
 				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request><action>deleteItem</action>");
 		for(WantItem w : list)
@@ -127,7 +127,7 @@ public class WantsService {
 				    		connection.connect();
 				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request><action>editItem</action>");
 			temp.append("<want>");
@@ -216,7 +216,7 @@ public class WantsService {
 			
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request><action>addItem</action>");
@@ -278,7 +278,7 @@ public class WantsService {
 				    		connection.connect();
 				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request><action>editWantslist</action>");
 		temp.append("<name>").append(name).append("</name></request>");
