@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -17,8 +16,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
-import org.api.mkm.exceptions.MkmException;
-import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
@@ -170,8 +167,8 @@ public class MkmWantListPanel extends JPanel {
 		
 		panelWest = new JScrollPane();
 		add(panelWest, BorderLayout.WEST);
-		wantListModel = new DefaultListModel<Wantslist>();
-		listResults = new JList<Wantslist>(wantListModel);
+		wantListModel = new DefaultListModel<>();
+		listResults = new JList<>(wantListModel);
 		listResults.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

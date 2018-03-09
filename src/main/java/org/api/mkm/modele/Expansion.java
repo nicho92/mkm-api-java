@@ -1,7 +1,5 @@
 package org.api.mkm.modele;
 
-import java.util.List;
-
 public class Expansion {
 
 	private int idExpansion;

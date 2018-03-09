@@ -30,7 +30,7 @@ public class WantItem {
 		    }
 		    
 		    public WantItem() {
-				idLanguage= new ArrayList<Integer>();
+				idLanguage= new ArrayList<>();
 			}
 		    
 		    

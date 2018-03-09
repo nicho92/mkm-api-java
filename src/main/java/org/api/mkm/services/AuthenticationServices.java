@@ -89,7 +89,7 @@ public class AuthenticationServices {
 	
 	private Map<String,String> parseQueryString(String query)
 	 {
-	        Map<String,String> queryParameters = new TreeMap<String, String>();
+	        Map<String,String> queryParameters = new TreeMap<>();
 	         String[] querySegments = query.split("&");
 	        for (String segment : querySegments)
 	        {
@@ -166,8 +166,8 @@ public class AuthenticationServices {
 	    	try{
 	    		
 	    	
-	    	 Map<String,String> headerParams = new HashMap<String,String>();
-	         Map<String,String> encodedParams = new TreeMap<String, String>();
+	    	 Map<String,String> headerParams = new HashMap<>();
+	         Map<String,String> encodedParams = new TreeMap<>();
 	         int index = url.indexOf("?");
 	         String signatureMethod = "HMAC-SHA1";
 	         String version = "1.0";
@@ -177,7 +177,7 @@ public class AuthenticationServices {
 	         String baseUri = (index>0?url.substring(0,index):url);
 	         String signatureKey = URLEncoder.encode(appSecret,encode) + "&" + URLEncoder.encode(accessSecret,encode);
 	         
-	         headerParams = new TreeMap<String, String>();
+	         headerParams = new TreeMap<>();
 	         headerParams.put("oauth_consumer_key", appToken);
 	         headerParams.put("oauth_token", accessToken);
 	         headerParams.put("oauth_nonce", nonce);
@@ -213,7 +213,7 @@ public class AuthenticationServices {
 	            	 logger.trace("encodedParams.put("+URLEncoder.encode(k,encode)+","+headerParams.get(k)+")");
 	             }
 	            
-	         List<String> paramStrings = new ArrayList<String>();
+	         List<String> paramStrings = new ArrayList<>();
 	        
 	         for(String parameter:encodedParams.keySet())
 	         {
@@ -233,7 +233,7 @@ public class AuthenticationServices {
 	         String oAuthSignature = DatatypeConverter.printBase64Binary(digest);    
 	         headerParams.put("oauth_signature", oAuthSignature);
 	         
-	         List<String> headerParamStrings = new ArrayList<String>();
+	         List<String> headerParamStrings = new ArrayList<>();
 	    
 	         for(String parameter:headerParams.keySet())
 	             headerParamStrings.add(parameter + "=\"" + headerParams.get(parameter) + "\"");

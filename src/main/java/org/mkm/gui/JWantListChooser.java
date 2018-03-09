@@ -19,12 +19,12 @@ public class JWantListChooser extends JDialog {
 	
 	public JWantListChooser() throws Exception {
 		setModal(true);
-		DefaultComboBoxModel<Wantslist> model = new DefaultComboBoxModel<Wantslist>();
+		DefaultComboBoxModel<Wantslist> model = new DefaultComboBoxModel<>();
 		
 		for(Wantslist l : service.getWantList())
 			model.addElement(l);
 		
-		cboList = new JComboBox<Wantslist>(model);
+		cboList = new JComboBox<>(model);
 		cboList.addItemListener(new ItemListener() {
 			
 			@Override

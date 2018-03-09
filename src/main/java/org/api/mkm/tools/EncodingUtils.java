@@ -2,6 +2,10 @@ package org.api.mkm.tools;
 
 public class EncodingUtils {
 
+	private EncodingUtils()
+	{
+		
+	}
 	
 	public static String EncodeString(String s)
 	{

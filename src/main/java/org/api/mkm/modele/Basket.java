@@ -10,7 +10,7 @@ public class Basket {
 	
 	
 	public Basket() {
-		shoppingCart=new ArrayList<ShoppingCart>();
+		shoppingCart=new ArrayList<>();
 	}
 	@Override
 	public String toString() {

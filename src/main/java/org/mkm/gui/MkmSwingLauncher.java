@@ -2,13 +2,10 @@ package org.mkm.gui;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Properties;
 
 import javax.swing.JFrame;
 
-import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.tools.MkmAPIConfig;
 
 public class MkmSwingLauncher {

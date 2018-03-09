@@ -97,7 +97,7 @@ public class WantListItemEditorPanel extends JDialog {
 		gbclblAltered.gridy = 2;
 		getContentPane().add(lblAltered, gbclblAltered);
 		
-		cboAltered = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
+		cboAltered = new JComboBox<>(new DefaultComboBoxModel<MkmBoolean>(values));
 		cboAltered.setSelectedItem(new MkmBoolean(wantItem.isAltered()));
 		System.out.println(wantItem.isAltered());
 		
@@ -116,7 +116,7 @@ public class WantListItemEditorPanel extends JDialog {
 		gbclblFoil.gridy = 3;
 		getContentPane().add(lblFoil, gbclblFoil);
 		
-		cboFoil = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
+		cboFoil = new JComboBox<>(new DefaultComboBoxModel<MkmBoolean>(values));
 		cboFoil.setSelectedItem(new MkmBoolean(wantItem.isFoil()));
 		GridBagConstraints gbccboFoil = new GridBagConstraints();
 		gbccboFoil.insets = new Insets(0, 0, 5, 0);
@@ -133,7 +133,7 @@ public class WantListItemEditorPanel extends JDialog {
 		gbclblPlayset.gridy = 4;
 		getContentPane().add(lblPlayset, gbclblPlayset);
 		
-		cboPlaySet = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
+		cboPlaySet = new JComboBox<>(new DefaultComboBoxModel<MkmBoolean>(values));
 		cboPlaySet.setSelectedItem(new MkmBoolean(wantItem.isPlayset()));
 		GridBagConstraints gbccboPlaySet = new GridBagConstraints();
 		gbccboPlaySet.insets = new Insets(0, 0, 5, 0);
@@ -150,7 +150,7 @@ public class WantListItemEditorPanel extends JDialog {
 		gbclblMailAlert.gridy = 5;
 		getContentPane().add(lblMailAlert, gbclblMailAlert);
 
-		cboMailAlert = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
+		cboMailAlert = new JComboBox<>(new DefaultComboBoxModel<MkmBoolean>(values));
 		cboMailAlert.setSelectedItem(new MkmBoolean(wantItem.isMailAlert()));
 		GridBagConstraints gbccboMailAlert = new GridBagConstraints();
 		gbccboMailAlert.insets = new Insets(0, 0, 5, 0);
@@ -167,7 +167,7 @@ public class WantListItemEditorPanel extends JDialog {
 		gbclblMinCondition.gridy = 6;
 		getContentPane().add(lblMinCondition, gbclblMinCondition);
 
-		cboMinCondition = new JComboBox<String>(new DefaultComboBoxModel<String>(WantItem.CONDITIONS));
+		cboMinCondition = new JComboBox<>(new DefaultComboBoxModel<String>(WantItem.CONDITIONS));
 		cboMinCondition.setSelectedItem(wantItem.getMinCondition());
 		GridBagConstraints gbccboMinCondition = new GridBagConstraints();
 		gbccboMinCondition.insets = new Insets(0, 0, 5, 0);
@@ -184,7 +184,7 @@ public class WantListItemEditorPanel extends JDialog {
 		gbclblSigned.gridy = 7;
 		getContentPane().add(lblSigned, gbclblSigned);
 		
-		cboSigned = new JComboBox<MkmBoolean>(new DefaultComboBoxModel<MkmBoolean>(values));
+		cboSigned = new JComboBox<>(new DefaultComboBoxModel<MkmBoolean>(values));
 		cboSigned.setSelectedItem(new MkmBoolean(wantItem.isSigned()));
 		GridBagConstraints gbccboSigned = new GridBagConstraints();
 		gbccboSigned.insets = new Insets(0, 0, 5, 0);

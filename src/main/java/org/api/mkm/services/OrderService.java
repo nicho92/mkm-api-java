@@ -26,8 +26,8 @@ public class OrderService {
 	private AuthenticationServices auth;
 	private XStream xstream;
 
-	public static enum ACTOR { seller,buyer};
-	public static enum STATE { bought,paid,sent,received,lost,cancelled};
+	public enum ACTOR { seller,buyer};
+	public enum STATE { bought,paid,sent,received,lost,cancelled};
 	
 	static final Logger logger = LogManager.getLogger(OrderService.class.getName());
 	
@@ -72,7 +72,7 @@ public class OrderService {
          Response res = (Response)xstream.fromXML(xml);
         
          if(isEmpty(res.getOrder()))
-         	return new ArrayList<Order>();
+         	return new ArrayList<>();
          
          for(Order o : res.getOrder())
         	 for(Article art : o.getArticle())

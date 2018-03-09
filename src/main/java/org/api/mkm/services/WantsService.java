@@ -55,7 +55,7 @@ public class WantsService {
 	
 	public Wantslist deleteItem(Wantslist li, WantItem it) throws IOException, MkmException,MkmNetworkException
 	{
-		List<WantItem> lst = new ArrayList<WantItem>();
+		List<WantItem> lst = new ArrayList<>();
 		lst.add(it);
 		
 		return deleteItems(li, lst);
@@ -197,7 +197,7 @@ public class WantsService {
 	
 	public boolean addItem(Wantslist wl, WantItem item) throws IOException, MkmException, MkmNetworkException
 	{
-		ArrayList<WantItem> list = new ArrayList<WantItem>();
+		ArrayList<WantItem> list = new ArrayList<>();
 		list.add(item);
 		return addItem(wl, list);
 	}
@@ -228,7 +228,7 @@ public class WantsService {
 			temp.append("<count>"+w.getCount()+"</count>");
 			temp.append("<mailAlert>"+w.isMailAlert()+"</mailAlert>");
 			
-			if(w.getIdLanguage().size()>0)
+			if(!w.getIdLanguage().isEmpty())
 				for(Integer i : w.getIdLanguage())
 					temp.append("<idLanguage>"+i+"</idLanguage>");
 

@@ -77,7 +77,7 @@ public class MKMStockPanel extends JPanel {
 			}
 		});
 		panelNorth.add(btnUpQte);
-		productsModel = new DefaultListModel<Product>();
+		productsModel = new DefaultListModel<>();
 		
 		panelCenter = new JScrollPane();
 		add(panelCenter, BorderLayout.CENTER);

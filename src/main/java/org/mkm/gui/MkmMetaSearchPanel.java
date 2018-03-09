@@ -19,7 +19,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
@@ -30,7 +29,7 @@ import org.mkm.gui.renderer.ProductListRenderer;
 
 public class MkmMetaSearchPanel extends JPanel {
 	private JTextField txtSearch;
-	private JPanel PanelSouth;
+	private JPanel panelSouth;
 	private JScrollPane panelWest;
 	private JList<Product> listResults;
 	private JScrollPane panelCenter;
@@ -43,7 +42,6 @@ public class MkmMetaSearchPanel extends JPanel {
 	private JLabel lblPics;
 	
 	private Product selectedProduct;
-	private Article selectedArticle;
 	private JComboBox comboBox;
 	private JLabel lblOrById;
 	private JTextField txtIdMeta;
@@ -82,13 +80,13 @@ public class MkmMetaSearchPanel extends JPanel {
 		panelNorth.add(txtIdMeta);
 		txtIdMeta.setColumns(10);
 		
-		PanelSouth = new JPanel();
-		add(PanelSouth, BorderLayout.SOUTH);
+		panelSouth = new JPanel();
+		add(panelSouth, BorderLayout.SOUTH);
 		
 		panelWest = new JScrollPane();
 		add(panelWest, BorderLayout.WEST);
-		productsModel = new DefaultListModel<Product>();
-		listResults = new JList<Product>(productsModel);
+		productsModel = new DefaultListModel<>();
+		listResults = new JList<>(productsModel);
 		listResults.setCellRenderer(new ProductListRenderer());
 		listResults.addMouseListener(new MouseAdapter() {
 			@Override
@@ -103,12 +101,7 @@ public class MkmMetaSearchPanel extends JPanel {
 		
 		articlesModel = new ArticlesTableModel();
 		tableArticles = new JTable(articlesModel);
-		tableArticles.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent me) {
-				selectedArticle = (Article)articlesModel.getValueAt(tableArticles.getSelectedRow(), 0);
-			}
-		});
+		
 		panelCenter.setViewportView(tableArticles);
 		
 	}
@@ -127,7 +120,7 @@ public class MkmMetaSearchPanel extends JPanel {
 	
 	protected void search(String text) {
 		ProductServices services = new ProductServices();
-		Map<PRODUCT_ATTS, String> map = new HashMap<PRODUCT_ATTS,String>();
+		Map<PRODUCT_ATTS, String> map = new HashMap<>();
 		map.put(PRODUCT_ATTS.idLanguage, ""+(comboBox.getSelectedIndex()+1));
 		productsModel.removeAllElements();
 		
@@ -162,7 +155,7 @@ public class MkmMetaSearchPanel extends JPanel {
 
 	protected void loadArticle(Product selectedValue) {
 		ArticleService service = new ArticleService();
-		Map<ARTICLES_ATT, String> atts = new HashMap<ARTICLES_ATT, String>();
+		Map<ARTICLES_ATT, String> atts = new HashMap<>();
 								atts.put(ARTICLES_ATT.start, "0");
 								atts.put(ARTICLES_ATT.maxResults, "100");
 		try {

@@ -161,7 +161,7 @@ public class ProductServices {
 			if(atts.size()>0)
 	    	{
 				link+="&";
-	    		List<String> paramStrings = new ArrayList<String>();
+	    		List<String> paramStrings = new ArrayList<>();
 	 	        for(PRODUCT_ATTS parameter:atts.keySet())
 		             paramStrings.add(parameter + "=" + atts.get(parameter));
 		        
@@ -184,7 +184,7 @@ public class ProductServices {
     	Response res = (Response)xstream.fromXML(xml);
 		
     	if(isEmpty(res.getProduct()))
-    		return new ArrayList<Product>();
+    		return new ArrayList<>();
 
 	return res.getProduct();
 	}
@@ -195,7 +195,7 @@ public class ProductServices {
 		if(atts.size()>0)
     	{
 			link+="&";
-    		List<String> paramStrings = new ArrayList<String>();
+    		List<String> paramStrings = new ArrayList<>();
  	        for(PRODUCT_ATTS parameter:atts.keySet())
 	             paramStrings.add(parameter + "=" + atts.get(parameter));
 	        

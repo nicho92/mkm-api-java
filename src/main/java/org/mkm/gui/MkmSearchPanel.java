@@ -173,8 +173,8 @@ public class MkmSearchPanel extends JPanel {
 		
 		panelWest = new JScrollPane();
 		add(panelWest, BorderLayout.WEST);
-		productsModel = new DefaultListModel<Product>();
-		listResults = new JList<Product>(productsModel);
+		productsModel = new DefaultListModel<>();
+		listResults = new JList<>(productsModel);
 		listResults.setCellRenderer(new ProductListRenderer());
 		listResults.addMouseListener(new MouseAdapter() {
 			@Override
@@ -220,7 +220,7 @@ public class MkmSearchPanel extends JPanel {
 	
 	protected void search(String text) {
 		ProductServices services = new ProductServices();
-		Map<PRODUCT_ATTS, String> map = new HashMap<PRODUCT_ATTS,String>();
+		Map<PRODUCT_ATTS, String> map = new HashMap<>();
 		
 		try {
 			productsModel.removeAllElements();
@@ -269,7 +269,7 @@ public class MkmSearchPanel extends JPanel {
 
 	protected void loadArticle(Product selectedValue) {
 		ArticleService service = new ArticleService();
-		Map<ARTICLES_ATT, String> atts = new HashMap<ARTICLES_ATT, String>();
+		Map<ARTICLES_ATT, String> atts = new HashMap<>();
 								atts.put(ARTICLES_ATT.start, "0");
 								atts.put(ARTICLES_ATT.maxResults, "100");
 		try {

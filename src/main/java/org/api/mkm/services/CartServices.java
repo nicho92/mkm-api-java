@@ -40,15 +40,15 @@ public class CartServices {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public boolean addArticle(Article a) throws IOException, MkmException, MkmNetworkException
+	public boolean addArticle(Article a) throws IOException, MkmNetworkException
 	{
-		List<Article> list = new ArrayList<Article>();
+		List<Article> list = new ArrayList<>();
 		list.add(a);
 		return addArticles(list);
 	}
 	
 	
-	public boolean addArticles(List<Article> articles) throws IOException, MkmException, MkmNetworkException
+	public boolean addArticles(List<Article> articles) throws IOException, MkmNetworkException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
 		logger.debug("LINK="+link);

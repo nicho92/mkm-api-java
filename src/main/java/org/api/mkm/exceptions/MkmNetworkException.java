@@ -17,7 +17,7 @@ public class MkmNetworkException extends IOException{
 		
 		if(map==null)
 		{
-			map = new HashMap<Integer,String>();
+			map = new HashMap<>();
 			//map.put(200, "OK");
 			map.put(307,"Temporary Redirect, Particular requests can deliver thousands of entities (e.g. a large stock or requesting articles for a specified product, and many more). Generally all these request allow you to paginate the results - either returning a 206 or 204 HTTP status code. Nevertheless, all these requests can also be done without specifying a pagination. If done and the resulting entities would be more than 1,000 the request will respond with a 307, specifying the paginated request. However, you should switch of the behaviour to automatically redirect to the given request URI, because a new Authorization header needs to be compiled for the redirected resource.");
 			map.put(400, "Bad Request,Whenever something goes wrong with your request, e.g. your POST data and/or structure is wrong, or you want to access an article in your stock by providing an invalid ArticleID, a 400 Bad Request HTTP status is returned, describing the error within the content.");

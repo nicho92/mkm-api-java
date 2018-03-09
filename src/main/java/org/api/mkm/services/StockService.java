@@ -87,7 +87,7 @@ public class StockService {
 	
 	public boolean addArticle(Article a) throws IOException, MkmException, MkmNetworkException
 	{
-		ArrayList<Article> list = new ArrayList<Article>();
+		ArrayList<Article> list = new ArrayList<>();
 		list.add(a);
 		return addArticles(list);
 	}
@@ -142,7 +142,7 @@ public class StockService {
 	
 	public boolean removeArticle(Article a) throws IOException, MkmException, MkmNetworkException
 	{
-		ArrayList<Article> list = new ArrayList<Article>();
+		ArrayList<Article> list = new ArrayList<>();
 		list.add(a);
 		return removeArticles(list);
 	}
@@ -200,7 +200,7 @@ public class StockService {
 		if(atts!=null)
     	{
     		link+="?";
-    		List<String> paramStrings = new ArrayList<String>();
+    		List<String> paramStrings = new ArrayList<>();
  	        for(ARTICLES_ATT parameter:atts.keySet())
 	             paramStrings.add(parameter + "=" + atts.get(parameter));
 	        
@@ -234,14 +234,14 @@ public class StockService {
 	}
 	
 	
-	public boolean changeQte(Article a, int qte) throws IOException, MkmException, MkmNetworkException
+	public boolean changeQte(Article a, int qte) throws IOException
 	{
-		ArrayList<Article> list = new ArrayList<Article>();
+		ArrayList<Article> list = new ArrayList<>();
 		list.add(a);
 		return changeQte(list, qte);
 	}
 	
-	public boolean changeQte(List<Article> list, int qte) throws IOException, MkmException, MkmNetworkException
+	public boolean changeQte(List<Article> list, int qte) throws IOException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
 		

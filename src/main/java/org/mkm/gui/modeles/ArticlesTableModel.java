@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.api.mkm.modele.Article;
 
 public class ArticlesTableModel extends DefaultTableModel{
@@ -26,16 +25,7 @@ public class ArticlesTableModel extends DefaultTableModel{
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		
-		/*try {
-			if(columnIndex==2)
-				return String.class;
-			
-			return PropertyUtils.getPropertyType(new Article(), columns[columnIndex]);
-		} catch (Exception e) {*/
 			return super.getColumnClass(columnIndex);
-		/*}*/
-	
 	}
 	
 	
