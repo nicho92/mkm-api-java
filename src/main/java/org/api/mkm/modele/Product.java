@@ -1,8 +1,9 @@
 package org.api.mkm.modele;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Product
+public class Product implements Serializable
 {
 	
 	public enum PRODUCT_ATTS {exact,idGame,idLanguage,start,maxResults};

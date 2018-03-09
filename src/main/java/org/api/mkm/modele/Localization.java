@@ -1,6 +1,8 @@
 package org.api.mkm.modele;
 
-public class Localization {
+import java.io.Serializable;
+
+public class Localization implements Serializable{
 
 	private int idLanguage;
 	private String name;

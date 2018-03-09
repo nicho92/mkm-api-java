@@ -1,9 +1,10 @@
 package org.api.mkm.modele;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Basket {
+public class Basket implements Serializable {
 	Address shippingAddress;
 	List<ShoppingCart> shoppingCart;
 	User account;

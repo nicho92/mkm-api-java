@@ -1,9 +1,10 @@
 package org.api.mkm.modele;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WantItem {
+public class WantItem implements Serializable{
 
 	
 			public static String[] CONDITIONS = {"MT","NM","EX","GD","LP","PL","PO"}; 

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -120,7 +121,7 @@ public class MkmMetaSearchPanel extends JPanel {
 	
 	protected void search(String text) {
 		ProductServices services = new ProductServices();
-		Map<PRODUCT_ATTS, String> map = new HashMap<>();
+		Map<PRODUCT_ATTS, String> map = new EnumMap<>(PRODUCT_ATTS.class);
 		map.put(PRODUCT_ATTS.idLanguage, ""+(comboBox.getSelectedIndex()+1));
 		productsModel.removeAllElements();
 		
@@ -130,7 +131,6 @@ public class MkmMetaSearchPanel extends JPanel {
 			
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 		} 
 		
@@ -148,14 +148,14 @@ public class MkmMetaSearchPanel extends JPanel {
 			lblPics = new JLabel("");
 			panelEast.add(lblPics);
 		}  catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 		
 	}
 
 	protected void loadArticle(Product selectedValue) {
 		ArticleService service = new ArticleService();
-		Map<ARTICLES_ATT, String> atts = new HashMap<>();
+		Map<ARTICLES_ATT, String> atts = new EnumMap<>(ARTICLES_ATT.class);
 								atts.put(ARTICLES_ATT.start, "0");
 								atts.put(ARTICLES_ATT.maxResults, "100");
 		try {

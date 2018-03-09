@@ -1,8 +1,9 @@
 package org.api.mkm.modele;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ShoppingCart {
+public class ShoppingCart implements Serializable{
 
 	private int idReservation;
 	private boolean isBuyer;

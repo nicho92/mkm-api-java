@@ -1,8 +1,9 @@
 package org.api.mkm.modele;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class OrderState {
+public class OrderState implements Serializable{
 	private String state;
 	private Date dateBought;
 	private Date datePaid;

@@ -1,8 +1,9 @@
 package org.api.mkm.modele;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Response {
+public class Response implements Serializable{
 	
 	List<Product> product;
 	List<Article> article;

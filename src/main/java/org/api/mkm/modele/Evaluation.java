@@ -1,8 +1,9 @@
 package org.api.mkm.modele;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Evaluation {
+public class Evaluation implements Serializable{
 
 	private int evaluationGrade;
 	private int itemDescription;

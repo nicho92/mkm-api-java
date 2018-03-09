@@ -1,6 +1,8 @@
 package org.api.mkm.modele;
 
-public class Link {
+import java.io.Serializable;
+
+public class Link implements Serializable{
 
 	private String rel;
 	private String href;

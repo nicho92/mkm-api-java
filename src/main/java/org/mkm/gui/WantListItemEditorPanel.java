@@ -225,12 +225,12 @@ public class WantListItemEditorPanel extends JDialog {
 		try{
 			wantItem.setCount(Integer.parseInt(txtCount.getText()));
 		}catch(Exception e)
-		{ }
+		{ e.printStackTrace();}
 		
 		try{
 			wantItem.setWishPrice(Double.parseDouble(this.txtWishPrice.getText()));
 		}catch(Exception e)
-		{ }
+		{e.printStackTrace(); }
 		
 		wantItem.getIdLanguage().remove(0);
 		wantItem.getIdLanguage().add(1);

@@ -66,12 +66,12 @@ public class ProductServices {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public void exportPriceGuide(File f) throws IOException, MkmException, MkmNetworkException
+	public void exportPriceGuide(File f) throws IOException
 	{
 		exportPriceGuide(f,null);
 	}
 	
-	public void exportPriceGuide(File f,Integer idGame) throws IOException, MkmException, MkmNetworkException
+	public void exportPriceGuide(File f,Integer idGame) throws IOException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/priceguide";
 	
@@ -101,7 +101,7 @@ public class ProductServices {
 	}
 	
 	
-	public void exportProductList(File f) throws IOException, MkmException, MkmNetworkException
+	public void exportProductList(File f) throws IOException
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/productlist";
 		logger.debug("LINK="+link);
@@ -130,7 +130,7 @@ public class ProductServices {
 		
 	}
 	
-	public List<Product> getProductByExpansion(Expansion e)throws IOException, MkmException, MkmNetworkException 
+	public List<Product> getProductByExpansion(Expansion e)throws IOException 
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/expansions/"+e.getIdExpansion()+"/singles";
 		logger.debug("LINK="+link);
@@ -150,7 +150,7 @@ public class ProductServices {
 		
 	}
 	
-	public List<Product> findProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
+	public List<Product> findProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException
 	{
 		xstream.aliasField("expansion", Product.class, "expansionName");
  		
@@ -188,7 +188,7 @@ public class ProductServices {
 	return res.getProduct();
 	}
 	
-	public List<Product> findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException, MkmException, MkmNetworkException
+	public List<Product> findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+EncodingUtils.EncodeString(name);
 		if(atts.size()>0)
@@ -221,7 +221,7 @@ public class ProductServices {
     	return res.getProduct();
 	}
 
-	public Product getMetaProductById(int idMeta)throws IOException, MkmException, MkmNetworkException
+	public Product getMetaProductById(int idMeta)throws IOException
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		
@@ -243,7 +243,7 @@ public class ProductServices {
 		return res.getProduct().get(0);
 	}
 	
-	public Product getProductById(int idProduct) throws IOException, MkmException, MkmNetworkException
+	public Product getProductById(int idProduct) throws IOException
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		
@@ -272,6 +272,7 @@ public class ProductServices {
 			 	 if (e.getValue() != null && !e.getKey().equals("class"))
 	             		PropertyUtils.setProperty(dest, e.getKey(), e.getValue());
 		} catch (Exception e1) {
+			e1.printStackTrace();
 			
 		}
 	}

@@ -1,6 +1,8 @@
 package org.api.mkm.modele;
 
-public class Expansion {
+import java.io.Serializable;
+
+public class Expansion implements Serializable{
 
 	private int idExpansion;
 	private String enName;

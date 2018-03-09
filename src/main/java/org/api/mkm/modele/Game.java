@@ -1,6 +1,8 @@
 package org.api.mkm.modele;
 
-public class Game {
+import java.io.Serializable;
+
+public class Game implements Serializable{
 	 private int idGame;
 	 private String name; 
 	 private String abbreviation;

@@ -1,8 +1,9 @@
 package org.api.mkm.modele;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Thread {
+public class Thread implements Serializable{
 	
 	private User partner;
 	private Message message;

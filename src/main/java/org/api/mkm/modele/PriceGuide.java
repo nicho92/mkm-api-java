@@ -1,57 +1,59 @@
 package org.api.mkm.modele;
 
-public class PriceGuide {
+import java.io.Serializable;
+
+public class PriceGuide implements Serializable{
 
 	
-	private double SELL;
-	private double LOW;
-	private double LOWEX;
-	private double LOWFOIL;
-	private double AVG;
-	private double TREND;
+	private double sell;
+	private double low;
+	private double lowex;
+	private double lowfoil;
+	private double avg;
+	private double trend;
 	
 	
 	@Override
 	public String toString() {
-		return "AVG="+AVG+", LOWEX="+LOWEX+", LOWFOIL="+LOWFOIL+", SELL="+SELL+", LOW="+LOW+", TREND="+TREND;
+		return "AVG="+avg+", LOWEX="+lowex+", LOWFOIL="+lowfoil+", SELL="+sell+", LOW="+low+", TREND="+trend;
 	}
 	
 	
 	public double getSELL() {
-		return SELL;
+		return sell;
 	}
 	public void setSELL(double sELL) {
-		SELL = sELL;
+		sell = sELL;
 	}
 	public double getLOW() {
-		return LOW;
+		return low;
 	}
 	public void setLOW(double lOW) {
-		LOW = lOW;
+		low = lOW;
 	}
 	public double getLOWEX() {
-		return LOWEX;
+		return lowex;
 	}
 	public void setLOWEX(double lOWEX) {
-		LOWEX = lOWEX;
+		lowex = lOWEX;
 	}
 	public double getLOWFOIL() {
-		return LOWFOIL;
+		return lowfoil;
 	}
 	public void setLOWFOIL(double lOWFOIL) {
-		LOWFOIL = lOWFOIL;
+		lowfoil = lOWFOIL;
 	}
 	public double getAVG() {
-		return AVG;
+		return avg;
 	}
 	public void setAVG(double aVG) {
-		AVG = aVG;
+		avg = aVG;
 	}
 	public double getTREND() {
-		return TREND;
+		return trend;
 	}
 	public void setTREND(double tREND) {
-		TREND = tREND;
+		trend = tREND;
 	}
 	
 	

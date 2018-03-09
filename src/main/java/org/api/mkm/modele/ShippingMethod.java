@@ -1,6 +1,8 @@
 package org.api.mkm.modele;
 
-public class ShippingMethod {
+import java.io.Serializable;
+
+public class ShippingMethod implements Serializable{
 
 	private int idShippingMethod;
 	private String name;

@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
@@ -54,9 +55,9 @@ public class ArticleService {
 			if(atts.size()>0)
 	    	{
 	    		link+="?";
-	    		List<String> paramStrings = new ArrayList<String>();
-	 	        for(ARTICLES_ATT parameter:atts.keySet())
-		             paramStrings.add(parameter + "=" + atts.get(parameter));
+	    		List<String> paramStrings = new ArrayList<>();
+	 	        for(Entry<ARTICLES_ATT, String> parameter:atts.entrySet())
+		             paramStrings.add(parameter.getKey() + "=" + parameter.getValue());
 		        
 	 	        link+=Tools.join(paramStrings, "&");
 	    	}
@@ -99,8 +100,8 @@ public class ArticleService {
 	    	{
 	    		link+="?";
 	    		List<String> paramStrings = new ArrayList<>();
-	 	        for(ARTICLES_ATT parameter:atts.keySet())
-		             paramStrings.add(parameter + "=" + atts.get(parameter));
+	    		 for(Entry<ARTICLES_ATT, String> parameter:atts.entrySet())
+		             paramStrings.add(parameter.getKey() + "=" + parameter.getValue());
 		        
 	 	        link+=Tools.join(paramStrings, "&");
 	    	}

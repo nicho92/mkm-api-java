@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -220,7 +221,7 @@ public class MkmSearchPanel extends JPanel {
 	
 	protected void search(String text) {
 		ProductServices services = new ProductServices();
-		Map<PRODUCT_ATTS, String> map = new HashMap<>();
+		Map<PRODUCT_ATTS, String> map = new EnumMap<>(PRODUCT_ATTS.class);
 		
 		try {
 			productsModel.removeAllElements();
@@ -269,7 +270,7 @@ public class MkmSearchPanel extends JPanel {
 
 	protected void loadArticle(Product selectedValue) {
 		ArticleService service = new ArticleService();
-		Map<ARTICLES_ATT, String> atts = new HashMap<>();
+		Map<ARTICLES_ATT, String> atts = new EnumMap<>(ARTICLES_ATT.class);
 								atts.put(ARTICLES_ATT.start, "0");
 								atts.put(ARTICLES_ATT.maxResults, "100");
 		try {

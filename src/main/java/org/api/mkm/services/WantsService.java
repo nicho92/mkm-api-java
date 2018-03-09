@@ -92,7 +92,7 @@ public class WantsService {
 		if(code)
 		{
 			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-			logger.debug("RESP="+xml);
+			logger.debug(xml);
 			Response res = (Response)xstream.fromXML(xml);
 			if(res.getErrors()!=null)
 				throw new MkmException(res.getErrors());
@@ -162,7 +162,7 @@ public class WantsService {
 		if(code)
 		{
 			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-			logger.debug("RESP="+xml);
+			logger.debug(xml);
 			Response res = (Response)xstream.fromXML(xml);
 			if(res.getErrors()!=null)
 				throw new MkmException(res.getErrors());
@@ -190,7 +190,7 @@ public class WantsService {
 			throw new MkmNetworkException(connection.getResponseCode());
 		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		logger.debug("RESP="+xml);
+		logger.debug(xml);
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getWantslist();
 	}
@@ -256,7 +256,7 @@ public class WantsService {
     	{
     		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     		Response res = (Response)xstream.fromXML(xml);
-    		logger.debug("RESP="+xml);
+    		logger.debug(xml);
     	}
 		else
 		{
@@ -294,7 +294,7 @@ public class WantsService {
 		{
 			wl.setName(name);
 			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-			logger.debug("RESP="+xml);
+			logger.debug(xml);
 		}
 		else
 		{
@@ -327,7 +327,7 @@ public class WantsService {
         	if(ret)
         	{
         		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-        		logger.debug("RESP="+xml);
+        		logger.debug(xml);
         		Response res = (Response)xstream.fromXML(xml);
         		return res.getWantslist().get(0);
         	}
@@ -361,7 +361,7 @@ public class WantsService {
         if(ret)
     	{
     		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-    		logger.debug("RESP="+xml);
+    		logger.debug(xml);
     	}
         else
         {
@@ -387,7 +387,7 @@ public class WantsService {
 		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		
-   		logger.debug("RESP="+xml);
+   		logger.debug(xml);
 		Response res = (Response)xstream.fromXML(xml);
 		
 		if(isEmpty(res.getWantslist().get(0)))

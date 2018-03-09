@@ -1,8 +1,9 @@
 package org.api.mkm.modele;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Wantslist {
+public class Wantslist implements Serializable{
 
 	
 	private int idWantslist;
