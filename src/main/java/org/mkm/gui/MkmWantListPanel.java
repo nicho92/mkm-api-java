@@ -191,6 +191,7 @@ public class MkmWantListPanel extends JPanel {
 		rightPanel.setLeftComponent(scrollitems);
 		tableItemWl = new JTable(itemsTableModel);
 		tableItemWl.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent me) {
 				btnEditItem.setEnabled(true);
 				WantItem it = (WantItem)itemsTableModel.getValueAt(tableItemWl.rowAtPoint(me.getPoint()), 0);

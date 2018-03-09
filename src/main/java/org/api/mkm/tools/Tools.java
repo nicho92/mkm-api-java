@@ -16,15 +16,12 @@ public class Tools {
 	
     
    public static void unzip(File zipFilePath,File to) throws IOException {
-    	GZIPInputStream zipIn = new GZIPInputStream(new FileInputStream(zipFilePath));
-    	BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(to));
-        int read = 0;
-        while ((read = zipIn.read(BUFFER_SIZE)) != -1) 
-           bos.write(BUFFER_SIZE, 0, read);
-
-        bos.close();
-        zipIn.close();
-        zipIn.close();
+    	try(GZIPInputStream zipIn = new GZIPInputStream(new FileInputStream(zipFilePath));BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(to)))
+    	{
+            int read = 0;
+            while ((read = zipIn.read(BUFFER_SIZE)) != -1) 
+               bos.write(BUFFER_SIZE, 0, read);
+    	}
     }
 	
     

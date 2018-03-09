@@ -42,7 +42,7 @@ public class ConfigDialog extends JDialog {
 		gblcontentPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gblcontentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gblcontentPanel);
-		{
+		
 			JLabel lblAppToken = new JLabel("App token :");
 			GridBagConstraints gbclblAppToken = new GridBagConstraints();
 			gbclblAppToken.anchor = GridBagConstraints.WEST;
@@ -50,8 +50,8 @@ public class ConfigDialog extends JDialog {
 			gbclblAppToken.gridx = 0;
 			gbclblAppToken.gridy = 0;
 			contentPanel.add(lblAppToken, gbclblAppToken);
-		}
-		{
+		
+		
 			txtAppToken = new JTextField();
 			GridBagConstraints gbctxtAppToken = new GridBagConstraints();
 			gbctxtAppToken.insets = new Insets(0, 0, 5, 0);
@@ -60,8 +60,8 @@ public class ConfigDialog extends JDialog {
 			gbctxtAppToken.gridy = 0;
 			contentPanel.add(txtAppToken, gbctxtAppToken);
 			txtAppToken.setColumns(10);
-		}
-		{
+		
+		
 			JLabel lblAppSecret = new JLabel("App secret :");
 			GridBagConstraints gbclblAppSecret = new GridBagConstraints();
 			gbclblAppSecret.anchor = GridBagConstraints.WEST;
@@ -69,8 +69,8 @@ public class ConfigDialog extends JDialog {
 			gbclblAppSecret.gridx = 0;
 			gbclblAppSecret.gridy = 1;
 			contentPanel.add(lblAppSecret, gbclblAppSecret);
-		}
-		{
+		
+		
 			txtAppSecret = new JTextField();
 			GridBagConstraints gbctxtAppSecret = new GridBagConstraints();
 			gbctxtAppSecret.insets = new Insets(0, 0, 5, 0);
@@ -79,8 +79,8 @@ public class ConfigDialog extends JDialog {
 			gbctxtAppSecret.gridy = 1;
 			contentPanel.add(txtAppSecret, gbctxtAppSecret);
 			txtAppSecret.setColumns(10);
-		}
-		{
+		
+		
 			JLabel lblAccessToken = new JLabel("Access token :");
 			GridBagConstraints gbclblAccessToken = new GridBagConstraints();
 			gbclblAccessToken.anchor = GridBagConstraints.WEST;
@@ -88,8 +88,8 @@ public class ConfigDialog extends JDialog {
 			gbclblAccessToken.gridx = 0;
 			gbclblAccessToken.gridy = 2;
 			contentPanel.add(lblAccessToken, gbclblAccessToken);
-		}
-		{
+		
+		
 			txtAccessToken = new JTextField();
 			GridBagConstraints gbctxtAccessToken = new GridBagConstraints();
 			gbctxtAccessToken.insets = new Insets(0, 0, 5, 0);
@@ -98,8 +98,8 @@ public class ConfigDialog extends JDialog {
 			gbctxtAccessToken.gridy = 2;
 			contentPanel.add(txtAccessToken, gbctxtAccessToken);
 			txtAccessToken.setColumns(10);
-		}
-		{
+		
+		
 			JLabel lblAccessTokenSecret = new JLabel("Access token secret :");
 			GridBagConstraints gbclblAccessTokenSecret = new GridBagConstraints();
 			gbclblAccessTokenSecret.insets = new Insets(0, 0, 0, 5);
@@ -107,8 +107,8 @@ public class ConfigDialog extends JDialog {
 			gbclblAccessTokenSecret.gridx = 0;
 			gbclblAccessTokenSecret.gridy = 3;
 			contentPanel.add(lblAccessTokenSecret, gbclblAccessTokenSecret);
-		}
-		{
+		
+		
 			txtAccessTokenSecret = new JTextField();
 			GridBagConstraints gbctxtAccessTokenSecret = new GridBagConstraints();
 			gbctxtAccessTokenSecret.anchor = GridBagConstraints.NORTH;
@@ -117,8 +117,8 @@ public class ConfigDialog extends JDialog {
 			gbctxtAccessTokenSecret.gridy = 3;
 			contentPanel.add(txtAccessTokenSecret, gbctxtAccessTokenSecret);
 			txtAccessTokenSecret.setColumns(10);
-		}
-		{
+		
+		
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
@@ -148,6 +148,6 @@ public class ConfigDialog extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 				pack();
 		}
-	}
+	
 
 }

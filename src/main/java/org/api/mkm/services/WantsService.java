@@ -61,7 +61,7 @@ public class WantsService {
 		return deleteItems(li, lst);
 	}
 	
-	public Wantslist deleteItems(Wantslist li, List<WantItem> list) throws IOException, MkmException, MkmNetworkException
+	public Wantslist deleteItems(Wantslist li, List<WantItem> list) throws IOException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+li.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -114,7 +114,7 @@ public class WantsService {
 		
 	}
 	
-	public boolean updateItem(Wantslist wl,WantItem it) throws IOException, MkmException, MkmNetworkException
+	public boolean updateItem(Wantslist wl,WantItem it) throws IOException
 	{
 		
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
@@ -175,7 +175,7 @@ public class WantsService {
 		return code;
 	}
 	
-	public List<Wantslist> getWantList() throws IOException, MkmException, MkmNetworkException
+	public List<Wantslist> getWantList() throws IOException
 	{
     	String link = "https://www.mkmapi.eu/ws/v2.0/wantslist";
     	
@@ -195,7 +195,7 @@ public class WantsService {
 		return res.getWantslist();
 	}
 	
-	public boolean addItem(Wantslist wl, WantItem item) throws IOException, MkmException, MkmNetworkException
+	public boolean addItem(Wantslist wl, WantItem item) throws IOException
 	{
 		ArrayList<WantItem> list = new ArrayList<>();
 		list.add(item);
@@ -203,7 +203,7 @@ public class WantsService {
 	}
 	
 	
-	public boolean addItem(Wantslist wl, List<WantItem> items) throws IOException, MkmException, MkmNetworkException
+	public boolean addItem(Wantslist wl, List<WantItem> items) throws IOException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -265,7 +265,7 @@ public class WantsService {
 		return ret;
 	}
 	
-	public boolean renameWantList(Wantslist wl , String name) throws IOException, MkmException, MkmNetworkException
+	public boolean renameWantList(Wantslist wl , String name) throws IOException
 	{
 		String link ="https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -304,7 +304,7 @@ public class WantsService {
 		
 	}
 	
-	public Wantslist createWantList(String name) throws IOException, MkmException, MkmNetworkException
+	public Wantslist createWantList(String name) throws IOException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/wantslist";
 		logger.debug("LINK="+link);
@@ -337,7 +337,7 @@ public class WantsService {
         	}
 	}
 	
-	public boolean deleteWantList(Wantslist l) throws IOException, MkmException, MkmNetworkException
+	public boolean deleteWantList(Wantslist l) throws IOException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/wantslist/"+l.getIdWantslist();
 		logger.debug("LINK="+link);
@@ -371,7 +371,7 @@ public class WantsService {
       	return ret;
 	}
 	
-	public void loadItems(Wantslist wl) throws IOException, MkmException, MkmNetworkException
+	public void loadItems(Wantslist wl) throws IOException
 	{
 		String link = "https://www.mkmapi.eu/ws/v2.0/wantslist/"+wl.getIdWantslist();
     	logger.debug("LINK="+link);

@@ -67,7 +67,7 @@ public class AuthenticationServices {
 		
 	}
 	
-	public User getAuthenticatedUser() throws MkmException, IOException, MkmNetworkException 
+	public User getAuthenticatedUser() throws IOException 
 	{
 		String link="https://www.mkmapi.eu/ws/v2.0/account";
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
@@ -109,22 +109,22 @@ public class AuthenticationServices {
 
 		try{
         String realm = link ;
-        String oauth_version =  "1.0" ;
-        String oauth_consumer_key = appToken ;
-        String oauth_token = accessToken ;
-        String oauth_signature_method = "HMAC-SHA1";
-        String oauth_timestamp = ""+ (System.currentTimeMillis()/1000) ;
-        String oauth_nonce = "" + System.currentTimeMillis() ;
+        String oauthversion =  "1.0" ;
+        String oauthconsumerkey = appToken ;
+        String oauthtoken = accessToken ;
+        String oauthsignaturemethod = "HMAC-SHA1";
+        String oauthtimestamp = ""+ (System.currentTimeMillis()/1000) ;
+        String oauthnonce = "" + System.currentTimeMillis() ;
         String encode ="UTF-8";
        
         String baseString = method+"&" + URLEncoder.encode(link,encode) + "&" ;
         
-        String paramString = "oauth_consumer_key=" + URLEncoder.encode(oauth_consumer_key,encode) + "&" +
-                             "oauth_nonce=" + URLEncoder.encode(oauth_nonce,encode) + "&" +
-                             "oauth_signature_method=" + URLEncoder.encode(oauth_signature_method,encode) + "&" +
-                             "oauth_timestamp=" + URLEncoder.encode(oauth_timestamp,encode) + "&" +
-                             "oauth_token=" + URLEncoder.encode(oauth_token,encode) + "&" +
-                             "oauth_version=" + URLEncoder.encode(oauth_version,encode) ;
+        String paramString = "oauth_consumer_key=" + URLEncoder.encode(oauthconsumerkey,encode) + "&" +
+                             "oauth_nonce=" + URLEncoder.encode(oauthnonce,encode) + "&" +
+                             "oauth_signature_method=" + URLEncoder.encode(oauthsignaturemethod,encode) + "&" +
+                             "oauth_timestamp=" + URLEncoder.encode(oauthtimestamp,encode) + "&" +
+                             "oauth_token=" + URLEncoder.encode(oauthtoken,encode) + "&" +
+                             "oauth_version=" + URLEncoder.encode(oauthversion,encode) ;
         
         
         baseString += URLEncoder.encode(paramString,encode) ;
@@ -136,28 +136,22 @@ public class AuthenticationServices {
         byte[] digest = mac.doFinal(baseString.getBytes());
         
         
-        String oauth_signature = DatatypeConverter.printBase64Binary(digest); //Base64.encode(digest).trim() ;     
+        String oauthSignature = DatatypeConverter.printBase64Binary(digest);     
         
-        String authorizationProperty = 
-                "OAuth " +
+        return  "OAuth " +
                 "realm=\"" + realm + "\", " + 
-                "oauth_version=\"" + oauth_version + "\", " +
-                "oauth_timestamp=\"" + oauth_timestamp + "\", " +
-                "oauth_nonce=\"" + oauth_nonce + "\", " +
-                "oauth_consumer_key=\"" + oauth_consumer_key + "\", " +
-                "oauth_token=\"" + oauth_token + "\", " +
-                "oauth_signature_method=\"" + oauth_signature_method + "\", " +
-                "oauth_signature=\"" + oauth_signature + "\"" ;
+                "oauth_version=\"" + oauthversion + "\", " +
+                "oauth_timestamp=\"" + oauthtimestamp + "\", " +
+                "oauth_nonce=\"" + oauthnonce + "\", " +
+                "oauth_consumer_key=\"" + oauthconsumerkey + "\", " +
+                "oauth_token=\"" + oauthtoken + "\", " +
+                "oauth_signature_method=\"" + oauthsignaturemethod + "\", " +
+                "oauth_signature=\"" + oauthSignature + "\"" ;
         
         
-        return authorizationProperty;
-		}
-		catch(InvalidKeyException e)
+       }
+		catch(InvalidKeyException|UnsupportedEncodingException|NoSuchAlgorithmException e)
 		{
-			throw new MkmException(e.getMessage());
-		} catch (UnsupportedEncodingException e) {
-			throw new MkmException(e.getMessage());
-		} catch (NoSuchAlgorithmException e) {
 			throw new MkmException(e.getMessage());
 		}
 	}
@@ -207,7 +201,7 @@ public class AuthenticationServices {
 	         }
 	         
 	         for (String k : headerParams.keySet())
-	             if (false == k.equalsIgnoreCase("realm"))
+	             if (!k.equalsIgnoreCase("realm"))
 	             {
 	            	 encodedParams.put(URLEncoder.encode(k,encode), headerParams.get(k));
 	            	 logger.trace("encodedParams.put("+URLEncoder.encode(k,encode)+","+headerParams.get(k)+")");
