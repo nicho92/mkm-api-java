@@ -2,13 +2,13 @@ package org.api.mkm.modele;
 
 public class Error {
 
-	String error;
+	String errorMessage;
 	String details;
 	public String getError() {
-		return error;
+		return errorMessage;
 	}
 	public void setError(String error) {
-		this.error = error;
+		this.errorMessage = error;
 	}
 	public String getDetails() {
 		return details;

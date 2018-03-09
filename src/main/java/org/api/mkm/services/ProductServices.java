@@ -87,7 +87,6 @@ public class ProductServices {
        boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
        if(!ret)
        {
-    	  // System.out.println(IOUtils.toString(connection.getInputStream()));
     	   throw new MkmNetworkException(connection.getResponseCode());
        }
        MkmAPIConfig.getInstance().updateCount(connection);	      	 	 

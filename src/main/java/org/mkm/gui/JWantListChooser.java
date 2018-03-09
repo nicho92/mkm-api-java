@@ -2,6 +2,7 @@ package org.mkm.gui;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.IOException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -17,7 +18,7 @@ public class JWantListChooser extends JDialog {
 	Wantslist selected;
 	JComboBox<Wantslist> cboList;
 	
-	public JWantListChooser() throws Exception {
+	public JWantListChooser() throws IOException  {
 		setModal(true);
 		DefaultComboBoxModel<Wantslist> model = new DefaultComboBoxModel<>();
 		

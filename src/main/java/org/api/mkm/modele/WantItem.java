@@ -9,11 +9,11 @@ public class WantItem {
 			public static String[] CONDITIONS = {"MT","NM","EX","GD","LP","PL","PO"}; 
 	
 	
-	 		String idWant;         
+			private String idWant;         
 		    int count;   
 		    double wishPrice;      
 		    private MkmBoolean mailAlert;
-		    String type;//="product";
+		    private String type;
 		    private Product product;
 		    private List<Integer> idLanguage;
 		    private String minCondition;

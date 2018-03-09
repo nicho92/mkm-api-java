@@ -41,7 +41,7 @@ import org.mkm.gui.renderer.ProductListRenderer;
 
 public class MkmSearchPanel extends JPanel {
 	private JTextField txtSearch;
-	private JPanel PanelSouth;
+	private JPanel panelSouth;
 	private JLabel label;
 	private JScrollPane panelWest;
 	private JList<Product> listResults;
@@ -165,11 +165,11 @@ public class MkmSearchPanel extends JPanel {
 		});
 		panelNorth.add(btnExportPriceGuid);
 		
-		PanelSouth = new JPanel();
-		add(PanelSouth, BorderLayout.SOUTH);
+		panelSouth = new JPanel();
+		add(panelSouth, BorderLayout.SOUTH);
 		
 		label = new JLabel("Connected as : ");
-		PanelSouth.add(label);
+		panelSouth.add(label);
 		
 		panelWest = new JScrollPane();
 		add(panelWest, BorderLayout.WEST);

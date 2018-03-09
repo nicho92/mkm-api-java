@@ -12,8 +12,13 @@ import java.util.zip.GZIPInputStream;
 public class Tools {
 
 	
-	private static final byte[] BUFFER_SIZE = new byte[256];
+   private static final byte[] BUFFER_SIZE = new byte[256];
 	
+   private Tools()
+   {
+	   
+   }
+   
     
    public static void unzip(File zipFilePath,File to) throws IOException {
     	try(GZIPInputStream zipIn = new GZIPInputStream(new FileInputStream(zipFilePath));BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(to)))
