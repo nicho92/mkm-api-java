@@ -41,9 +41,8 @@ public class MkmAPIConfig {
        String limit = connection.getHeaderField("X-Request-Limit-Max");
        String count = connection.getHeaderField("X-Request-Limit-Count");
 
-       if(maxCall==0)
-    	   if(limit!=null)
-    		   maxCall=Integer.parseInt(limit);
+       if(maxCall==0 && limit!=null)
+    	      maxCall=Integer.parseInt(limit);
        
        
        if(count!=null)

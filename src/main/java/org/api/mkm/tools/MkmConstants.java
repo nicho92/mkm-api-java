@@ -12,4 +12,5 @@ public class MkmConstants {
 	public static final String MKM_LOG_REQUEST="REQUEST=";
 	public static final String MKM_LOG_RESPONSE="RESP=";
 	public static final String OAUTH_AUTHORIZATION_HEADER="Authorization";
+	public static final String XML_HEADER="<?xml version='1.0' encoding='UTF-8' ?>";
 }

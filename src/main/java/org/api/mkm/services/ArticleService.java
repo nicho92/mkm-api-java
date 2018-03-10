@@ -49,8 +49,7 @@ public class ArticleService {
 		String link = MkmConstants.MKM_API_URL+"/users/"+u.getUsername()+"/articles";
 		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
-		if(atts!=null)
-			if(atts.size()>0)
+		if(atts!=null && atts.size()>0)
 	    	{
 	    		link+="?";
 	    		List<String> paramStrings = new ArrayList<>();
@@ -93,8 +92,7 @@ public class ArticleService {
 		String link = MkmConstants.MKM_API_URL+"/articles/"+p.getIdProduct();
     	logger.debug(MkmConstants.MKM_LOG_LINK+link);
     	
-    	if(atts!=null)
-	    	if(atts.size()>0)
+    	if(atts!=null && atts.size()>0)
 	    	{
 	    		link+="?";
 	    		List<String> paramStrings = new ArrayList<>();

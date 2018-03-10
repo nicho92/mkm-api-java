@@ -31,15 +31,6 @@ public class ProductListPanel extends JPanel{
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		/*
-		lblNewLabel = new DisplayableCard(card,new Dimension(77, 107),false);
-				GridBagConstraints gbclblNewLabel = new GridBagConstraints();
-				gbclblNewLabel.gridheight = 4;
-				gbclblNewLabel.insets = new Insets(0, 0, 5, 5);
-				gbclblNewLabel.gridx = 0;
-				gbclblNewLabel.gridy = 0;
-				add(lblNewLabel, gbclblNewLabel);
-		*/
 		JLabel lblName = new JLabel(p.getEnName());
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbclblName = new GridBagConstraints();
@@ -65,8 +56,6 @@ public class ProductListPanel extends JPanel{
 		gbclblGame.gridy = 2;
 		add(lblGame, gbclblGame);
 		
-		//lblEdition.setIcon();
-	
 	}	
 	
 	

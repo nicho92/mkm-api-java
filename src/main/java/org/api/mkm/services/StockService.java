@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.plaf.metal.MetalToggleButtonUI;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -107,7 +109,7 @@ public class StockService {
 
 		StringBuilder temp = new StringBuilder();
 
-		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request>");
 
 		for(Article a : list)
@@ -163,7 +165,7 @@ public class StockService {
 
 		StringBuilder temp = new StringBuilder();
 
-		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request>");
 
 		for(Article a : list)
@@ -266,7 +268,7 @@ public class StockService {
 
 		StringBuilder temp = new StringBuilder();
 
-		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request>");
 
 		for(Article a : list)

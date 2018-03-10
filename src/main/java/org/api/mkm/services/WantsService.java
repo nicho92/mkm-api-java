@@ -73,7 +73,7 @@ public class WantsService {
 				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuilder temp = new StringBuilder();
-		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>deleteItem</action>");
 		for(WantItem w : list)
 		{
@@ -128,7 +128,7 @@ public class WantsService {
 				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuilder temp = new StringBuilder();
-		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>editItem</action>");
 			temp.append("<want>");
 				temp.append("<idWant>").append(it.getIdWant()).append("</idWant>");
@@ -218,7 +218,7 @@ public class WantsService {
 
 		StringBuilder temp = new StringBuilder();
 
-		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>addItem</action>");
 
 		for(WantItem w : items)
@@ -277,7 +277,7 @@ public class WantsService {
 				    		
 		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuilder temp = new StringBuilder();
-		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>editWantslist</action>");
 		temp.append("<name>").append(name).append("</name></request>");
 		
@@ -308,7 +308,7 @@ public class WantsService {
 		String link = MkmConstants.MKM_API_URL+"/wantslist";
 		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
-		String temp = "<?xml version='1.0' encoding='UTF-8' ?><request><wantslist><idGame>1</idGame><name>"+name+"</name></wantslist></request>";
+		String temp = MkmConstants.XML_HEADER+"<request><wantslist><idGame>1</idGame><name>"+name+"</name></wantslist></request>";
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
         				  connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"POST")) ;
@@ -341,7 +341,7 @@ public class WantsService {
 		String link = MkmConstants.MKM_API_URL+"/wantslist/"+l.getIdWantslist();
 		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
-		String temp = "<?xml version='1.0' encoding='UTF-8' ?><request><wantslist><idGame>1</idGame><name>"+l.getIdWantslist()+"</name></wantslist></request>";
+		String temp =MkmConstants.XML_HEADER+"<request><wantslist><idGame>1</idGame><name>"+l.getIdWantslist()+"</name></wantslist></request>";
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
         				  connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"DELETE")) ;
