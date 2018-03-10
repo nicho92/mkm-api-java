@@ -1,7 +1,5 @@
 package org.mkm.gui;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.IOException;
 
 import javax.swing.DefaultComboBoxModel;
@@ -13,12 +11,12 @@ import org.api.mkm.services.WantsService;
 
 public class JWantListChooser extends JDialog {
 
-	WantsService service = new WantsService();
-	
-	Wantslist selected;
-	JComboBox<Wantslist> cboList;
+	private transient WantsService service;
+	private Wantslist selected;
+	private JComboBox<Wantslist> cboList;
 	
 	public JWantListChooser() throws IOException  {
+		service = new WantsService();
 		setModal(true);
 		DefaultComboBoxModel<Wantslist> model = new DefaultComboBoxModel<>();
 		
@@ -26,13 +24,9 @@ public class JWantListChooser extends JDialog {
 			model.addElement(l);
 		
 		cboList = new JComboBox<>(model);
-		cboList.addItemListener(new ItemListener() {
-			
-			@Override
-			public void itemStateChanged(ItemEvent e) {
+		cboList.addItemListener(ie->{
 				selected = (Wantslist)cboList.getSelectedItem();
 				dispose();
-			}
 		});
 		
 		this.getContentPane().add(cboList);

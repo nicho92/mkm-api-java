@@ -12,7 +12,6 @@ import java.util.Map.Entry;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
@@ -21,6 +20,7 @@ import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.User;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
@@ -28,11 +28,9 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class ArticleService {
-
+	private Logger logger = LogManager.getLogger(this.getClass());
 	private AuthenticationServices auth;
 	private XStream xstream;
-	static final Logger logger = LogManager.getLogger(ArticleService.class.getName());
-
 	
 	public ArticleService() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
@@ -46,10 +44,10 @@ public class ArticleService {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public List<Article> find(User u,Map<ARTICLES_ATT,String> atts) throws IOException, MkmException, MkmNetworkException 
+	public List<Article> find(User u,Map<ARTICLES_ATT,String> atts) throws IOException 
 	{
-		String link = "https://www.mkmapi.eu/ws/v2.0/users/"+u.getUsername()+"/articles";
-		logger.debug("LINK="+link);
+		String link = MkmConstants.MKM_API_URL+"/users/"+u.getUsername()+"/articles";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		
 		if(atts!=null)
 			if(atts.size()>0)
@@ -63,7 +61,7 @@ public class ArticleService {
 	    	}
 		
 		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-         connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+         connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
          connection.connect() ;
          MkmAPIConfig.getInstance().updateCount(connection);
      	boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -90,10 +88,10 @@ public class ArticleService {
 		return (article.get(0).getIdArticle()==0);
 	}
 
-	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws IOException, MkmException, MkmNetworkException 
+	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws IOException 
 	{
-		String link = "https://www.mkmapi.eu/ws/v2.0/articles/"+p.getIdProduct();
-    	logger.debug("LINK="+link);
+		String link = MkmConstants.MKM_API_URL+"/articles/"+p.getIdProduct();
+    	logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
     	
     	if(atts!=null)
 	    	if(atts.size()>0)
@@ -105,10 +103,10 @@ public class ArticleService {
 		        
 	 	        link+=Tools.join(paramStrings, "&");
 	    	}
-    	logger.debug("LINK="+link);
+    	logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
     	
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               

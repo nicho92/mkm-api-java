@@ -11,7 +11,7 @@ public class OrderTableModel extends DefaultTableModel{
 
 	private static final String[] columns={"idOrder","seller","article","totalValue"};
 	
-	List<Order> articles;
+	private List<Order> articles;
 	
 	public void init(List<Order> articles)
 	{

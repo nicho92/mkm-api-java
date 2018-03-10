@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.binary.Base64;
@@ -15,7 +16,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Link;
@@ -26,6 +26,7 @@ import org.api.mkm.modele.Response;
 import org.api.mkm.tools.EncodingUtils;
 import org.api.mkm.tools.IntConverter;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
@@ -36,12 +37,12 @@ public class ProductServices {
 
 	private AuthenticationServices auth;
 	private XStream xstream;
-	static final Logger logger = LogManager.getLogger(ProductServices.class.getName());
-	public static String ENGLISH="1";
-	public static String FRENCH="2";
-	public static String GERMAN="3";
-	public static String SPANISH="4";
-	public static String ITALIAN="5";
+	private Logger logger = LogManager.getLogger(this.getClass());
+	public static final String ENGLISH="1";
+	public static final String FRENCH="2";
+	public static final String GERMAN="3";
+	public static final String SPANISH="4";
+	public static final String ITALIAN="5";
 	
 	public static String[] getLangs()
 	{
@@ -73,15 +74,15 @@ public class ProductServices {
 	
 	public void exportPriceGuide(File f,Integer idGame) throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/priceguide";
+		String link=MkmConstants.MKM_API_URL+"/priceguide";
 	
 		if(idGame!=null)
-			link="https://www.mkmapi.eu/ws/v2.0/priceguide?idGame="+idGame;
+			link=MkmConstants.MKM_API_URL+"/priceguide?idGame="+idGame;
 		
-		logger.debug("LINK="+link);
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 	    
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 	   	               
        boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -97,17 +98,20 @@ public class ProductServices {
 		File temp =  new File("mkm_temp.gz");
 		FileUtils.writeByteArrayToFile(temp, bytes );
 		Tools.unzip(temp, f);
-		temp.delete();
+		if(!temp.delete())
+		{
+			logger.error("couln't remove " + temp.getAbsolutePath());
+		}
 	}
 	
 	
 	public void exportProductList(File f) throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/productlist";
-		logger.debug("LINK="+link);
+		String link=MkmConstants.MKM_API_URL+"/productlist";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 	    
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
        boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -125,18 +129,21 @@ public class ProductServices {
 		File temp =  new File("mkm_temp.gz");
 		FileUtils.writeByteArrayToFile(temp, bytes );
 		Tools.unzip(temp, f);
-		temp.delete();
+		if(!temp.delete())
+		{
+			logger.error("Couldn't remove "+temp.getAbsolutePath());
+		}
 		
 		
 	}
 	
 	public List<Product> getProductByExpansion(Expansion e)throws IOException 
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/expansions/"+e.getIdExpansion()+"/singles";
-		logger.debug("LINK="+link);
+		String link=MkmConstants.MKM_API_URL+"/expansions/"+e.getIdExpansion()+"/singles";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-        connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+        connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
         connection.connect() ;
         MkmAPIConfig.getInstance().updateCount(connection);
         boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -154,22 +161,21 @@ public class ProductServices {
 	{
 		xstream.aliasField("expansion", Product.class, "expansionName");
  		
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+EncodingUtils.EncodeString(name);
+		String link = MkmConstants.MKM_API_URL+"/products/find?search="+EncodingUtils.encodeString(name);
 	
-		if(atts!=null)
-			if(atts.size()>0)
+		if(atts!=null && atts.size()>0)
 	    	{
 				link+="&";
 	    		List<String> paramStrings = new ArrayList<>();
-	 	        for(PRODUCT_ATTS parameter:atts.keySet())
-		             paramStrings.add(parameter + "=" + atts.get(parameter));
+	 	        for(Entry<PRODUCT_ATTS, String> parameter:atts.entrySet())
+		             paramStrings.add(parameter.getKey() + "=" + parameter.getValue());
 		        
 	 	        link+=Tools.join(paramStrings, "&");
 	    	}
-		logger.debug("LINK="+link);
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		MkmAPIConfig.getInstance().updateCount(connection);
         
@@ -190,20 +196,20 @@ public class ProductServices {
 	
 	public List<Product> findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException
 	{
-		String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search="+EncodingUtils.EncodeString(name);
+		String link = MkmConstants.MKM_API_URL+"/products/find?search="+EncodingUtils.encodeString(name);
 		if(atts.size()>0)
     	{
 			link+="&";
     		List<String> paramStrings = new ArrayList<>();
- 	        for(PRODUCT_ATTS parameter:atts.keySet())
-	             paramStrings.add(parameter + "=" + atts.get(parameter));
+ 	        for(Entry<PRODUCT_ATTS, String> parameter:atts.entrySet())
+	             paramStrings.add(parameter.getKey() + "=" + parameter.getValue());
 	        
  	        link+=Tools.join(paramStrings, "&");
     	}
-		logger.debug("LINK="+link);
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               
 		
@@ -225,11 +231,11 @@ public class ProductServices {
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		
-    	String link = "https://www.mkmapi.eu/ws/v2.0/metaproducts/"+idMeta;
-    	logger.debug("LINK="+link);
+    	String link = MkmConstants.MKM_API_URL+"/metaproducts/"+idMeta;
+    	logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
         
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
@@ -247,11 +253,11 @@ public class ProductServices {
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		
-    	String link = "https://www.mkmapi.eu/ws/v2.0/products/"+idProduct;
-    	logger.debug("LINK="+link);
+    	String link = MkmConstants.MKM_API_URL+"/products/"+idProduct;
+    	logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
         
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
@@ -272,7 +278,7 @@ public class ProductServices {
 			 	 if (e.getValue() != null && !e.getKey().equals("class"))
 	             		PropertyUtils.setProperty(dest, e.getKey(), e.getValue());
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			logger.error(e1);
 			
 		}
 	}

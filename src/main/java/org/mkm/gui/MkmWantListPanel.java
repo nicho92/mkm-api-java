@@ -20,6 +20,7 @@ import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.WantsService;
+import org.api.mkm.tools.MkmConstants;
 import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.modeles.WantListTableModel;
 
@@ -73,7 +74,7 @@ public class MkmWantListPanel extends JPanel {
 					itemsTableModel.init(selected);
 				} catch (Exception e) {
 					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -87,7 +88,7 @@ public class MkmWantListPanel extends JPanel {
 				try {
 					serviceW.renameWantList(selected, res);
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e1.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -101,7 +102,7 @@ public class MkmWantListPanel extends JPanel {
 					Wantslist l = serviceW.createWantList(name);
 					wantListModel.addElement(l);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -113,7 +114,7 @@ public class MkmWantListPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(selected==null)
 				{
-					JOptionPane.showMessageDialog(null, "Need to select a WantList","ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Need to select a WantList",MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				else
@@ -128,7 +129,7 @@ public class MkmWantListPanel extends JPanel {
 								selected=null;
 
 							} catch (Exception e1) {
-								JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, e1.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 							} 
 						}
 				}
@@ -155,7 +156,7 @@ public class MkmWantListPanel extends JPanel {
 					}
 					
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -223,7 +224,7 @@ public class MkmWantListPanel extends JPanel {
 			btnDeleteWl.setEnabled(true);
 			btnRenameWl.setEnabled(true);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		
 		}
 		
@@ -245,7 +246,7 @@ public class MkmWantListPanel extends JPanel {
 				}
 				catch (Exception e) 
 				{
-					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}).start();

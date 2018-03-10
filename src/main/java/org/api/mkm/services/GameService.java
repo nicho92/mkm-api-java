@@ -9,13 +9,13 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -25,8 +25,7 @@ public class GameService {
 
 	private AuthenticationServices auth;
 	private XStream xstream;
-	static final Logger logger = LogManager.getLogger(GameService.class.getName());
-	
+	private Logger logger = LogManager.getLogger(this.getClass());
 	private List<Game> games;
 	
 	public GameService() {
@@ -43,7 +42,7 @@ public class GameService {
 	}
 	
 	
-	public Game getGame(int id) throws IOException, MkmException, MkmNetworkException
+	public Game getGame(int id) throws IOException
 	{
 		if(games==null)
 			games=listGames();
@@ -57,13 +56,13 @@ public class GameService {
 	}
 	
 	
-	public List<Game> listGames() throws IOException, MkmException, MkmNetworkException
+	public List<Game> listGames() throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/games";
-		logger.debug("LINK="+link);
+		String link=MkmConstants.MKM_API_URL+"/games";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 			
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -82,20 +81,20 @@ public class GameService {
 	}
 	
 	
-	public List<Expansion> listExpansion(Integer id) throws IOException, MkmException, MkmNetworkException
+	public List<Expansion> listExpansion(Integer id) throws IOException
 	{
 		Game g = new Game();
 		g.setIdGame(id);
 		return listExpansion(g);
 	}
 	
-	public List<Expansion> listExpansion(Game g) throws IOException, MkmException, MkmNetworkException
+	public List<Expansion> listExpansion(Game g) throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/games/"+g.getIdGame()+"/expansions";
-		logger.debug("LINK="+link);
+		String link=MkmConstants.MKM_API_URL+"/games/"+g.getIdGame()+"/expansions";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 			
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);

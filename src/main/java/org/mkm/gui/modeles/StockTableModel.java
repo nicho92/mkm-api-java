@@ -11,7 +11,7 @@ public class StockTableModel extends DefaultTableModel{
 
 	private static final String[] columns={"product","price","condition","foil","signed","playset","altered","comments","count"};
 	
-	List<Article> articles;
+	private List<Article> articles;
 	
 	public void init(List<Article> articles)
 	{

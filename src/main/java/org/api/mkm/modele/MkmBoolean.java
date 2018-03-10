@@ -1,6 +1,8 @@
 package org.api.mkm.modele;
 
-public class MkmBoolean{
+import java.io.Serializable;
+
+public class MkmBoolean implements Serializable{
 	
 	String value;
 	

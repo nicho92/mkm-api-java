@@ -9,9 +9,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.crypto.Mac;
@@ -27,6 +27,7 @@ import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.User;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
@@ -41,8 +42,8 @@ public class AuthenticationServices {
 	private String accessToken;
 	private String accessSecret;
 	private XStream xstream;
-	
-	static final Logger logger = LogManager.getLogger(AuthenticationServices.class.getName());
+	private Logger logger = LogManager.getLogger(this.getClass());
+
 
 	public AuthenticationServices(String accessSecret,String accessToken,String appSecret,String appToken) throws MkmException {
 		this.accessSecret=accessSecret;
@@ -69,11 +70,11 @@ public class AuthenticationServices {
 	
 	public User getAuthenticatedUser() throws IOException 
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/account";
+		String link=MkmConstants.MKM_API_URL+"/account";
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
-		logger.debug("LINK="+link);
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
         MkmAPIConfig.getInstance().updateCount(connection);
     	               
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -158,11 +159,9 @@ public class AuthenticationServices {
 	    
 	public String generateOAuthSignature2(String url,String method) throws MkmException{
 	    	try{
-	    		
-	    	
-	    	 Map<String,String> headerParams = new HashMap<>();
+	    	 Map<String,String> headerParams;
 	         Map<String,String> encodedParams = new TreeMap<>();
-	         int index = url.indexOf("?");
+	         int index = url.indexOf('?');
 	         String signatureMethod = "HMAC-SHA1";
 	         String version = "1.0";
 	         String encode="UTF-8";
@@ -193,26 +192,26 @@ public class AuthenticationServices {
 	             String urlParams = url.substring(index+1);
 	             Map<String,String> args = parseQueryString(urlParams);
 
-	             for (String k : args.keySet())
+	             for (Entry<String, String> k : args.entrySet())
 	             {
-	            	 headerParams.put(k, args.get(k));
-	            	 logger.trace("headerParams.put("+k+","+args.get(k)+")");
+	            	 headerParams.put(k.getKey(), k.getValue());
+	            	 logger.trace("headerParams.put("+k.getKey()+","+k.getValue()+")");
 	             }
 	         }
 	         
-	         for (String k : headerParams.keySet())
-	             if (!k.equalsIgnoreCase("realm"))
+	         for (Entry<String, String> k : headerParams.entrySet())
+	             if (!k.getKey().equalsIgnoreCase("realm"))
 	             {
-	            	 encodedParams.put(URLEncoder.encode(k,encode), headerParams.get(k));
-	            	 logger.trace("encodedParams.put("+URLEncoder.encode(k,encode)+","+headerParams.get(k)+")");
+	            	 encodedParams.put(URLEncoder.encode(k.getKey(),encode), k.getValue());
+	            	 logger.trace("encodedParams.put("+URLEncoder.encode(k.getKey(),encode)+","+k.getValue()+")");
 	             }
 	            
 	         List<String> paramStrings = new ArrayList<>();
 	        
-	         for(String parameter:encodedParams.keySet())
+	         for(Entry<String, String> parameter:encodedParams.entrySet())
 	         {
-	        	 paramStrings.add(parameter + "=" + encodedParams.get(parameter));
-	        	 logger.trace("paramStrings.add("+parameter+"="+encodedParams.get(parameter)+")");
+	        	 paramStrings.add(parameter.getKey() + "=" + parameter.getValue());
+	        	 logger.trace("paramStrings.add("+parameter.getKey()+"="+parameter.getValue()+")");
 	         }
 	         
 	         String paramString = URLEncoder.encode(Tools.join(paramStrings, "&"),encode).replaceAll("'", "%27");
@@ -229,8 +228,8 @@ public class AuthenticationServices {
 	         
 	         List<String> headerParamStrings = new ArrayList<>();
 	    
-	         for(String parameter:headerParams.keySet())
-	             headerParamStrings.add(parameter + "=\"" + headerParams.get(parameter) + "\"");
+	         for(Entry<String, String> parameter:headerParams.entrySet())
+	             headerParamStrings.add(parameter.getKey() + "=\"" + parameter.getValue() + "\"");
 	         
 	         String authHeader = "OAuth " + Tools.join(headerParamStrings,", ");
 	         logger.debug("authHeader="+authHeader);

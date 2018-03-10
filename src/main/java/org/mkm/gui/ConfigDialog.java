@@ -5,8 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -16,6 +14,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.tools.MkmAPIConfig;
 
@@ -26,6 +26,7 @@ public class ConfigDialog extends JDialog {
 	private JTextField txtAppSecret;
 	private JTextField txtAccessToken;
 	private JTextField txtAccessTokenSecret;
+	private transient Logger logger = LogManager.getLogger(this.getClass());
 
 
 	public ConfigDialog() {
@@ -123,8 +124,7 @@ public class ConfigDialog extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
+				okButton.addActionListener(ae->{
 						try {
 							MkmAPIConfig.getInstance().init(txtAccessTokenSecret.getText(),txtAccessToken.getText(),txtAppSecret.getText(),txtAppToken.getText());
 							dispose();
@@ -138,10 +138,8 @@ public class ConfigDialog extends JDialog {
 							f.setVisible(true);
 							
 						} catch (MkmException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							logger.error(e);
 						}
-					}
 				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);

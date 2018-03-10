@@ -10,7 +10,7 @@ public class ArticlesTableModel extends DefaultTableModel{
 
 	private static final String[] columns={"product","expansion","seller","Localization","price","condition","foil","signed","playset","altered","comments"};
 	
-	List<Article> articles;
+	private List<Article> articles;
 	
 	public void init(List<Article> articles)
 	{
@@ -23,12 +23,6 @@ public class ArticlesTableModel extends DefaultTableModel{
 		return false;
 	}
 
-	@Override
-	public Class<?> getColumnClass(int columnIndex) {
-			return super.getColumnClass(columnIndex);
-	}
-	
-	
 	@Override
 	public String getColumnName(int column) {
 		return columns[column];

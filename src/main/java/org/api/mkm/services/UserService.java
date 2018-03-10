@@ -17,6 +17,7 @@ import org.api.mkm.modele.Response;
 import org.api.mkm.modele.Thread;
 import org.api.mkm.modele.User;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -24,7 +25,7 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class UserService {
 
-	static final Logger logger = LogManager.getLogger(UserService.class.getName());
+	private Logger logger = LogManager.getLogger(this.getClass());
 	private XStream xstream;
 	private AuthenticationServices auth;
 	
@@ -44,13 +45,13 @@ public class UserService {
  		
 	}
 	
-	public List<User> findUsers(String name) throws IOException, MkmNetworkException, MkmException
+	public List<User> findUsers(String name) throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/users/find?search="+name.toLowerCase();
-		logger.debug("LINK="+link);
+		String link=MkmConstants.MKM_API_URL+"/users/find?search="+name.toLowerCase();
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
@@ -70,13 +71,13 @@ public class UserService {
 	}
 	
 	
-	public boolean setVacation(boolean vacation) throws IOException, MkmNetworkException, MkmException
+	public boolean setVacation(boolean vacation) throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/account?onVacation="+vacation;
-		logger.debug("LINK="+link);
+		String link=MkmConstants.MKM_API_URL+"/account?onVacation="+vacation;
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
@@ -84,18 +85,19 @@ public class UserService {
 	 	if(!ret)
 	 		throw new MkmNetworkException(connection.getResponseCode());
 			               
-		//String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		logger.debug("RESP="+xml);
 		
 	 	return true;
 	}
 	
-	public boolean sendMessage(User u, String message)throws IOException, MkmNetworkException, MkmException
+	public boolean sendMessage(User u, String message)throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/account/messages/"+u.getIdUser();
+		String link=MkmConstants.MKM_API_URL+"/account/messages/"+u.getIdUser();
 		
-		logger.debug("LINK="+link);
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-				            connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"POST")) ;
+				            connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"POST")) ;
 				       		connection.setDoOutput(true);
 				    		connection.setRequestMethod("POST");
 				    		connection.connect();
@@ -131,17 +133,17 @@ public class UserService {
 		
 	}
 	
-	public List<Thread> getMessages(User other) throws IOException, MkmNetworkException, MkmException
+	public List<Thread> getMessages(User other) throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/account/messages";
+		String link=MkmConstants.MKM_API_URL+"/account/messages";
 		
 		if(other!=null)
 			link+="/"+other.getIdUser();
 		
-		logger.debug("LINK="+link);
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               

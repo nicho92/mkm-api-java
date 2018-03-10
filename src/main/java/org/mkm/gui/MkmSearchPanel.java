@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +36,7 @@ import org.api.mkm.services.CartServices;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.renderer.ProductListRenderer;
 
@@ -131,7 +131,7 @@ public class MkmSearchPanel extends JPanel {
 				try {
 					serv.addArticle(selectedArticle);
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				} 
 			}
 		});
@@ -156,7 +156,7 @@ public class MkmSearchPanel extends JPanel {
 					} 
 				    catch (Exception e) 
 				    {
-						JOptionPane.showMessageDialog(null, e, "ERROR", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e, MkmConstants.MKM_ERROR, JOptionPane.ERROR_MESSAGE);
 					}
 				    
 				}
@@ -232,7 +232,7 @@ public class MkmSearchPanel extends JPanel {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		} 
 		
 	}
@@ -246,7 +246,7 @@ public class MkmSearchPanel extends JPanel {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		} 
 		
 	}
@@ -276,7 +276,7 @@ public class MkmSearchPanel extends JPanel {
 		try {
 			articlesModel.init(service.find(selectedValue, atts));
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		}
 		
 	}

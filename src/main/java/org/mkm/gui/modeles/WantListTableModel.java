@@ -12,7 +12,7 @@ public class WantListTableModel extends DefaultTableModel{
 
 	private static final String[] columns={"product","wishPrice","count","minCondition","foil","signed","playset","altered","mailAlert","idLanguage","type"};
 	
-	List<WantItem> articles;
+	private List<WantItem> articles;
 	
 	public void init(Wantslist selectedValue)
 	{

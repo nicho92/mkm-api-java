@@ -10,13 +10,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
@@ -24,6 +24,7 @@ import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
@@ -34,7 +35,7 @@ public class StockService {
 
 	private AuthenticationServices auth;
 	private XStream xstream;
-	static final Logger logger = LogManager.getLogger(StockService.class.getName());
+	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public StockService() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
@@ -47,21 +48,21 @@ public class StockService {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public List<Article> getStock(int idGame,String name) throws IOException, MkmException, MkmNetworkException
+	public List<Article> getStock(int idGame,String name) throws IOException
 	{
 		Game g = new Game();
 		g.setIdGame(idGame);
 		return getStock(g, name);
 	}
 	
-	public List<Article> getStock() throws IOException, MkmException, MkmNetworkException
+	public List<Article> getStock() throws IOException
 	{
 		return getStock(null, null);
 	}
 	
-	public List<Article> getStock(Game game,String name) throws IOException, MkmException, MkmNetworkException
+	public List<Article> getStock(Game game,String name) throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/stock";
+		String link=MkmConstants.MKM_API_URL+"/stock";
 		
 		if(name!=null)
 			link=link+"/"+URLEncoder.encode(name, "UTF-8");
@@ -69,10 +70,10 @@ public class StockService {
 		if(game!=null)
 			link=link+"/"+game.getIdGame();
 		
-		logger.debug("LINK="+link);
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
 			               
@@ -85,20 +86,20 @@ public class StockService {
 		return res.getArticle();
 	}
 	
-	public boolean addArticle(Article a) throws IOException, MkmException, MkmNetworkException
+	public boolean addArticle(Article a) throws IOException
 	{
 		ArrayList<Article> list = new ArrayList<>();
 		list.add(a);
 		return addArticles(list);
 	}
 	
-	public boolean addArticles(List<Article> list) throws IOException, MkmException, MkmNetworkException
+	public boolean addArticles(List<Article> list) throws IOException
 	{
-		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
-		logger.debug("LINK="+link);
+		String link =MkmConstants.MKM_API_URL+"/stock";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"POST")) ;
+		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"POST")) ;
 		connection.setDoOutput(true);
 		connection.setRequestMethod("POST");
 		connection.connect();
@@ -140,20 +141,20 @@ public class StockService {
 		return ret;
 	}
 	
-	public boolean removeArticle(Article a) throws IOException, MkmException, MkmNetworkException
+	public boolean removeArticle(Article a) throws IOException
 	{
 		ArrayList<Article> list = new ArrayList<>();
 		list.add(a);
 		return removeArticles(list);
 	}
 	
-	public boolean removeArticles(List<Article> list) throws IOException, MkmException, MkmNetworkException
+	public boolean removeArticles(List<Article> list) throws IOException
 	{
-		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
-		logger.debug("LINK="+link);
+		String link =MkmConstants.MKM_API_URL+"/stock";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"DELETE")) ;
+		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"DELETE")) ;
 		connection.setDoOutput(true);
 		connection.setRequestMethod("DELETE");
 		connection.connect();
@@ -188,29 +189,29 @@ public class StockService {
 		return ret;
 	}
 	
-	public void exportStockFile(File f) throws IOException, MkmException, MkmNetworkException
+	public void exportStockFile(File f) throws IOException
 	{
 		exportStockFile(f,null);
 	}
 	
-	public void exportStockFile(File f,Map<ARTICLES_ATT,String> atts) throws IOException, MkmException, MkmNetworkException
+	public void exportStockFile(File f,Map<ARTICLES_ATT,String> atts) throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/stock/file";
+		String link=MkmConstants.MKM_API_URL+"/stock/file";
 		
 		if(atts!=null)
     	{
     		link+="?";
     		List<String> paramStrings = new ArrayList<>();
- 	        for(ARTICLES_ATT parameter:atts.keySet())
-	             paramStrings.add(parameter + "=" + atts.get(parameter));
+ 	        for(Entry<ARTICLES_ATT, String> parameter:atts.entrySet())
+	             paramStrings.add(parameter.getKey() + "=" + parameter.getValue());
 	        
  	        link+=Tools.join(paramStrings, "&");
     	}
-		logger.debug("LINK="+link);
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 	    
 		
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 		
 			               MkmAPIConfig.getInstance().updateCount(connection);
@@ -230,7 +231,10 @@ public class StockService {
 		File temp =  new File("mkm_stock_temp.gz");
 		FileUtils.writeByteArrayToFile(temp, bytes );
 		Tools.unzip(temp, f);
-		temp.delete();
+		if(!temp.delete())
+		{
+			logger.error("couldn't delete "+ temp.getAbsolutePath());
+		}
 	}
 	
 	
@@ -243,17 +247,17 @@ public class StockService {
 	
 	public boolean changeQte(List<Article> list, int qte) throws IOException
 	{
-		String link ="https://www.mkmapi.eu/ws/v2.0/stock";
+		String link =MkmConstants.MKM_API_URL+"/stock";
 		
 		if(qte>0)
 			link+="/increase";
 		else
 			link+="/decrease";
 		
-		logger.debug("LINK="+link);
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
+		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();

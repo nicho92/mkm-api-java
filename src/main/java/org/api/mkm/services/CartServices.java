@@ -11,12 +11,12 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Basket;
 import org.api.mkm.modele.ShoppingCart;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -26,7 +26,7 @@ public class CartServices {
 
 	private AuthenticationServices auth;
 	private XStream xstream;
-	static final Logger logger = LogManager.getLogger(CartServices.class.getName());
+	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public CartServices() {
 		auth=MkmAPIConfig.getInstance().getAuthenticator();
@@ -40,7 +40,7 @@ public class CartServices {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public boolean addArticle(Article a) throws IOException, MkmNetworkException
+	public boolean addArticle(Article a) throws IOException
 	{
 		List<Article> list = new ArrayList<>();
 		list.add(a);
@@ -48,13 +48,13 @@ public class CartServices {
 	}
 	
 	
-	public boolean addArticles(List<Article> articles) throws IOException, MkmNetworkException
+	public boolean addArticles(List<Article> articles) throws IOException
 	{
-		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
-		logger.debug("LINK="+link);
+		String link =MkmConstants.MKM_API_URL+"/shoppingcart";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
+		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
@@ -90,13 +90,13 @@ public class CartServices {
 		
 		return ret;
 	}
-	public boolean empty() throws IOException, MkmException, MkmNetworkException
+	public boolean empty() throws IOException
 	{
-		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
-		logger.debug("LINK="+link);
+		String link =MkmConstants.MKM_API_URL+"/shoppingcart";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"DELETE")) ;
+		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"DELETE")) ;
 		connection.setDoOutput(true);
 		connection.setRequestMethod("DELETE");
 		connection.connect();
@@ -110,13 +110,13 @@ public class CartServices {
 	}
 	
 	
-	public boolean removeArticles(List<Article> articles) throws IOException, MkmException, MkmNetworkException
+	public boolean removeArticles(List<Article> articles) throws IOException
 	{
-		String link ="https://www.mkmapi.eu/ws/v2.0/shoppingcart";
-		logger.debug("LINK="+link);
+		String link =MkmConstants.MKM_API_URL+"/shoppingcart";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-		connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"PUT")) ;
+		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
 		connection.setDoOutput(true);
 		connection.setRequestMethod("PUT");
 		connection.connect();
@@ -150,12 +150,12 @@ public class CartServices {
 		return ret;
 	}
 	
-	public Basket getBasket() throws IOException, MkmException, MkmNetworkException
+	public Basket getBasket() throws IOException
 	{
-		String link = "https://www.mkmapi.eu/ws/v2.0/shoppingcart";
-		logger.debug("LINK="+link);
+		String link = MkmConstants.MKM_API_URL+"/shoppingcart";
+		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
 			               MkmAPIConfig.getInstance().updateCount(connection);
    		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -163,8 +163,7 @@ public class CartServices {
 	 		throw new MkmNetworkException(connection.getResponseCode());
            
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		Basket res = (Basket)xstream.fromXML(xml);
-		return res;
+		return (Basket)xstream.fromXML(xml);
 	}
 	
 	

@@ -1,12 +1,9 @@
 package org.mkm.gui;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
@@ -20,64 +17,54 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.ProductServices;
+import org.api.mkm.tools.MkmConstants;
 import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.renderer.ProductListRenderer;
 
 public class MkmMetaSearchPanel extends JPanel {
-	private JTextField txtSearch;
-	private JPanel panelSouth;
-	private JScrollPane panelWest;
+	private transient Logger logger = LogManager.getLogger(this.getClass());
 	private JList<Product> listResults;
-	private JScrollPane panelCenter;
-	private JTable tableArticles;
 	private DefaultListModel<Product> productsModel;
 	private ArticlesTableModel articlesModel;
-	
-	private JLabel lblSearchProduct;
 	private JPanel panelEast;
 	private JLabel lblPics;
 	
-	private Product selectedProduct;
 	private JComboBox comboBox;
-	private JLabel lblOrById;
-	private JTextField txtIdMeta;
 	
 	private void initGUI()
 	{
+		JTextField txtSearch;
+		JPanel panelSouth;
+		JScrollPane panelWest;
+		JScrollPane panelCenter;
+		JTable tableArticles;
+		JTextField txtIdMeta;
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelNorth = new JPanel();
 		add(panelNorth, BorderLayout.NORTH);
 		
 		txtSearch = new JTextField();
-		txtSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				search(txtSearch.getText());
-			}
-		});
+		txtSearch.addActionListener(ae->search(txtSearch.getText()));
 		
-		lblSearchProduct = new JLabel("Search meta product : ");
-		panelNorth.add(lblSearchProduct);
+		panelNorth.add(new JLabel("Search meta product : "));
 		
 		comboBox = new JComboBox<String>(new DefaultComboBoxModel<String>(ProductServices.getLangs()));
 		panelNorth.add(comboBox);
 		panelNorth.add(txtSearch);
 		txtSearch.setColumns(15);
-		
-		lblOrById = new JLabel("or by id : ");
-		panelNorth.add(lblOrById);
+
+		panelNorth.add(new JLabel("or by id : "));
 		
 		txtIdMeta = new JTextField();
-		txtIdMeta.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				searchID(Integer.parseInt(txtIdMeta.getText()));
-			}
-		});
+		txtIdMeta.addActionListener(ae->searchID(Integer.parseInt(txtIdMeta.getText())));
 		panelNorth.add(txtIdMeta);
 		txtIdMeta.setColumns(10);
 		
@@ -114,7 +101,7 @@ public class MkmMetaSearchPanel extends JPanel {
 			Product p = services.getMetaProductById(id);
 				productsModel.addElement(p);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		} 
 		
 	}
@@ -131,7 +118,7 @@ public class MkmMetaSearchPanel extends JPanel {
 			
 			
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		} 
 		
 	}
@@ -148,7 +135,7 @@ public class MkmMetaSearchPanel extends JPanel {
 			lblPics = new JLabel("");
 			panelEast.add(lblPics);
 		}  catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 		
 	}
@@ -161,7 +148,7 @@ public class MkmMetaSearchPanel extends JPanel {
 		try {
 			articlesModel.init(service.find(selectedValue, atts));
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		}
 		
 	}

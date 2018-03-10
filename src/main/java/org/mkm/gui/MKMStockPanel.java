@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -12,14 +11,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.api.mkm.modele.Article;
-import org.api.mkm.modele.Product;
 import org.api.mkm.services.StockService;
+import org.api.mkm.tools.MkmConstants;
 import org.mkm.gui.modeles.StockTableModel;
 
 public class MKMStockPanel extends JPanel {
 	private JScrollPane panelCenter;
 	private JTable tableArticles;
-	private DefaultListModel<Product> productsModel;
 	private StockTableModel articlesModel;
 	private JButton btnLoadStock;
 	private JButton btnUpQte;
@@ -40,7 +38,7 @@ public class MKMStockPanel extends JPanel {
 					articlesModel.init(serv.getStock());
 					
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				} 
 			}
 		});
@@ -57,7 +55,7 @@ public class MKMStockPanel extends JPanel {
 						articlesModel.fireTableDataChanged();
 					
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				} 
 			}
 		});
@@ -72,12 +70,11 @@ public class MKMStockPanel extends JPanel {
 						serv.changeQte(a, 1);
 						articlesModel.fireTableDataChanged();
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				} 
 			}
 		});
 		panelNorth.add(btnUpQte);
-		productsModel = new DefaultListModel<>();
 		
 		panelCenter = new JScrollPane();
 		add(panelCenter, BorderLayout.CENTER);

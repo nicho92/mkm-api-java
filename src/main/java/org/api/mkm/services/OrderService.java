@@ -10,13 +10,13 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.api.mkm.tools.MkmConstants;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -26,10 +26,10 @@ public class OrderService {
 	private AuthenticationServices auth;
 	private XStream xstream;
 
-	public enum ACTOR { seller,buyer};
-	public enum STATE { bought,paid,sent,received,lost,cancelled};
+	public enum ACTOR { seller,buyer}
+	public enum STATE { bought,paid,sent,received,lost,cancelled}
 	
-	static final Logger logger = LogManager.getLogger(OrderService.class.getName());
+	private Logger logger = LogManager.getLogger(this.getClass());
 	
 	
 	
@@ -47,18 +47,18 @@ public class OrderService {
 	}
 
 	
-	public List<Order> listOrders(ACTOR a, STATE s,Integer min) throws IOException, MkmException, MkmNetworkException
+	public List<Order> listOrders(ACTOR a, STATE s,Integer min) throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/orders/:actor/:state";
+		String link=MkmConstants.MKM_API_URL+"/orders/:actor/:state";
 			link=link.replaceAll(":actor", a.name());
 			link=link.replaceAll(":state", s.name());
 		
 		if(min!=null)
 			link+="/"+min;
 		
-		 logger.debug("LINK="+link);
+		 logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-         connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+         connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
          connection.connect() ;
          MkmAPIConfig.getInstance().updateCount(connection);
          boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -82,13 +82,13 @@ public class OrderService {
          return res.getOrder();
 	}
 	
-	public Order getOrderById(int id) throws IOException, MkmException, MkmNetworkException
+	public Order getOrderById(int id) throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/order/"+id;
-		 logger.debug("LINK="+link);
+		String link=MkmConstants.MKM_API_URL+"/order/"+id;
+		 logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
 		 
 		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-         connection.addRequestProperty("Authorization", auth.generateOAuthSignature2(link,"GET")) ;
+         connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
          connection.connect() ;
          MkmAPIConfig.getInstance().updateCount(connection);
          boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
