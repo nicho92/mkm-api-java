@@ -6,7 +6,7 @@ import java.util.List;
 public class Product implements Serializable
 {
 	
-	public enum PRODUCT_ATTS {exact,idGame,idLanguage,start,maxResults};
+	public enum PRODUCT_ATTS {exact,idGame,idLanguage,start,maxResults}
 	
 	private int idProduct;
 	private String idMetaproduct;

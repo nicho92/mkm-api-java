@@ -64,7 +64,7 @@ public class WantsService {
 	public Wantslist deleteItems(Wantslist li, List<WantItem> list) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/wantslist/"+li.getIdWantslist();
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 				            connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
 				       		connection.setDoOutput(true);
@@ -81,7 +81,7 @@ public class WantsService {
 			temp.append("<idWant>"+w.getIdWant()+"</idWant>");
 		}		    
 		temp.append("</want></request>");
-		logger.debug("REQU="+temp);
+		logger.debug(MkmConstants.MKM_LOG_REQUEST+temp);
 		
 		out.write(temp.toString());
 		out.close();
@@ -118,7 +118,7 @@ public class WantsService {
 	{
 		
 		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 	   
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 				            connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
@@ -152,7 +152,7 @@ public class WantsService {
 			temp.append("</want>");
 		temp.append("</request>");
 
-		logger.debug("REQU="+temp);
+		logger.debug(MkmConstants.MKM_LOG_REQUEST+temp);
 		
 		out.write(temp.toString());
 		out.close();
@@ -206,7 +206,7 @@ public class WantsService {
 	public boolean addItem(Wantslist wl, List<WantItem> items) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
@@ -245,7 +245,7 @@ public class WantsService {
 			temp.append("</product>");
 		}		    
 		temp.append("</request>");
-		logger.debug("REQU="+temp);
+		logger.debug(MkmConstants.MKM_LOG_REQUEST+temp);
 		out.write(temp.toString());
 		out.close();
 		
@@ -267,7 +267,7 @@ public class WantsService {
 	public boolean renameWantList(Wantslist wl , String name) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 				            connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
@@ -281,7 +281,7 @@ public class WantsService {
 		temp.append("<request><action>editWantslist</action>");
 		temp.append("<name>").append(name).append("</name></request>");
 		
-		logger.debug("REQU="+temp);
+		logger.debug(MkmConstants.MKM_LOG_REQUEST+temp);
 		
 		out.write(temp.toString());
 		out.close();
@@ -306,7 +306,7 @@ public class WantsService {
 	public Wantslist createWantList(String name) throws IOException
 	{
 		String link = MkmConstants.MKM_API_URL+"/wantslist";
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
 		String temp = "<?xml version='1.0' encoding='UTF-8' ?><request><wantslist><idGame>1</idGame><name>"+name+"</name></wantslist></request>";
 		
@@ -339,7 +339,7 @@ public class WantsService {
 	public boolean deleteWantList(Wantslist l) throws IOException
 	{
 		String link = MkmConstants.MKM_API_URL+"/wantslist/"+l.getIdWantslist();
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
 		String temp = "<?xml version='1.0' encoding='UTF-8' ?><request><wantslist><idGame>1</idGame><name>"+l.getIdWantslist()+"</name></wantslist></request>";
 		
@@ -373,7 +373,7 @@ public class WantsService {
 	public void loadItems(Wantslist wl) throws IOException
 	{
 		String link = MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
-    	logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+    	logger.debug(MkmConstants.MKM_LOG_LINK+link);
     	
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;

@@ -48,7 +48,7 @@ public class UserService {
 	public List<User> findUsers(String name) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/users/find?search="+name.toLowerCase();
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -60,7 +60,7 @@ public class UserService {
 	 		throw new MkmNetworkException(connection.getResponseCode());
 	 	
 	 	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-	 	logger.debug("RESP="+xml);
+	 	logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
 		Response res = (Response)xstream.fromXML(xml);
 		if(res.getErrors()!=null)
 			throw new MkmException(res.getErrors());
@@ -74,7 +74,7 @@ public class UserService {
 	public boolean setVacation(boolean vacation) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/account?onVacation="+vacation;
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -86,7 +86,7 @@ public class UserService {
 	 		throw new MkmNetworkException(connection.getResponseCode());
 			               
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		logger.debug("RESP="+xml);
+		logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
 		
 	 	return true;
 	}
@@ -95,7 +95,7 @@ public class UserService {
 	{
 		String link=MkmConstants.MKM_API_URL+"/account/messages/"+u.getIdUser();
 		
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
     	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 				            connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"POST")) ;
 				       		connection.setDoOutput(true);
@@ -107,7 +107,7 @@ public class UserService {
 		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
 		temp.append("<request><message>"+message+"</message>");
 		temp.append("</request>");
-		logger.debug("REQU="+temp);
+		logger.debug(MkmConstants.MKM_LOG_REQUEST+temp);
 		
 		out.write(temp.toString());
 		out.close();
@@ -118,7 +118,7 @@ public class UserService {
 		if(code)
 		{
 			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-			logger.debug("RESP="+xml);
+			logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
 			Response res = (Response)xstream.fromXML(xml);
 			if(res.getErrors()!=null)
 				throw new MkmException(res.getErrors());
@@ -140,7 +140,7 @@ public class UserService {
 		if(other!=null)
 			link+="/"+other.getIdUser();
 		
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -153,7 +153,7 @@ public class UserService {
 	 	
 	    String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		 
-        logger.debug("RESP="+xml);
+        logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
         Response res = (Response)xstream.fromXML(xml);
         
 		return res.getThread();

@@ -7,7 +7,7 @@ import java.util.List;
 public class WantItem implements Serializable{
 
 	
-			public static String[] CONDITIONS = {"MT","NM","EX","GD","LP","PL","PO"}; 
+			public static final String[] CONDITIONS = {"MT","NM","EX","GD","LP","PL","PO"}; 
 	
 	
 			private String idWant;         

@@ -70,7 +70,7 @@ public class StockService {
 		if(game!=null)
 			link=link+"/"+game.getIdGame();
 		
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -96,7 +96,7 @@ public class StockService {
 	public boolean addArticles(List<Article> list) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"POST")) ;
@@ -151,7 +151,7 @@ public class StockService {
 	public boolean removeArticles(List<Article> list) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"DELETE")) ;
@@ -207,7 +207,7 @@ public class StockService {
 	        
  	        link+=Tools.join(paramStrings, "&");
     	}
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 	    
 		
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
@@ -254,7 +254,7 @@ public class StockService {
 		else
 			link+="/decrease";
 		
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
@@ -291,7 +291,7 @@ public class StockService {
 	 		throw new MkmNetworkException(connection.getResponseCode());
 	 	 
 	 	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-        logger.debug("RESP="+xml);
+        logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
 	 	 
 	 	 
 		return ret;

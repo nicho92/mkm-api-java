@@ -56,7 +56,7 @@ public class OrderService {
 		if(min!=null)
 			link+="/"+min;
 		
-		 logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		 logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
          connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
          connection.connect() ;
@@ -67,7 +67,7 @@ public class OrderService {
     
          String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		 
-         logger.debug("RESP="+xml);
+         logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
 		 
          Response res = (Response)xstream.fromXML(xml);
         
@@ -85,7 +85,7 @@ public class OrderService {
 	public Order getOrderById(int id) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/order/"+id;
-		 logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		 logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		 
 		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
          connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -96,7 +96,7 @@ public class OrderService {
 	 		throw new MkmNetworkException(connection.getResponseCode());
 	 	 
          String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		 logger.debug("RESP="+xml);
+		 logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
          Response res = (Response)xstream.fromXML(xml);
      	
          return res.getOrder().get(0);

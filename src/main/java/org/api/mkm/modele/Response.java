@@ -5,23 +5,23 @@ import java.util.List;
 
 public class Response implements Serializable{
 	
-	List<Product> product;
-	List<Article> article;
-	List<Link> links;
-	List<Wantslist> wantslist;
-	List<Game> game;
-	List<Expansion> expansion;
-	List<Product> single;
-	List<Order> order;
-	List<Thread> thread;
-	List<User> users;
+	private List<Product> product;
+	private List<Article> article;
+	private List<Link> links;
+	private List<Wantslist> wantslist;
+	private List<Game> game;
+	private List<Expansion> expansion;
+	private List<Product> single;
+	private List<Order> order;
+	private List<Thread> thread;
+	private List<User> users;
 
-	Error errors;
-	User account;
-	String productsfile;
-	String mime;
-	String priceguidefile;
-	String stock;
+	private Error errors;
+	private User account;
+	private String productsfile;
+	private String mime;
+	private String priceguidefile;
+	private String stock;
 	
 	
 	public List<User> getUsers() {

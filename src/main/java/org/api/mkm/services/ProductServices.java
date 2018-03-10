@@ -79,7 +79,7 @@ public class ProductServices {
 		if(idGame!=null)
 			link=MkmConstants.MKM_API_URL+"/priceguide?idGame="+idGame;
 		
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 	    
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -108,7 +108,7 @@ public class ProductServices {
 	public void exportProductList(File f) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/productlist";
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 	    
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -119,7 +119,7 @@ public class ProductServices {
     	   throw new MkmNetworkException(connection.getResponseCode());	               
 		
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		logger.debug("RESP="+xml);
+		logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
 		
 		
 		Response res = (Response)xstream.fromXML(xml);
@@ -140,7 +140,7 @@ public class ProductServices {
 	public List<Product> getProductByExpansion(Expansion e)throws IOException 
 	{
 		String link=MkmConstants.MKM_API_URL+"/expansions/"+e.getIdExpansion()+"/singles";
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 	    
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
         connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -151,7 +151,7 @@ public class ProductServices {
 	 		throw new MkmNetworkException(connection.getResponseCode());
         
         String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-        logger.debug("RESP="+xml);
+        logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
      	Response res = (Response)xstream.fromXML(xml);
 		return res.getSingle();
 		
@@ -172,7 +172,7 @@ public class ProductServices {
 		        
 	 	        link+=Tools.join(paramStrings, "&");
 	    	}
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -185,7 +185,7 @@ public class ProductServices {
         
     	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     	
-    	logger.debug("RESP="+xml);
+    	logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
     	Response res = (Response)xstream.fromXML(xml);
 		
     	if(isEmpty(res.getProduct()))
@@ -206,7 +206,7 @@ public class ProductServices {
 	        
  	        link+=Tools.join(paramStrings, "&");
     	}
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -222,7 +222,7 @@ public class ProductServices {
         
     	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     	
-    	logger.debug("RESP="+xml);
+    	logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
     	Response res = (Response)xstream.fromXML(xml);
     	return res.getProduct();
 	}
@@ -232,7 +232,7 @@ public class ProductServices {
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		
     	String link = MkmConstants.MKM_API_URL+"/metaproducts/"+idMeta;
-    	logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+    	logger.debug(MkmConstants.MKM_LOG_LINK+link);
         
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -244,7 +244,7 @@ public class ProductServices {
  		throw new MkmNetworkException(connection.getResponseCode());
 
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		logger.debug("RESP="+xml);
+		logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getProduct().get(0);
 	}
@@ -254,7 +254,7 @@ public class ProductServices {
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
  		
     	String link = MkmConstants.MKM_API_URL+"/products/"+idProduct;
-    	logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+    	logger.debug(MkmConstants.MKM_LOG_LINK+link);
         
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -266,7 +266,7 @@ public class ProductServices {
     	   throw new MkmNetworkException(connection.getResponseCode());
        
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		logger.debug("RESP="+xml);
+		logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getProduct().get(0);
 	}

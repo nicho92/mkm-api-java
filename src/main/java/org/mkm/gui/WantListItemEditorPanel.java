@@ -3,8 +3,6 @@ package org.mkm.gui;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -14,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.WantItem;
 
@@ -28,7 +28,8 @@ public class WantListItemEditorPanel extends JDialog {
 	JComboBox<MkmBoolean> cboMailAlert; 
 	JComboBox<String> cboMinCondition ;
 	JComboBox<MkmBoolean> cboSigned;
-	
+	private transient Logger logger = LogManager.getLogger(this.getClass());
+
 	private MkmBoolean[] values = {new MkmBoolean(""),new MkmBoolean(true),new MkmBoolean(false)};
 	private JTextField txtWishPrice;
 	
@@ -36,7 +37,7 @@ public class WantListItemEditorPanel extends JDialog {
 		try {
 			this.wantItem=wl;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 		
 		initgui();
@@ -201,20 +202,16 @@ public class WantListItemEditorPanel extends JDialog {
 		getContentPane().add(panel, gbcpanel);
 		
 		JButton btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent paramActionEvent) {
+		btnOk.addActionListener(paramActionEvent->{
 				save();
 				dispose();
-			}
 		});
 		panel.add(btnOk);
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent paramActionEvent) {
+		btnCancel.addActionListener(paramActionEvent->{
 				wantItem=null;
 				dispose();
-			}
 		});
 		panel.add(btnCancel);
 	}
@@ -224,12 +221,12 @@ public class WantListItemEditorPanel extends JDialog {
 		try{
 			wantItem.setCount(Integer.parseInt(txtCount.getText()));
 		}catch(Exception e)
-		{ e.printStackTrace();}
+		{ logger.error(e);}
 		
 		try{
 			wantItem.setWishPrice(Double.parseDouble(this.txtWishPrice.getText()));
 		}catch(Exception e)
-		{e.printStackTrace(); }
+		{logger.error(e); }
 		
 		wantItem.getIdLanguage().remove(0);
 		wantItem.getIdLanguage().add(1);

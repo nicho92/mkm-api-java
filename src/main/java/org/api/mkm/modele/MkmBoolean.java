@@ -65,10 +65,7 @@ public class MkmBoolean implements Serializable{
 	
 	public boolean getBooleanValue()
 	{
-		if(value.equalsIgnoreCase("true")||value.equalsIgnoreCase("1"))
-			return true;
-		
-		return false;
+		return (value.equalsIgnoreCase("true")||value.equalsIgnoreCase("1"));
 	}
 
 	

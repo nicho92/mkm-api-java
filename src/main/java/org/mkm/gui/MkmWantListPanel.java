@@ -1,8 +1,6 @@
 package org.mkm.gui;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -16,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
@@ -25,78 +25,72 @@ import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.modeles.WantListTableModel;
 
 public class MkmWantListPanel extends JPanel {
-	private JPanel PanelSouth;
-	private JScrollPane panelWest;
 	private JList<Wantslist> listResults;
-	private JScrollPane scrollitems;
 	private JTable tableItemWl;
 	private DefaultListModel<Wantslist> wantListModel;
 	private WantListTableModel itemsTableModel;
 	private ArticlesTableModel articlesTableModel;
-	private JButton btnLoadWantlist;
-	private JSplitPane rightPanel;
-	private JButton btnDelete;
 	private Wantslist selected;
 	
-	WantsService serviceW = new WantsService();
-	ArticleService serviceA = new ArticleService();
+	private transient WantsService serviceW;
+	private transient ArticleService serviceA;
 	private JButton btnEditItem;
 	private JButton btnRenameWl;
-	private JButton btnCreateWl;
 	private JButton btnDeleteWl;
-	private JScrollPane scrollArticles;
-	private JTable tableArticles;
 	
-	
-	
+	private transient Logger logger = LogManager.getLogger(this.getClass());
+
 	private void initGUI()
 	{
+		serviceW = new WantsService();
+		serviceA = new ArticleService();
+		
+		JScrollPane scrollitems;
+		JPanel panelSouth;
+		JScrollPane panelWest;
+		JButton btnLoadWantlist;
+		JSplitPane rightPanel;
+		JButton btnDelete;
+		JScrollPane scrollArticles;
+		JTable tableArticles;
+		JButton btnCreateWl;
+		
+
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelNorth = new JPanel();
 		add(panelNorth, BorderLayout.NORTH);
 		
 		btnLoadWantlist = new JButton("Load WantList");
-		btnLoadWantlist.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				loadWantList();
-			}
-		});
+		btnLoadWantlist.addActionListener(ae->loadWantList());
 		panelNorth.add(btnLoadWantlist);
 		
 		btnDelete = new JButton("Delete Item");
 		btnDelete.setEnabled(false);
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnDelete.addActionListener(ae->{
 				try {
 					WantItem it = (WantItem)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0);
 					selected = serviceW.deleteItem(selected, it);
 					itemsTableModel.init(selected);
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(e);
 					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
-				
-			}
 		});
 		
 		btnRenameWl = new JButton("Rename WL");
 		btnRenameWl.setEnabled(false);
-		btnRenameWl.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnRenameWl.addActionListener(ae->{
 				String res =JOptionPane.showInputDialog("New Name ?",selected.toString());
 				try {
 					serviceW.renameWantList(selected, res);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
-				
-			}
 		});
 		
 		btnCreateWl = new JButton("Create WL");
-		btnCreateWl.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnCreateWl.addActionListener(ae->{
 				String name = JOptionPane.showInputDialog("Name ?");
 				try {
 					Wantslist l = serviceW.createWantList(name);
@@ -104,14 +98,12 @@ public class MkmWantListPanel extends JPanel {
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
-			}
 		});
 		panelNorth.add(btnCreateWl);
 		
 		btnDeleteWl = new JButton("Delete WL");
 		btnDeleteWl.setEnabled(false);
-		btnDeleteWl.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnDeleteWl.addActionListener(ae->{
 				if(selected==null)
 				{
 					JOptionPane.showMessageDialog(null, "Need to select a WantList",MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
@@ -133,8 +125,6 @@ public class MkmWantListPanel extends JPanel {
 							} 
 						}
 				}
-				
-			}
 		});
 		panelNorth.add(btnDeleteWl);
 		panelNorth.add(btnRenameWl);
@@ -142,8 +132,7 @@ public class MkmWantListPanel extends JPanel {
 		
 		btnEditItem = new JButton("Edit");
 		btnEditItem.setEnabled(false);
-		btnEditItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
+		btnEditItem.addActionListener(ae->{
 				try {
 					WantItem it = (WantItem)itemsTableModel.getValueAt(tableItemWl.getSelectedRow(), 0);
 					WantListItemEditorPanel dialog = new WantListItemEditorPanel(it);
@@ -158,13 +147,11 @@ public class MkmWantListPanel extends JPanel {
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
-				
-			}
 		});
 		panelNorth.add(btnEditItem);
 		
-		PanelSouth = new JPanel();
-		add(PanelSouth, BorderLayout.SOUTH);
+		panelSouth = new JPanel();
+		add(panelSouth, BorderLayout.SOUTH);
 		
 		panelWest = new JScrollPane();
 		add(panelWest, BorderLayout.WEST);
@@ -172,7 +159,7 @@ public class MkmWantListPanel extends JPanel {
 		listResults = new JList<>(wantListModel);
 		listResults.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent me) {
 				selected = listResults.getSelectedValue();
 				loadWantList(selected);
 			}
@@ -199,7 +186,7 @@ public class MkmWantListPanel extends JPanel {
 				try {
 					articlesTableModel.init(serviceA.find(it.getProduct(), null));
 				} catch (Exception e) {
-					e.printStackTrace();
+					logger.error(e);
 				} 
 			}
 		});
@@ -238,8 +225,7 @@ public class MkmWantListPanel extends JPanel {
 
 	protected void loadWantList(final Wantslist selectedValue) {
 		
-		new Thread(new Runnable() {
-			public void run() {
+		new Thread(()->{
 				try {
 					serviceW.loadItems(selectedValue);
 					itemsTableModel.init(selectedValue);
@@ -248,7 +234,6 @@ public class MkmWantListPanel extends JPanel {
 				{
 					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
-			}
 		}).start();
 	}
 }

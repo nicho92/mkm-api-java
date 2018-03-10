@@ -20,7 +20,7 @@ public class Article implements Serializable
 	private Product product;
 	private Link links;
 	
-	public enum ARTICLES_ATT {start,maxResults,userType ,minUserScore ,idLanguage ,minCondition,isFoil ,isSigned,isAltered,minAvailable};
+	public enum ARTICLES_ATT {start,maxResults,userType ,minUserScore ,idLanguage ,minCondition,isFoil ,isSigned,isAltered,minAvailable}
 
 	public boolean isAltered() {
 		return isAltered;

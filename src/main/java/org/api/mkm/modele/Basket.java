@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Basket implements Serializable {
-	Address shippingAddress;
-	List<ShoppingCart> shoppingCart;
-	User account;
+	private Address shippingAddress;
+	private List<ShoppingCart> shoppingCart;
+	private User account;
 	
 	
 	public Basket() {

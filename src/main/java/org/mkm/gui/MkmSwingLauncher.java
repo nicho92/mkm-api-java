@@ -6,7 +6,6 @@ import java.util.Properties;
 
 import javax.swing.JFrame;
 
-import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.tools.MkmAPIConfig;
 
 public class MkmSwingLauncher {

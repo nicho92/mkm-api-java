@@ -47,7 +47,7 @@ public class ArticleService {
 	public List<Article> find(User u,Map<ARTICLES_ATT,String> atts) throws IOException 
 	{
 		String link = MkmConstants.MKM_API_URL+"/users/"+u.getUsername()+"/articles";
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		
 		if(atts!=null)
 			if(atts.size()>0)
@@ -70,7 +70,7 @@ public class ArticleService {
          
          
          String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-         logger.debug("RESP="+xml);
+         logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
   	   
          Response res = (Response)xstream.fromXML(xml);
 		
@@ -91,7 +91,7 @@ public class ArticleService {
 	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws IOException 
 	{
 		String link = MkmConstants.MKM_API_URL+"/articles/"+p.getIdProduct();
-    	logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+    	logger.debug(MkmConstants.MKM_LOG_LINK+link);
     	
     	if(atts!=null)
 	    	if(atts.size()>0)
@@ -103,7 +103,7 @@ public class ArticleService {
 		        
 	 	        link+=Tools.join(paramStrings, "&");
 	    	}
-    	logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+    	logger.debug(MkmConstants.MKM_LOG_LINK+link);
     	
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -115,7 +115,7 @@ public class ArticleService {
 	 		throw new MkmNetworkException(connection.getResponseCode());
 			         	               
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		logger.debug("RESP="+xml);
+		logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
 		  	  
 		Response res = (Response)xstream.fromXML(xml);
 		

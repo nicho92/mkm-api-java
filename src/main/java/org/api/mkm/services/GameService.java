@@ -59,7 +59,7 @@ public class GameService {
 	public List<Game> listGames() throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/games";
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 			
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
@@ -91,7 +91,7 @@ public class GameService {
 	public List<Expansion> listExpansion(Game g) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/games/"+g.getIdGame()+"/expansions";
-		logger.debug(MkmConstants.MKM_LINK_PREFIX+link);
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
 			
 	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;

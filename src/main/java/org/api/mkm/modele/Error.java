@@ -1,9 +1,12 @@
 package org.api.mkm.modele;
 
-public class Error {
+import java.io.Serializable;
 
-	String errorMessage;
-	String details;
+public class Error implements Serializable {
+
+	private String errorMessage;
+	private String details;
+	
 	public String getError() {
 		return errorMessage;
 	}
