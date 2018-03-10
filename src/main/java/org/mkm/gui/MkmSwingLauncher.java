@@ -6,19 +6,27 @@ import java.util.Properties;
 
 import javax.swing.JFrame;
 
+import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.tools.MkmAPIConfig;
 
 public class MkmSwingLauncher {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		Properties p = new Properties();
-		File configFile = new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf");
-		p.load(new FileInputStream(configFile));
+		try {
+			File configFile = new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf");
+			p.load(new FileInputStream(configFile));
+			MkmAPIConfig.getInstance().init(p.getProperty("APP_ACCESS_TOKEN_SECRET"),
+					p.getProperty("APP_ACCESS_TOKEN"),
+					p.getProperty("APP_SECRET"),
+					p.getProperty("APP_TOKEN"));
+
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 		
-		MkmAPIConfig.getInstance().init(p.getProperty("APP_ACCESS_TOKEN_SECRET"),
-										p.getProperty("APP_ACCESS_TOKEN"),
-										p.getProperty("APP_SECRET"),
-										p.getProperty("APP_TOKEN"));
 		
 		JFrame f = new JFrame();
 		f.setSize(750, 550);

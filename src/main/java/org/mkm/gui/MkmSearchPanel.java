@@ -1,8 +1,6 @@
 package org.mkm.gui;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -25,6 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product;
@@ -41,17 +41,13 @@ import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.renderer.ProductListRenderer;
 
 public class MkmSearchPanel extends JPanel {
-	private JTextField txtSearch;
-	private JPanel panelSouth;
 	private JLabel label;
-	private JScrollPane panelWest;
 	private JList<Product> listResults;
-	private JScrollPane panelCenter;
 	private JTable tableArticles;
 	private DefaultListModel<Product> productsModel;
 	private ArticlesTableModel articlesModel;
-	
-	private JLabel lblSearchProduct;
+	private transient Logger logger = LogManager.getLogger(this.getClass());
+
 	private JPanel panelEast;
 	private JLabel lblPics;
 	private JButton btnAddWantlist;
@@ -59,23 +55,25 @@ public class MkmSearchPanel extends JPanel {
 	
 	private Product selectedProduct;
 	private Article selectedArticle;
-	private JButton btnExportPriceGuid;
-	private JLabel lblOrById;
-	private JTextField txtID;
+
 	
 	private void initGUI()
 	{
+		JTextField txtSearch;
+		JTextField txtID;
+		JButton btnExportPriceGuid;
+		JScrollPane panelWest;
+		JScrollPane panelCenter;
+		JPanel panelSouth;
+		JLabel lblSearchProduct;
+
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelNorth = new JPanel();
 		add(panelNorth, BorderLayout.NORTH);
 		
 		txtSearch = new JTextField();
-		txtSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				search(txtSearch.getText());
-			}
-		});
+		txtSearch.addActionListener(ae->search(txtSearch.getText()));
 		
 		lblSearchProduct = new JLabel("Search product : ");
 		panelNorth.add(lblSearchProduct);
@@ -83,8 +81,7 @@ public class MkmSearchPanel extends JPanel {
 		txtSearch.setColumns(15);
 		
 		btnAddWantlist = new JButton("Add WantList");
-		btnAddWantlist.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
+		btnAddWantlist.addActionListener(ae-> 
 			{
 				JWantListChooser choose;
 				try {
@@ -103,44 +100,32 @@ public class MkmSearchPanel extends JPanel {
 					
 					
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					logger.error(e1);
 				} 
-				
-			}
 		});
-		
-		lblOrById = new JLabel("or by id :");
-		panelNorth.add(lblOrById);
+		panelNorth.add(new JLabel("or by id :"));
 		
 		txtID = new JTextField();
-		txtID.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				search(Integer.parseInt(txtID.getText()));
-				
-			}
-		});
+		txtID.addActionListener(ae->search(Integer.parseInt(txtID.getText())));
 		panelNorth.add(txtID);
 		txtID.setColumns(10);
 		btnAddWantlist.setEnabled(false);
 		panelNorth.add(btnAddWantlist);
 		
 		btnBasket = new JButton("add to Basket");
-		btnBasket.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnBasket.addActionListener(ae->{
 				CartServices serv = new CartServices();
 				try {
 					serv.addArticle(selectedArticle);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				} 
-			}
 		});
 		btnBasket.setEnabled(false);
 		panelNorth.add(btnBasket);
 		
 		btnExportPriceGuid = new JButton("Export PriceGuide");
-		btnExportPriceGuid.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnExportPriceGuid.addActionListener(ae->{
 				
 				JFileChooser fileChooser = new JFileChooser();
 				fileChooser.setDialogTitle("Choose Location");   
@@ -160,9 +145,6 @@ public class MkmSearchPanel extends JPanel {
 					}
 				    
 				}
-				
-				
-			}
 		});
 		panelNorth.add(btnExportPriceGuid);
 		
@@ -170,7 +152,7 @@ public class MkmSearchPanel extends JPanel {
 		add(panelSouth, BorderLayout.SOUTH);
 		
 		label = new JLabel("Connected as : ");
-		panelSouth.add(label);
+		panelSouth.add(new JLabel("Connected as : "));
 		
 		panelWest = new JScrollPane();
 		add(panelWest, BorderLayout.WEST);
@@ -194,7 +176,7 @@ public class MkmSearchPanel extends JPanel {
 					}
 					catch(Exception e)
 					{
-						e.printStackTrace();
+						logger.error(e);
 					}
 				
 				
@@ -231,7 +213,7 @@ public class MkmSearchPanel extends JPanel {
 			
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		} 
 		
@@ -245,7 +227,7 @@ public class MkmSearchPanel extends JPanel {
 			productsModel.addElement(p);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		} 
 		
