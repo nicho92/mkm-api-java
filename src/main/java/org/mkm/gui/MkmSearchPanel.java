@@ -137,7 +137,7 @@ public class MkmSearchPanel extends JPanel {
 				    File fileToSave = fileChooser.getSelectedFile();
 				    ProductServices services = new ProductServices();
 				    try {
-						services.exportPriceGuide(fileToSave);
+						services.exportPriceGuide(fileToSave,1);
 					} 
 				    catch (Exception e) 
 				    {

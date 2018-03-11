@@ -18,6 +18,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Expansion;
+import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
@@ -67,10 +68,11 @@ public class ProductServices {
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public void exportPriceGuide(File f) throws IOException
+	public void exportPriceGuide(File f,Game game) throws IOException
 	{
-		exportPriceGuide(f,null);
+		exportPriceGuide(f, game.getIdGame());
 	}
+	
 	
 	public void exportPriceGuide(File f,Integer idGame) throws IOException
 	{
