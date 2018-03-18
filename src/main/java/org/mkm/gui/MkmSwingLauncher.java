@@ -23,7 +23,7 @@ public class MkmSwingLauncher {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			//do nothing
 		}
 		
 		

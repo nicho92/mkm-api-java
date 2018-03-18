@@ -105,7 +105,10 @@ public class AuthenticationServices {
 	        return queryParameters;
 	 }
 	
-	@Deprecated
+	/**
+	 * @deprecated(since,used for v1.0 authentication, use generateOAuthSignature2())
+	 * */
+ 	@Deprecated
 	public String generateOAuthSignature(String link,String method) throws MkmException {
 
 		try{
