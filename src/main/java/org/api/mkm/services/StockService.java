@@ -88,6 +88,40 @@ public class StockService {
 		return res.getArticle();
 	}
 	
+	public void exportStock(File f,Integer idGame) throws IOException
+	{
+		String link=MkmConstants.MKM_API_URL+"/stock/file";
+	
+		if(idGame!=null)
+			link=MkmConstants.MKM_API_URL+"/stock/file?idGame="+idGame;
+		
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
+	    
+	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
+			               connection.connect() ;
+	   	               
+       boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
+       if(!ret)
+       {
+    	   throw new MkmNetworkException(connection.getResponseCode());
+       }
+       MkmAPIConfig.getInstance().updateCount(connection);	      	 	 
+		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		Response res = (Response)xstream.fromXML(xml);
+	
+		byte[] bytes = Base64.decodeBase64(res.getPriceguidefile());
+		File temp =  new File("mkm_temp.gz");
+		FileUtils.writeByteArrayToFile(temp, bytes );
+		Tools.unzip(temp, f);
+		if(!temp.delete())
+		{
+			logger.error("couln't remove " + temp.getAbsolutePath());
+		}
+	}
+	
+	
+	
 	public boolean addArticle(Article a) throws IOException
 	{
 		ArrayList<Article> list = new ArrayList<>();
