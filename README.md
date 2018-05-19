@@ -2,7 +2,7 @@
 Java api for MagicCardMarket v2.0
 
 Download link : 
-	Version 0.5 : https://github.com/nicho92/mkm-api-java/blob/master/dist
+	https://github.com/nicho92/mkm-api-java/blob/master/dist
 	
 Usage : 
 
