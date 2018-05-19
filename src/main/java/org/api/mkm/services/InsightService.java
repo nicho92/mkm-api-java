@@ -15,7 +15,7 @@ import org.jsoup.select.Elements;
 
 public class InsightService {
 
-	private String url = "https://www.cardmarket.com/en/Magic/Insight/Data";
+	private String url = MkmConstants.MKM_SITE_URL+"/en/Magic/Insight/Data";
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	private List<InsightElement> parse(Elements trs) {
