@@ -1,6 +1,7 @@
 package org.api.mkm.services;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -84,7 +85,7 @@ public class OrderService {
 	
 	public Order getOrderById(int id) throws IOException
 	{
-		String link=MkmConstants.MKM_API_URL+"/order/"+id;
+		 String link=MkmConstants.MKM_API_URL+"/order/"+id;
 		 logger.debug(MkmConstants.MKM_LOG_LINK+link);
 		 
 		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
@@ -101,6 +102,36 @@ public class OrderService {
      	
          return res.getOrder().get(0);
 	}
+	
+	public void putTrackingNumber(int idOrder , String number) throws IOException
+	{
+		String link=MkmConstants.MKM_API_URL+"/order/"+idOrder+"/tracking";
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
+		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
+		connection.setDoOutput(true);
+		connection.setRequestMethod("PUT");
+		connection.connect();
+		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+
+		StringBuilder temp = new StringBuilder();
+
+		temp.append(MkmConstants.XML_HEADER);
+			temp.append("<request>");
+				temp.append("<trackingNumber>").append(number).append("</trackingNumber>");
+			temp.append("</request>");
+		
+			logger.debug("REQ="+temp);
+		out.write(temp.toString());
+		out.close();
+		MkmAPIConfig.getInstance().updateCount(connection);
+		
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
+	 	 if(!ret)
+	 		throw new MkmNetworkException(connection.getResponseCode());
+	 	 
+	}
+	
 	
 	public boolean isEmpty(List<Order> orders)
 	{
