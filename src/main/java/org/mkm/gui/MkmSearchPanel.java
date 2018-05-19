@@ -213,7 +213,7 @@ public class MkmSearchPanel extends JPanel {
 			
 			
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("error searching",e);
 			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		} 
 		

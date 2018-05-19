@@ -6,7 +6,7 @@ public class MkmConstants {
 		
 	}
 	
-	public static final String MKM_API_URL="https://www.mkmapi.eu/ws/v2.0";
+	public static final String MKM_API_URL="https://api.cardmarket.com/ws/v2.0";
 	public static final String MKM_SITE_URL="https://www.cardmarket.com";
 	public static final String MKM_ERROR="ERROR";
 	public static final String MKM_LOG_LINK="LINK=";

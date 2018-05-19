@@ -13,7 +13,7 @@ public class MkmSwingLauncher {
 	public static void main(String[] args) {
 		Properties p = new Properties();
 		try {
-			File configFile = new File("C:\\Users\\Pihen\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf");
+			File configFile = new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf");
 			p.load(new FileInputStream(configFile));
 			MkmAPIConfig.getInstance().init(p.getProperty("APP_ACCESS_TOKEN_SECRET"),
 					p.getProperty("APP_ACCESS_TOKEN"),
