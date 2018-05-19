@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -11,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.swing.plaf.metal.MetalToggleButtonUI;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -273,6 +272,24 @@ public class StockService {
 		}
 	}
 	
+	public List<Article> getStockInShoppingCarts() throws IOException
+	{
+		String link="https://www.mkmapi.eu/ws/v2.0/stock/shoppingcart-articles";
+		logger.debug(MkmConstants.MKM_LOG_LINK+link);
+		
+	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+		               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
+		               connection.connect() ;
+		               MkmAPIConfig.getInstance().updateCount(connection);
+		               
+	   boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
+	   if(!ret)
+		   throw new MkmNetworkException(connection.getResponseCode());
+	   
+		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		Response res = (Response)xstream.fromXML(xml);
+		return res.getArticle();
+	}
 	
 	public boolean changeQte(Article a, int qte) throws IOException
 	{

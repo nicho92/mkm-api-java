@@ -1,7 +1,6 @@
 package org.api.mkm.modele;
 
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.BeanUtils;
 
