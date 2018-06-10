@@ -24,13 +24,7 @@ public class User implements Serializable{
 	private int avgShippingTime;
 	private boolean onVacation;
 	
-	/*
-	 * <name>
-        <company>Karmacrow Ltd. &amp; Co KG</company>
-        <firstName>Michael</firstName>
-        <lastName>Steinke</lastName>
-      </name>
-	 */
+	
 	@Override
 	public String toString() {
 		return getUsername();
