@@ -25,6 +25,10 @@ import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.modeles.WantListTableModel;
 
 public class MkmWantListPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JList<Wantslist> listResults;
 	private JTable tableItemWl;
 	private DefaultListModel<Wantslist> wantListModel;

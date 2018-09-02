@@ -5,6 +5,10 @@ import java.io.Serializable;
 public class PriceGuide implements Serializable{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private double sell;
 	private double low;
 	private double lowex;

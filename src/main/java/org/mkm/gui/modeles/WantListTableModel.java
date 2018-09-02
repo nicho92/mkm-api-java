@@ -10,6 +10,11 @@ import org.api.mkm.modele.Wantslist;
 
 public class WantListTableModel extends DefaultTableModel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final String[] columns={"product","wishPrice","count","minCondition","foil","signed","playset","altered","mailAlert","idLanguage","type"};
 	
 	private List<WantItem> articles;

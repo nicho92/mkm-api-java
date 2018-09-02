@@ -14,6 +14,10 @@ import org.api.mkm.tools.MkmConstants;
 import org.mkm.gui.modeles.StockTableModel;
 
 public class MKMStockPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable tableArticles;
 	private StockTableModel articlesModel;
 

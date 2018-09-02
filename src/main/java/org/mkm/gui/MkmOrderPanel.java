@@ -18,6 +18,10 @@ import org.api.mkm.services.OrderService.STATE;
 import org.mkm.gui.modeles.OrderTableModel;
 
 public class MkmOrderPanel extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JComboBox<STATE> comboBox;
 	private JTable table;
 	private OrderTableModel model;

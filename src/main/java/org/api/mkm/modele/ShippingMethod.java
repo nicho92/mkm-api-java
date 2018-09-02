@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class ShippingMethod implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idShippingMethod;
 	private String name;
 	private double price;

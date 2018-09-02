@@ -5,6 +5,10 @@ import java.util.List;
 
 public class ShoppingCart implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idReservation;
 	private boolean isBuyer;
 	private User seller;

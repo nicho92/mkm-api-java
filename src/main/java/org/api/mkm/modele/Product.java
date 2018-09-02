@@ -6,6 +6,10 @@ import java.util.List;
 public class Product implements Serializable
 {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public enum PRODUCT_ATTS {exact,idGame,idLanguage,start,maxResults}
 	
 	private int idProduct;

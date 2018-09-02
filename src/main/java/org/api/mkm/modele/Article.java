@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class Article implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idArticle;
 	private int idProduct;
 	private Localization language;

@@ -41,6 +41,10 @@ import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.renderer.ProductListRenderer;
 
 public class MkmSearchPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel label;
 	private JList<Product> listResults;
 	private JTable tableArticles;

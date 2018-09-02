@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class Expansion implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idExpansion;
 	private String enName;
 	private int expansionIcon;

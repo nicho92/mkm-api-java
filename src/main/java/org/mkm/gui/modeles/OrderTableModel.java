@@ -9,6 +9,11 @@ import org.api.mkm.modele.Order;
 
 public class OrderTableModel extends DefaultTableModel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final String[] columns={"idOrder","seller","article","totalValue"};
 	
 	private List<Order> articles;

@@ -183,7 +183,9 @@ public class ProductServices {
         
         boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
-	 		throw new MkmNetworkException(connection.getResponseCode());
+	 	 {
+	 		 throw new MkmNetworkException(connection.getResponseCode() +" " + link);
+	 	 }
         
     	String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
     	

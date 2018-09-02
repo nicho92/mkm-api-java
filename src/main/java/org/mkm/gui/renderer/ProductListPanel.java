@@ -14,6 +14,10 @@ import org.api.mkm.modele.Product;
 
 public class ProductListPanel extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Product p;
 	
 	

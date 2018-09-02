@@ -6,6 +6,10 @@ import java.util.List;
 public class Wantslist implements Serializable{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idWantslist;
 	private Game game;
 	private String name;

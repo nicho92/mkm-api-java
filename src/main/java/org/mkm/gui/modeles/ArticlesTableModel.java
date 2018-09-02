@@ -8,6 +8,11 @@ import org.api.mkm.modele.Article;
 
 public class ArticlesTableModel extends DefaultTableModel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final String[] columns={"product","expansion","seller","Localization","price","condition","foil","signed","playset","altered","comments"};
 	
 	private List<Article> articles;

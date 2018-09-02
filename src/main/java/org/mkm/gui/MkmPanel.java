@@ -8,6 +8,11 @@ import javax.swing.JTabbedPane;
 
 public class MkmPanel extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MkmPanel()
 	{
 		MkmSearchPanel pane = new MkmSearchPanel();

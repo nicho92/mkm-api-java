@@ -9,6 +9,11 @@ import org.api.mkm.modele.Article;
 
 public class StockTableModel extends DefaultTableModel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final String[] columns={"product","price","condition","foil","signed","playset","altered","comments","count"};
 	
 	private List<Article> articles;

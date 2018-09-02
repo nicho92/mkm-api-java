@@ -7,6 +7,10 @@ import org.apache.commons.beanutils.BeanUtils;
 public class InsightElement implements Serializable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String ed;
 	private String cardName;
 	private double price;

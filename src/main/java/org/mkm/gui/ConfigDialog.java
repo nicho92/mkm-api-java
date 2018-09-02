@@ -21,6 +21,10 @@ import org.api.mkm.tools.MkmAPIConfig;
 
 public class ConfigDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtAppToken;
 	private JTextField txtAppSecret;

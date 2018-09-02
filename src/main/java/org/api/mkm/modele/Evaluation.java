@@ -5,6 +5,10 @@ import java.util.List;
 
 public class Evaluation implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int evaluationGrade;
 	private int itemDescription;
 	private int packaging;

@@ -7,6 +7,12 @@ import java.util.List;
 public class WantItem implements Serializable{
 
 	
+			/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 			public static final String[] CONDITIONS = {"MT","NM","EX","GD","LP","PL","PO"}; 
 	
 	

@@ -19,6 +19,10 @@ import org.api.mkm.modele.WantItem;
 
 public class WantListItemEditorPanel extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private WantItem wantItem;
 	private JTextField txtCount;
 	

@@ -5,6 +5,10 @@ import java.util.List;
 
 public class Response implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Product> product;
 	private List<Article> article;
 	private List<Link> links;

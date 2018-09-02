@@ -29,6 +29,10 @@ import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.renderer.ProductListRenderer;
 
 public class MkmMetaSearchPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient Logger logger = LogManager.getLogger(this.getClass());
 	private JList<Product> listResults;
 	private DefaultListModel<Product> productsModel;

@@ -6,10 +6,18 @@ import java.util.Map;
 
 public class MkmNetworkException extends IOException{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	static Map<Integer,String> map;
 	
 	public MkmNetworkException(int code) {
 		super(code + ":" + parse(code));
+	}
+	
+	public MkmNetworkException(String message) {
+		super(message);
 	}
 
 	static String parse(int code)
@@ -22,6 +30,7 @@ public class MkmNetworkException extends IOException{
 			map.put(400, "Bad Request,Whenever something goes wrong with your request, e.g. your POST data and/or structure is wrong, or you want to access an article in your stock by providing an invalid ArticleID, a 400 Bad Request HTTP status is returned, describing the error within the content.");
 			map.put(401, "Unauthorized HTTP status, when authentication or authorization fails during your request, e.g. your Authorization (signature) is not correct.");
 			map.put(403, "Forbidden HTTP status, when you try to access valid resources, but don't have access to it, i. e. you try to access /authenticate with a dedicated or widget app, or resources specifically written for widget apps with a dedicated app.");
+			map.put(404, "Page not found");
 			map.put(405, "Not Allowed HTTP status, every time you want to access a valid resource with a wrong HTTP method.");
 			map.put(412, "Precondition Failed, When you want to perform an invalid state change on one of your orders, e.g. confirm reception on an order, that's still not flagged as sent, you get a 412 Precondition Failed HTTP status.");
 			map.put(417, "Expectation Failed HTTP status code, when your request has an XML body without the corresponding header and/or the body not sent as text, but its byte representation. Please also don't send any Expect: header with your request.");
