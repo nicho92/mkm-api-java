@@ -5,6 +5,16 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import org.api.mkm.tools.MkmAPIConfig;
+
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.awt.event.ActionEvent;
+
 
 public class MkmPanel extends JPanel{
 
@@ -12,7 +22,9 @@ public class MkmPanel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private JLabel lblConnectedas;
+	
+	
 	public MkmPanel()
 	{
 		MkmSearchPanel pane = new MkmSearchPanel();
@@ -35,6 +47,26 @@ public class MkmPanel extends JPanel{
 		
 		
 		add(tpane,BorderLayout.CENTER);
+		
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.SOUTH);
+		
+		lblConnectedas = new JLabel("Not connected");
+		panel.add(lblConnectedas);
+		
+		JButton btnConnect = new JButton("Connect");
+		btnConnect.addActionListener(ae-> {
+				ConfigDialog diag = new ConfigDialog();
+				diag.setVisible(true);
+				
+				try {
+					lblConnectedas.setText("Connected as :" + MkmAPIConfig.getInstance().getAuthenticator().getAuthenticatedUser());
+				} catch (IOException e) {
+					lblConnectedas.setText(e.getMessage());
+				}
+			
+		});
+		panel.add(btnConnect);
 		
 		
 		

@@ -35,7 +35,6 @@ public class ConfigDialog extends JDialog {
 
 	public ConfigDialog() {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setVisible(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		setModal(true);
@@ -132,15 +131,6 @@ public class ConfigDialog extends JDialog {
 						try {
 							MkmAPIConfig.getInstance().init(txtAccessTokenSecret.getText(),txtAccessToken.getText(),txtAppSecret.getText(),txtAppToken.getText());
 							dispose();
-							
-							JFrame f = new JFrame();
-							f.setSize(750, 550);
-							f.add(new MkmPanel());
-							f.pack();
-							f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-							f.setTitle("MKM API - Samples");
-							f.setVisible(true);
-							
 						} catch (MkmException e) {
 							logger.error(e);
 						}

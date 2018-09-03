@@ -45,7 +45,6 @@ public class MkmSearchPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JLabel label;
 	private JList<Product> listResults;
 	private JTable tableArticles;
 	private DefaultListModel<Product> productsModel;
@@ -68,7 +67,6 @@ public class MkmSearchPanel extends JPanel {
 		JButton btnExportPriceGuid;
 		JScrollPane panelWest;
 		JScrollPane panelCenter;
-		JPanel panelSouth;
 		JLabel lblSearchProduct;
 
 		setLayout(new BorderLayout(0, 0));
@@ -152,11 +150,6 @@ public class MkmSearchPanel extends JPanel {
 		});
 		panelNorth.add(btnExportPriceGuid);
 		
-		panelSouth = new JPanel();
-		add(panelSouth, BorderLayout.SOUTH);
-		
-		label = new JLabel("Connected as : ");
-		panelSouth.add(new JLabel("Connected as : "));
 		
 		panelWest = new JScrollPane();
 		add(panelWest, BorderLayout.WEST);
@@ -240,17 +233,7 @@ public class MkmSearchPanel extends JPanel {
 	public MkmSearchPanel() {
 		initGUI();
 			
-		try {
-			label.setText("Connected as " + MkmAPIConfig.getInstance().getAuthenticator().getAuthenticatedUser());
-			
-			panelEast = new JPanel();
-			add(panelEast, BorderLayout.EAST);
-			
-			lblPics = new JLabel("");
-			panelEast.add(lblPics);
-		}  catch (Exception e) {
-			label.setText("Not connected");
-		}
+	
 		
 	}
 
