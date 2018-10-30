@@ -49,7 +49,7 @@ public class MkmAPIConfig {
     	   countCall=Integer.parseInt(count);
        
        
-       logger.info("call : " + countCall+ "/" + maxCall);
+       logger.debug("call : " + countCall+ "/" + maxCall);
        
  	}
 	

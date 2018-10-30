@@ -215,6 +215,7 @@ public class MkmWantListPanel extends JPanel {
 			btnDeleteWl.setEnabled(true);
 			btnRenameWl.setEnabled(true);
 		} catch (Exception e) {
+			logger.error("error loading wanlist",e);
 			JOptionPane.showMessageDialog(this, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 		
 		}
