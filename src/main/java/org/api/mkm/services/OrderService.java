@@ -15,6 +15,7 @@ import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Order;
+import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
@@ -44,6 +45,7 @@ public class OrderService {
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "order", Order.class);
 	 		xstream.addImplicitCollection(Order.class, "article", Article.class);
+	 		xstream.aliasField("expansion", Product.class, "expansionName");
 	 		xstream.ignoreUnknownElements();
 	}
 
@@ -63,8 +65,11 @@ public class OrderService {
          connection.connect() ;
          MkmAPIConfig.getInstance().updateCount(connection);
          boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-	 	 if(!ret)
-	 		throw new MkmNetworkException(connection.getResponseCode());
+	 	
+         if(!ret)
+         {
+        	 throw new MkmNetworkException(connection.getResponseCode());
+         }
     
          String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		 
@@ -77,7 +82,9 @@ public class OrderService {
          
          for(Order o : res.getOrder())
         	 for(Article art : o.getArticle())
+        	 {
         		 art.getProduct().setIdProduct(art.getIdProduct());
+        	 }
          
          
          return res.getOrder();
@@ -94,7 +101,9 @@ public class OrderService {
          MkmAPIConfig.getInstance().updateCount(connection);
          boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
-	 		throw new MkmNetworkException(connection.getResponseCode());
+	 	 {
+	 		 throw new MkmNetworkException(connection.getResponseCode());
+	 	 }
 	 	 
          String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 		 logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
@@ -128,7 +137,9 @@ public class OrderService {
 		
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	 	 if(!ret)
-	 		throw new MkmNetworkException(connection.getResponseCode());
+	 	 {
+	 		 throw new MkmNetworkException(connection.getResponseCode());
+	 	 }
 	 	 
 	}
 	
