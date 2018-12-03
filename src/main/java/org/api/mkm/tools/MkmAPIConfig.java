@@ -1,6 +1,7 @@
 package org.api.mkm.tools;
 
 import java.net.HttpURLConnection;
+import java.util.Properties;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -22,6 +23,15 @@ public class MkmAPIConfig {
 	{
 		auth=new AuthenticationServices(accessSecret, accessToken, appSecret, appToken);
 	}
+	
+	public void init(Properties magicCardMaketPropFile) throws MkmException
+	{
+		auth=new AuthenticationServices(magicCardMaketPropFile.getProperty("APP_ACCESS_TOKEN_SECRET"),
+										magicCardMaketPropFile.getProperty("APP_ACCESS_TOKEN"),
+										magicCardMaketPropFile.getProperty("APP_SECRET"),
+										magicCardMaketPropFile.getProperty("APP_TOKEN"));
+	}
+	
 	
 	public static MkmAPIConfig getInstance()
 	{

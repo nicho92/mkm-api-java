@@ -14,7 +14,7 @@
 		<system>Github</system>
 		<url>https://github.com/nicho92/mkm-api-java/issues</url>
 	</issueManagement>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
