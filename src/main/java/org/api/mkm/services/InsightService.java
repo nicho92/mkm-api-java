@@ -15,7 +15,7 @@ import org.jsoup.select.Elements;
 
 public class InsightService {
 
-	private String url = MkmConstants.MKM_SITE_URL+"/en/Magic/Insight/Data";
+	private String url = MkmConstants.MKM_SITE_URL+"/en/Magic/Data";
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	private List<InsightElement> parse(Elements trs) {
@@ -43,6 +43,7 @@ public class InsightService {
 		}
 		return list;
 	}
+
 	
 	private Elements getTableTrsFor(String url) throws IOException
 	{
@@ -103,7 +104,6 @@ public class InsightService {
 			table.setYesterdayStock(yesterdayStock);
 			table.setStock(stock);
 			table.setChangeValue( (stock-yesterdayStock)/yesterdayStock*100);
-			
 			list.add(table);
 		}
 		return list;
