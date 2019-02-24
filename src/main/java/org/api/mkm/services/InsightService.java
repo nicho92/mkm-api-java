@@ -103,7 +103,7 @@ public class InsightService {
 			table.setUrl(productURL);
 			table.setYesterdayStock(yesterdayStock);
 			table.setStock(stock);
-			table.setChangeValue( ((double)(stock-yesterdayStock)/yesterdayStock)*100);
+			table.setChangeValue((((double)stock-yesterdayStock)/yesterdayStock)*100);
 			list.add(table);
 		}
 		return list;
