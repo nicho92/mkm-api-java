@@ -83,6 +83,33 @@ public class InsightService {
 		return list;
 	}
 	
+	public List<InsightElement> getBestBargain() throws IOException
+	{
+		Elements trs = getTableTrsFor(url+"/Best-Bargains");
+		List<InsightElement> list = new ArrayList<>();
+		for(Element tr : trs)
+		{
+			Elements tds = tr.select("td");
+			InsightElement table = new InsightElement();
+			
+			String edition = tds.get(1).select("span").attr("title");
+			String productURL = MkmConstants.MKM_SITE_URL+tds.get(2).select("a").attr("href");
+			String productName = tds.get(2).select("a").text();
+			double prices = parsePrice(tds.get(3).text());
+			
+			
+			table.setCardName(productName);
+			table.setEd(edition);
+			table.setPrice(prices);
+			table.setUrl(productURL);
+			
+			list.add(table);
+		}
+		return list;
+	}
+	
+	
+	
 	public List<InsightElement> getHighestPercentStockReduction() throws IOException
 	{
 		Elements trs = getTableTrsFor(url+"/Stock-Reduction");
