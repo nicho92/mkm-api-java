@@ -226,7 +226,11 @@ public class WantsService {
 			temp.append("<product>");
 			temp.append("<idProduct>"+w.getProduct().getIdProduct()+"</idProduct>");
 			temp.append("<count>"+w.getCount()+"</count>");
-			temp.append("<mailAlert>"+w.isMailAlert()+"</mailAlert>");
+			
+			if(w.isMailAlert()!=null)
+				temp.append("<mailAlert>"+w.isMailAlert()+"</mailAlert>");
+			else
+				temp.append("<mailAlert/>");
 			
 			if(!w.getIdLanguage().isEmpty())
 				for(Integer i : w.getIdLanguage())
