@@ -22,7 +22,7 @@ public class DevelopperServices {
 	}
 	
 	
-	public void execute(String link,String content,String method) throws IOException
+	public String execute(String link,String content,String method) throws IOException
 	{
 		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
          					connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,method)) ;
@@ -45,10 +45,7 @@ public class DevelopperServices {
          boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
          logger.debug("ret ="+ret);
          
-      	 String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-         logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
-      	
-         
+      	 return IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
 	}
 	
 }
