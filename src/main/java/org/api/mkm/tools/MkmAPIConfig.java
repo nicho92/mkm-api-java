@@ -1,5 +1,9 @@
 package org.api.mkm.tools;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Properties;
 
@@ -26,10 +30,18 @@ public class MkmAPIConfig {
 	
 	public void init(Properties magicCardMaketPropFile) throws MkmException
 	{
-		auth=new AuthenticationServices(magicCardMaketPropFile.getProperty("APP_ACCESS_TOKEN_SECRET"),
+		init(magicCardMaketPropFile.getProperty("APP_ACCESS_TOKEN_SECRET"),
 										magicCardMaketPropFile.getProperty("APP_ACCESS_TOKEN"),
 										magicCardMaketPropFile.getProperty("APP_SECRET"),
 										magicCardMaketPropFile.getProperty("APP_TOKEN"));
+	}
+	
+	
+	public void init(File magicCardMaketPropFile) throws IOException
+	{
+		Properties p = new Properties();
+		p.load(new FileInputStream(magicCardMaketPropFile));
+		init(p);
 	}
 	
 	

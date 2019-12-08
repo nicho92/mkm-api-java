@@ -25,7 +25,7 @@ public class MkmDevPanel extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		service = new DevelopperServices();
 		JComboBox<String> cboMethod = new JComboBox<>();
-		cboMethod.setModel(new DefaultComboBoxModel(new String[] {"GET", "POST", "PUT", "DELETE"}));
+		cboMethod.setModel(new DefaultComboBoxModel<>(new String[] {"GET", "POST", "PUT", "DELETE"}));
 		
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
