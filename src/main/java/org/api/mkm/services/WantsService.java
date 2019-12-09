@@ -224,7 +224,7 @@ public class WantsService {
 		for(WantItem w : items)
 		{
 			temp.append("<product>");
-			temp.append("<idProduct>"+w.getProduct().getIdProduct()+"</idProduct>");
+			temp.append("<idProduct>"+w.getIdProduct()+"</idProduct>");
 			temp.append("<count>"+w.getCount()+"</count>");
 			
 			if(w.isMailAlert()!=null)

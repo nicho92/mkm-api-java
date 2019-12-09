@@ -29,7 +29,15 @@ public class WantItem implements Serializable{
 		    private MkmBoolean isPlayset;
 		    private MkmBoolean isAltered;
 		    private MkmBoolean isFirstEd;//only yugiho
+		    private Integer idProduct;
 		    
+		    public void setIdProduct(Integer idProduct) {
+				this.idProduct = idProduct;
+			}
+		    
+		    public Integer getIdProduct() {
+				return idProduct;
+			}
 		    
 		    @Override
 		    public String toString() {
@@ -76,6 +84,10 @@ public class WantItem implements Serializable{
 			}
 			public void setProduct(Product product) {
 				this.product = product;
+				
+				if(product!=null)
+					idProduct=product.getIdProduct();
+				
 			}
 			public List<Integer> getIdLanguage() {
 				return idLanguage;
