@@ -9,55 +9,55 @@ public class PriceGuide implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private double sell;
-	private double low;
-	private double lowex;
-	private double lowfoil;
-	private double avg;
-	private double trend;
+	private double SELL;
+	private double LOW;
+	private double LOWEX;
+	private double LOWFOIL;
+	private double AVG;
+	private double TREND;
 	
 	
 	@Override
 	public String toString() {
-		return "AVG="+avg+", LOWEX="+lowex+", LOWFOIL="+lowfoil+", SELL="+sell+", LOW="+low+", TREND="+trend;
+		return "AVG="+AVG+", LOWEX="+LOWEX+", LOWFOIL="+LOWFOIL+", SELL="+SELL+", LOW="+LOW+", TREND="+TREND;
 	}
 	
 	
 	public double getSELL() {
-		return sell;
+		return SELL;
 	}
 	public void setSELL(double sELL) {
-		sell = sELL;
+		this.SELL = sELL;
 	}
 	public double getLOW() {
-		return low;
+		return LOW;
 	}
 	public void setLOW(double lOW) {
-		low = lOW;
+		this.LOW = lOW;
 	}
 	public double getLOWEX() {
-		return lowex;
+		return LOWEX;
 	}
 	public void setLOWEX(double lOWEX) {
-		lowex = lOWEX;
+		this.LOWEX = lOWEX;
 	}
 	public double getLOWFOIL() {
-		return lowfoil;
+		return LOWFOIL;
 	}
 	public void setLOWFOIL(double lOWFOIL) {
-		lowfoil = lOWFOIL;
+		this.LOWFOIL = lOWFOIL;
 	}
 	public double getAVG() {
-		return avg;
+		return AVG;
 	}
 	public void setAVG(double aVG) {
-		avg = aVG;
+		this.AVG = aVG;
 	}
 	public double getTREND() {
-		return trend;
+		return TREND;
 	}
 	public void setTREND(double tREND) {
-		trend = tREND;
+		this.TREND = tREND;
 	}
 	
 	

@@ -35,6 +35,7 @@ public class MkmNetworkException extends IOException{
 			map.put(412, "Precondition Failed, When you want to perform an invalid state change on one of your orders, e.g. confirm reception on an order, that's still not flagged as sent, you get a 412 Precondition Failed HTTP status.");
 			map.put(417, "Expectation Failed HTTP status code, when your request has an XML body without the corresponding header and/or the body not sent as text, but its byte representation. Please also don't send any Expect: header with your request.");
 			map.put(429, "Too Many Requests, Our API has the following request limits which reset every midnight at 12am (0:00) CET/CEST: private 5.000, commercial 50.000, widget 50.000");
+			map.put(503, "Service is anavailable");
 		}
 		return map.get(code);
 	}
