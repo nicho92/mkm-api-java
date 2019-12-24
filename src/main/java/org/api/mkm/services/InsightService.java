@@ -17,7 +17,7 @@ public class InsightService {
 
 	private String url = MkmConstants.MKM_SITE_URL+"/en/Magic/Data";
 	private Logger logger = LogManager.getLogger(this.getClass());
-
+	
 	private List<InsightElement> parse(Elements trs) {
 
 		List<InsightElement> list = new ArrayList<>();
@@ -29,6 +29,9 @@ public class InsightService {
 			String edition = tds.get(1).select("span").attr("title");
 			String productURL = MkmConstants.MKM_SITE_URL+tds.get(2).select("a").attr("href");
 			String productName = tds.get(2).select("a").text();
+			
+			
+			
 			double yesterdayPrice = parsePrice(tds.get(3).text());
 			double price = parsePrice(tds.get(5).text());
 			
@@ -54,8 +57,17 @@ public class InsightService {
 	
 	private double parsePrice(String strprice)
 	{
-		   strprice = strprice.substring(0, strprice.indexOf(' ')).replace(',', '.');
+		try {
+		   strprice = strprice.substring(0, strprice.indexOf(' ')); // remove symbole
+		   strprice = strprice.replace(".", "");
+		   strprice = strprice.replace(',', '.');
 		   return Double.parseDouble(strprice);
+		}
+		catch(Exception e)
+		{
+			logger.error("error parsing " + strprice + " : " + e);
+			return 0.0;
+		}
 	}
 	
 	public List<InsightElement> getTopCards(int interval) throws IOException
