@@ -35,7 +35,6 @@ import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.CartServices;
 import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.WantsService;
-import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.renderer.ProductListRenderer;
