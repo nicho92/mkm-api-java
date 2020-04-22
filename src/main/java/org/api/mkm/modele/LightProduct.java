@@ -6,10 +6,14 @@ public class LightProduct {
 	private String locName;
 	private String image;
 	private String expansion;
-	private int nr;
-	private int expIcon;
+	private Integer nr;
+	private Integer expIcon;
 	private String rarity;
 	
+	@Override
+	public String toString() {
+		return getEnName();
+	}
 	
 	public int getIdGame() {
 		return idGame;
@@ -41,16 +45,16 @@ public class LightProduct {
 	public void setExpansion(String expansion) {
 		this.expansion = expansion;
 	}
-	public int getNr() {
+	public Integer getNr() {
 		return nr;
 	}
-	public void setNr(int nr) {
+	public void setNr(Integer nr) {
 		this.nr = nr;
 	}
-	public int getExpIcon() {
+	public Integer getExpIcon() {
 		return expIcon;
 	}
-	public void setExpIcon(int expIcon) {
+	public void setExpIcon(Integer expIcon) {
 		this.expIcon = expIcon;
 	}
 	public String getRarity() {

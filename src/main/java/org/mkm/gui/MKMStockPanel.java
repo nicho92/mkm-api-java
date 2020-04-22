@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.api.mkm.modele.Article;
+import org.api.mkm.modele.StockArticle;
 import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmConstants;
 import org.mkm.gui.modeles.StockTableModel;
@@ -47,7 +48,7 @@ public class MKMStockPanel extends JPanel {
 		
 		btnDownQte = new JButton("-");
 		btnDownQte.addActionListener(ae->{
-				Article a = (Article)tableArticles.getValueAt(tableArticles.getSelectedRow(), 0);
+				StockArticle a = (StockArticle)tableArticles.getValueAt(tableArticles.getSelectedRow(), 0);
 				
 				StockService serv = new StockService();
 				try {
@@ -62,7 +63,7 @@ public class MKMStockPanel extends JPanel {
 		
 		btnUpQte = new JButton("+");
 		btnUpQte.addActionListener(ae->{
-				Article a = (Article)tableArticles.getValueAt(tableArticles.getSelectedRow(), 0);
+				StockArticle a = (StockArticle)tableArticles.getValueAt(tableArticles.getSelectedRow(), 0);
 				StockService serv = new StockService();
 				try {
 						serv.changeQte(a, 1);

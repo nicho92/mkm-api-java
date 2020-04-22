@@ -5,7 +5,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +28,7 @@ import javax.swing.JTextField;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
+import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
@@ -34,6 +37,7 @@ import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.CartServices;
 import org.api.mkm.services.ProductServices;
+import org.api.mkm.services.StockService;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmConstants;
 import org.mkm.gui.modeles.ArticlesTableModel;
@@ -54,6 +58,7 @@ public class MkmSearchPanel extends JPanel {
 	private JLabel lblPics;
 	private JButton btnAddWantlist;
 	private JButton btnBasket;
+	private JButton btnAddStock;
 	
 	private Product selectedProduct;
 	private Article selectedArticle;
@@ -112,6 +117,41 @@ public class MkmSearchPanel extends JPanel {
 		txtID.setColumns(10);
 		btnAddWantlist.setEnabled(false);
 		panelNorth.add(btnAddWantlist);
+		
+		btnAddStock = new JButton("add to Stock");
+		panelNorth.add(btnAddStock);
+		
+		
+		btnAddStock.addActionListener(l->{
+			
+			StockService serv = new StockService();
+			List<Product> pdts = listResults.getSelectedValuesList();
+			List<Article> arts = new ArrayList<>();
+			
+			for(Product p : pdts)
+			{
+				Article a =  new Article();
+					a.setProduct(p);
+					a.setIdProduct(p.getIdProduct());
+					a.setComments("Import from mkm ui");
+					a.setPrice(1000000);
+					a.setCount(1);
+					a.setLanguage(new Localization(1, "English"));
+					a.setCondition("NM");
+				
+				arts.add(a);
+			}
+			
+			try {
+				serv.addArticles(arts);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
+			}
+			
+			
+		});
+		
+		
 		
 		btnBasket = new JButton("add to Basket");
 		btnBasket.addActionListener(ae->{

@@ -12,6 +12,17 @@ public class Localization implements Serializable{
 	private String name;
 	private String languageName;
 	
+	
+	public Localization() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Localization(int id, String languageName)
+	{
+		this.idLanguage=id;
+		this.languageName=languageName;
+	}
+	
 
 	@Override
 	public String toString() {

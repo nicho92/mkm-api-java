@@ -24,6 +24,7 @@ import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.StockArticle;
+import org.api.mkm.tools.IntConverter;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
@@ -46,6 +47,7 @@ public class StockService {
 	 		xstream.alias("response", Response.class);
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "stockArticles",StockArticle.class);
+	 		xstream.registerConverter(new IntConverter());
 	 		xstream.ignoreUnknownElements();
 	}
 	
@@ -162,6 +164,9 @@ public class StockService {
 				if(a.getLanguage()!=null)
 					temp.append("<idLanguage>").append(a.getLanguage().getIdLanguage()).append("</idLanguage>");
 				
+				if(a.getComments()!=null)
+					temp.append("<comments>").append(a.getComments()).append("</comments>");
+				
 				temp.append("<price>").append(a.getPrice()).append("</price>");
 				temp.append("<condition>").append(a.getCondition()).append("</condition>");
 				temp.append("<isFoil>").append(a.isFoil()).append("</isFoil>");
@@ -170,6 +175,7 @@ public class StockService {
 			temp.append("</article>");
 		}		    
 		temp.append("</request>");
+		
 		logger.debug("REQ="+temp);
 		   
 		
@@ -300,14 +306,14 @@ public class StockService {
 		return res.getArticle();
 	}
 	
-	public boolean changeQte(Article a, int qte) throws IOException
+	public boolean changeQte(StockArticle a, int qte) throws IOException
 	{
-		ArrayList<Article> list = new ArrayList<>();
+		ArrayList<StockArticle> list = new ArrayList<>();
 		list.add(a);
 		return changeQte(list, qte);
 	}
 	
-	public boolean changeQte(List<Article> list, int qte) throws IOException
+	public boolean changeQte(List<StockArticle> list, int qte) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
 		
@@ -331,7 +337,7 @@ public class StockService {
 		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request>");
 
-		for(Article a : list)
+		for(StockArticle a : list)
 		{
 			temp.append("<article>");
 				temp.append("<idArticle>").append(a.getIdArticle()).append("</idArticle>");
