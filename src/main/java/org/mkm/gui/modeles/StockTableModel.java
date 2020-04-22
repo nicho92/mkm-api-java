@@ -4,8 +4,7 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.beanutils.PropertyUtils;
-import org.api.mkm.modele.Article;
+import org.api.mkm.modele.StockArticle;
 
 public class StockTableModel extends DefaultTableModel{
 
@@ -14,11 +13,11 @@ public class StockTableModel extends DefaultTableModel{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final String[] columns={"product","price","condition","foil","signed","playset","altered","comments","count"};
+	private static final String[] columns={"product","expansion","price","condition","foil","signed","playset","altered","comments","count"};
 	
-	private List<Article> articles;
+	private List<StockArticle> articles;
 	
-	public void init(List<Article> articles)
+	public void init(List<StockArticle> articles)
 	{
 		this.articles=articles;
 		fireTableDataChanged();
@@ -29,16 +28,16 @@ public class StockTableModel extends DefaultTableModel{
 		return false;
 	}
 
-	@Override
-	public Class<?> getColumnClass(int columnIndex) {
-		
-		try {
-			return PropertyUtils.getPropertyType(new Article(), columns[columnIndex]);
-		} catch (Exception e) {
-			return super.getColumnClass(columnIndex);
-		}
-	
-	}
+//	@Override
+//	public Class<?> getColumnClass(int columnIndex) {
+//		
+//		try {
+//			return PropertyUtils.getPropertyType(new Article(), columns[columnIndex]);
+//		} catch (Exception e) {
+//			return super.getColumnClass(columnIndex);
+//		}
+//	
+//	}
 	
 	
 	@Override
@@ -62,19 +61,20 @@ public class StockTableModel extends DefaultTableModel{
 	@Override
 	public Object getValueAt(int row, int column) {
 		
-		Article a = articles.get(row);
+		StockArticle a = articles.get(row);
 		
 		switch(column)
 		{
 			case 0: return a;
-			case 1: return a.getPrice();
-			case 2: return a.getCondition();
-			case 3 : return a.isFoil();
-			case 4 : return a.isSigned();
-			case 5 : return a.isPlayset();
-			case 6 : return a.isAltered();
-			case 7 : return a.getComments();
-			case 8 : return a.getCount();
+			case 1: return a.getProduct().getExpansion();
+			case 2: return a.getPrice();
+			case 3: return a.getCondition();
+			case 4 : return a.isFoil();
+			case 5 : return a.isSigned();
+			case 6 : return a.isPlayset();
+			case 7 : return a.isAltered();
+			case 8 : return a.getComments();
+			case 9 : return a.getCount();
 		default : return 0;
 		}
 		

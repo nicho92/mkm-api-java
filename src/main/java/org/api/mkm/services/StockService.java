@@ -23,6 +23,7 @@ import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
+import org.api.mkm.modele.StockArticle;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
@@ -44,23 +45,23 @@ public class StockService {
 	 		xstream.addPermission(AnyTypePermission.ANY);
 	 		xstream.alias("response", Response.class);
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
-	 		xstream.addImplicitCollection(Response.class, "article", Article.class);
+	 		xstream.addImplicitCollection(Response.class, "stockArticles",StockArticle.class);
 	 		xstream.ignoreUnknownElements();
 	}
 	
-	public List<Article> getStock(int idGame,String name) throws IOException
+	public List<StockArticle> getStock(int idGame,String name) throws IOException
 	{
 		Game g = new Game();
 		g.setIdGame(idGame);
 		return getStock(g, name);
 	}
 	
-	public List<Article> getStock() throws IOException
+	public List<StockArticle> getStock() throws IOException
 	{
 		return getStock(null, null);
 	}
 	
-	public List<Article> getStock(Game game,String name) throws IOException
+	public List<StockArticle> getStock(Game game,String name) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/stock";
 		
@@ -82,8 +83,17 @@ public class StockService {
     	   throw new MkmNetworkException(connection.getResponseCode());
        
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		xml = xml.replace("<article>", "<stockArticles>").replace("</article>", "</stockArticles>");
+		//TODO ugly !!!! but need to reforge stockmanagement
+		
+	    logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
+	    
+	    
+	    
+	    
 		Response res = (Response)xstream.fromXML(xml);
-		return res.getArticle();
+		
+		return res.getStockArticles();
 	}
 	
 	public void exportStock(File f,Integer idGame) throws IOException

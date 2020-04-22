@@ -11,10 +11,12 @@ public class Response implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private List<Product> product;
 	private List<Article> article;
+	private List<StockArticle> stockArticles;
 	private List<Link> links;
 	private List<Wantslist> wantslist;
 	private List<Game> game;
 	private List<Expansion> expansion;
+	
 	private List<Product> single;
 	private List<Order> order;
 	private List<Thread> thread;
@@ -27,7 +29,12 @@ public class Response implements Serializable{
 	private String priceguidefile;
 	private String stock;
 	
-	
+	public List<StockArticle> getStockArticles() {
+		return stockArticles;
+	}
+	public void setStockArticles(List<StockArticle> stockArticles) {
+		this.stockArticles = stockArticles;
+	}
 	public List<User> getUsers() {
 		return users;
 	}
