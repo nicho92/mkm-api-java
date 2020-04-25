@@ -13,7 +13,7 @@ public class StockTableModel extends DefaultTableModel{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final String[] columns={"product","expansion","price","condition","foil","signed","playset","altered","comments","count"};
+	private static final String[] columns={"product","expansion","price","condition","foil","signed","playset","altered","comments","count","LocationName"};
 	
 	private List<StockArticle> articles;
 	
@@ -75,6 +75,7 @@ public class StockTableModel extends DefaultTableModel{
 			case 7 : return a.isAltered();
 			case 8 : return a.getComments();
 			case 9 : return a.getCount();
+			case 10: return a.getProduct().getLocName();
 		default : return 0;
 		}
 		

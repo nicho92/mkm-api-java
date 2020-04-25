@@ -17,6 +17,16 @@ public class StockArticle {
 	private boolean isSigned;
 	private boolean isPlayset;
 	private boolean isAltered;
+	
+	@Override
+	public String toString() {
+		if(getProduct()!=null)
+			return getProduct().toString();
+		
+		
+		return super.toString();
+	}
+	
 	public int getIdArticle() {
 		return idArticle;
 	}

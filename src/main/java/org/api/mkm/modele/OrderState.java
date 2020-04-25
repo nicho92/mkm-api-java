@@ -13,6 +13,7 @@ public class OrderState implements Serializable{
 	private Date datePaid;
 	private Date dateSent;
 	private Date dateReceived;
+	
 	public String getState() {
 		return state;
 	}

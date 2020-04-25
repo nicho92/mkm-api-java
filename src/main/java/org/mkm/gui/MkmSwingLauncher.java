@@ -12,10 +12,8 @@ public class MkmSwingLauncher {
 
 	public static void main(String[] args) throws IOException {
 		
-		//"C:\\Users\\Nicolas\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf"
-		
-		if(new File(args[0]).exists())
-			MkmAPIConfig.getInstance().init(new File(args[0]));
+		//if(new File(args[0]).exists())
+			MkmAPIConfig.getInstance().init(new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf"));
 		
 		new MkmSwingLauncher();
 	}
