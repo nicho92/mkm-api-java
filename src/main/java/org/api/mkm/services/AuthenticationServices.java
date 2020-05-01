@@ -104,62 +104,7 @@ public class AuthenticationServices {
 	        }
 	        return queryParameters;
 	 }
-	
-	/**
-	 * @deprecated(since,used for v1.0 authentication, use generateOAuthSignature2())
-	 * */
- 	@Deprecated
-	public String generateOAuthSignature(String link,String method) throws MkmException {
 
-		try{
-        String realm = link ;
-        String oauthversion =  "1.0" ;
-        String oauthconsumerkey = appToken ;
-        String oauthtoken = accessToken ;
-        String oauthsignaturemethod = "HMAC-SHA1";
-        String oauthtimestamp = ""+ (System.currentTimeMillis()/1000) ;
-        String oauthnonce = "" + System.currentTimeMillis() ;
-        String encode ="UTF-8";
-       
-        String baseString = method+"&" + URLEncoder.encode(link,encode) + "&" ;
-        
-        String paramString = "oauth_consumer_key=" + URLEncoder.encode(oauthconsumerkey,encode) + "&" +
-                             "oauth_nonce=" + URLEncoder.encode(oauthnonce,encode) + "&" +
-                             "oauth_signature_method=" + URLEncoder.encode(oauthsignaturemethod,encode) + "&" +
-                             "oauth_timestamp=" + URLEncoder.encode(oauthtimestamp,encode) + "&" +
-                             "oauth_token=" + URLEncoder.encode(oauthtoken,encode) + "&" +
-                             "oauth_version=" + URLEncoder.encode(oauthversion,encode) ;
-        
-        
-        baseString += URLEncoder.encode(paramString,encode) ;
-       
-        String signingKey = URLEncoder.encode( appSecret,encode) + "&" + URLEncoder.encode(accessSecret,encode) ;
-        Mac mac = Mac.getInstance("HmacSHA1");
-        SecretKeySpec secret = new SecretKeySpec(signingKey.getBytes(), mac.getAlgorithm());
-        mac.init(secret);
-        byte[] digest = mac.doFinal(baseString.getBytes());
-        
-        
-        String oauthSignature = DatatypeConverter.printBase64Binary(digest);     
-        
-        return  "OAuth " +
-                "realm=\"" + realm + "\", " + 
-                "oauth_version=\"" + oauthversion + "\", " +
-                "oauth_timestamp=\"" + oauthtimestamp + "\", " +
-                "oauth_nonce=\"" + oauthnonce + "\", " +
-                "oauth_consumer_key=\"" + oauthconsumerkey + "\", " +
-                "oauth_token=\"" + oauthtoken + "\", " +
-                "oauth_signature_method=\"" + oauthsignaturemethod + "\", " +
-                "oauth_signature=\"" + oauthSignature + "\"" ;
-        
-        
-       }
-		catch(InvalidKeyException|UnsupportedEncodingException|NoSuchAlgorithmException e)
-		{
-			throw new MkmException(e.getMessage());
-		}
-	}
-	    
 	public String generateOAuthSignature2(String url,String method) throws MkmException{
 	    	try{
 	    	 Map<String,String> headerParams;

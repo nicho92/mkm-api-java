@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
@@ -54,7 +55,6 @@ public class MkmSearchPanel extends JPanel {
 	private ArticlesTableModel articlesModel;
 	private transient Logger logger = LogManager.getLogger(this.getClass());
 
-	private JPanel panelEast;
 	private JLabel lblPics;
 	private JButton btnAddWantlist;
 	private JButton btnBasket;
@@ -72,9 +72,11 @@ public class MkmSearchPanel extends JPanel {
 		JScrollPane panelWest;
 		JScrollPane panelCenter;
 		JLabel lblSearchProduct;
-
+		lblPics = new JLabel();
 		setLayout(new BorderLayout(0, 0));
 		
+		
+		add(lblPics,BorderLayout.EAST);
 		JPanel panelNorth = new JPanel();
 		add(panelNorth, BorderLayout.NORTH);
 		
@@ -205,14 +207,15 @@ public class MkmSearchPanel extends JPanel {
 				try{
 					
 					selectedProduct = listResults.getSelectedValue();
-					URL url = new URL("https://fr.magiccardmarket.eu/"+selectedProduct.getImage());
+					
+					URL url = new URL("https:"+selectedProduct.getImage());
 					BufferedImage im = ImageIO.read(url);
 					lblPics.setIcon(new ImageIcon(im));
 					
 					}
 					catch(Exception e)
 					{
-						logger.error(e);
+						logger.error("https:"+selectedProduct.getImage(),e);
 					}
 				
 				

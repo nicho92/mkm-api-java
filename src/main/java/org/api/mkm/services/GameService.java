@@ -16,6 +16,7 @@ import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
+import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -59,20 +60,7 @@ public class GameService {
 	public List<Game> listGames() throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/games";
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-			
-	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
-			               connection.connect() ;
-			               MkmAPIConfig.getInstance().updateCount(connection);
-		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-	 	if(!ret)
-	 		throw new MkmNetworkException(connection.getResponseCode());
-
-			               
-		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		
-
+		String xml= Tools.getXMLResponse(link, "GET", this.getClass());
 		Response res = (Response)xstream.fromXML(xml);
 		games=res.getGame();
 		
@@ -91,20 +79,8 @@ public class GameService {
 	public List<Expansion> listExpansion(Game g) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/games/"+g.getIdGame()+"/expansions";
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-			
-	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
-			               connection.connect() ;
-			               MkmAPIConfig.getInstance().updateCount(connection);
-		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-	 	if(!ret)
-	 		throw new MkmNetworkException(connection.getResponseCode());
-
-		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		logger.trace(xml);
+		String xml= Tools.getXMLResponse(link, "GET", this.getClass());
 		Response res = (Response)xstream.fromXML(xml);
-		
 		return res.getExpansion();
 	}
 	

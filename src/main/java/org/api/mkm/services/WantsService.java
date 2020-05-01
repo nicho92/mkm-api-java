@@ -23,6 +23,7 @@ import org.api.mkm.tools.IntConverter;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmBooleanConverter;
 import org.api.mkm.tools.MkmConstants;
+import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -179,18 +180,7 @@ public class WantsService {
 	{
     	String link = MkmConstants.MKM_API_URL+"/wantslist";
     	
-    	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
-			               connection.connect() ;
-			               MkmAPIConfig.getInstance().updateCount(connection);
-			               
-		boolean code= connection.getResponseCode()>=200 && connection.getResponseCode()<300;
-		
-		if(!code)
-			throw new MkmNetworkException(connection.getResponseCode());
-		
-		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		logger.debug(xml);
+    	String xml= Tools.getXMLResponse(link, "GET", this.getClass());
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getWantslist();
 	}
@@ -377,20 +367,7 @@ public class WantsService {
 	public void loadItems(Wantslist wl) throws IOException
 	{
 		String link = MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
-    	logger.debug(MkmConstants.MKM_LOG_LINK+link);
-    	
-    	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
-			               connection.connect() ;
-			               MkmAPIConfig.getInstance().updateCount(connection);
-			               
-		boolean ret = (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-		if(!ret)
-			throw new MkmNetworkException(connection.getResponseCode());
-		
-		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		
-   		logger.debug(xml);
+		String xml= Tools.getXMLResponse(link, "GET", this.getClass());
 		Response res = (Response)xstream.fromXML(xml);
 		
 		if(isEmpty(res.getWantslist().get(0)))

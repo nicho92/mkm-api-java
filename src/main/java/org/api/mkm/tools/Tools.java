@@ -5,12 +5,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.zip.GZIPInputStream;
 
-public class Tools {
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.LogManager;
+import org.api.mkm.exceptions.MkmNetworkException;
 
+public class Tools {
 	
    private static final byte[] BUFFER_SIZE = new byte[256];
 	
@@ -42,6 +49,55 @@ public class Tools {
         }
         return builder.toString();
     }
+    
+    public static String getXMLResponse(String link,String method, @SuppressWarnings("rawtypes") Class serv) throws IOException {
+    	 LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_LINK+link);
+    	 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+         connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, MkmAPIConfig.getInstance().getAuthenticator().generateOAuthSignature2(link,method)) ;
+         connection.setRequestMethod(method);
+         connection.setDoOutput(true);
+         connection.connect() ;
+        
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
+		if(!ret)
+		{
+		throw new MkmNetworkException(connection.getResponseCode());
+		}
+		MkmAPIConfig.getInstance().updateCount(connection);	      
+		String xml = IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_RESPONSE+xml);
+		
+		return xml;
+     }
+    
+    public static String postXMLResponse(String link,String method, @SuppressWarnings("rawtypes") Class serv,String content) throws IOException {
+   	 	LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_LINK+link);
+   	 	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+        connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, MkmAPIConfig.getInstance().getAuthenticator().generateOAuthSignature2(link,method)) ;
+        connection.setRequestMethod(method);
+        connection.setDoOutput(true);
+        connection.connect() ;
+        
+        LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_REQUEST+content);
+        
+        OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+        out.write(content);
+		out.close();
+		MkmAPIConfig.getInstance().updateCount(connection);
+        
+		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
+		if(!ret)
+		{
+		throw new MkmNetworkException(connection.getResponseCode());
+		}
+		MkmAPIConfig.getInstance().updateCount(connection);	      
+		String xml = IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		
+		LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_RESPONSE+xml);
+		
+		return xml;
+    }
+    
   
     
 }

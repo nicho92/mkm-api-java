@@ -11,41 +11,16 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
+import org.api.mkm.tools.Tools;
 
 public class DevelopperServices {
 
-	private Logger logger = LogManager.getLogger(this.getClass());
-	private AuthenticationServices auth;
-
-	public DevelopperServices() {
-		auth=MkmAPIConfig.getInstance().getAuthenticator();
-	}
-	
-	
 	public String execute(String link,String content,String method) throws IOException
 	{
-		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-         					connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,method)) ;
-         					connection.setRequestMethod(method);
-         
-         if(content!=null)
-        	 connection.setDoOutput(true);
-         
-         connection.connect();
-         
-         if(content!=null) {
-	         
-	         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-	         out.write(content);
-	 		 out.close();
-         }
-         
-         
-         MkmAPIConfig.getInstance().updateCount(connection);
-         boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-         logger.debug("ret ="+ret);
-         
-      	 return IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		if(content!=null)
+			return Tools.postXMLResponse(link, method, this.getClass(), content);
+		else
+			return Tools.getXMLResponse(link, method, this.getClass());
 	}
 	
 }

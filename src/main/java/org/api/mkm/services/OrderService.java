@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.tools.Tool;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -19,6 +21,7 @@ import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
+import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -59,23 +62,8 @@ public class OrderService {
 		if(min!=null)
 			link+="/"+min;
 		
-		 logger.debug(MkmConstants.MKM_LOG_LINK+link);
-		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-         connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
-         connection.connect() ;
-         MkmAPIConfig.getInstance().updateCount(connection);
-         boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-	 	
-         if(!ret)
-         {
-        	 throw new MkmNetworkException(connection.getResponseCode());
-         }
-    
-         String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		 
-         logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
-		 
-         Response res = (Response)xstream.fromXML(xml);
+		String xml= Tools.getXMLResponse(link, "GET", this.getClass());
+	    Response res = (Response)xstream.fromXML(xml);
         
          if(isEmpty(res.getOrder()))
          	return new ArrayList<>();
@@ -93,36 +81,14 @@ public class OrderService {
 	public Order getOrderById(int id) throws IOException
 	{
 		 String link=MkmConstants.MKM_API_URL+"/order/"+id;
-		 logger.debug(MkmConstants.MKM_LOG_LINK+link);
-		 
-		 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-         connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
-         connection.connect() ;
-         MkmAPIConfig.getInstance().updateCount(connection);
-         boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-	 	 if(!ret)
-	 	 {
-	 		 throw new MkmNetworkException(connection.getResponseCode());
-	 	 }
-	 	 
-         String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		 logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
+		 String xml= Tools.getXMLResponse(link, "GET", this.getClass());
          Response res = (Response)xstream.fromXML(xml);
-     	
          return res.getOrder().get(0);
 	}
 	
 	public void putTrackingNumber(int idOrder , String number) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/order/"+idOrder+"/tracking";
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
-		connection.setDoOutput(true);
-		connection.setRequestMethod("PUT");
-		connection.connect();
-		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-
 		StringBuilder temp = new StringBuilder();
 
 		temp.append(MkmConstants.XML_HEADER);
@@ -130,16 +96,8 @@ public class OrderService {
 				temp.append("<trackingNumber>").append(number).append("</trackingNumber>");
 			temp.append("</request>");
 		
-			logger.debug("REQ="+temp);
-		out.write(temp.toString());
-		out.close();
-		MkmAPIConfig.getInstance().updateCount(connection);
-		
-		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-	 	 if(!ret)
-	 	 {
-	 		 throw new MkmNetworkException(connection.getResponseCode());
-	 	 }
+		Tools.postXMLResponse(link, "PUT", this.getClass(), temp.toString());
+			
 	 	 
 	}
 	
