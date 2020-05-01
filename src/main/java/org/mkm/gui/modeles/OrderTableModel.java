@@ -14,7 +14,7 @@ public class OrderTableModel extends DefaultTableModel{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final String[] columns={"idOrder","seller","article","totalValue"};
+	private static final String[] columns={"idOrder","seller","state","totalValue"};
 	
 	private List<Order> articles;
 	
@@ -66,9 +66,9 @@ public class OrderTableModel extends DefaultTableModel{
 		
 		switch(column)
 		{
-			case 0: return a.getIdOrder();
+			case 0: return a;
 			case 1 : return a.getSeller();
-			case 2: return a.getArticle();
+			case 2 : return a.getState();
 			case 3: return a.getTotalValue();
 		default : return 0;
 		}

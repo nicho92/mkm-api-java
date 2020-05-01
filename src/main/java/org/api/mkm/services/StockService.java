@@ -17,7 +17,7 @@ import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
-import org.api.mkm.modele.StockArticle;
+import org.api.mkm.modele.LightArticle;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
@@ -31,23 +31,23 @@ public class StockService {
 	public StockService() {
 			xstream = Tools.instNewXstream();
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
-	 		xstream.addImplicitCollection(Response.class, "stockArticles",StockArticle.class);
+	 		xstream.addImplicitCollection(Response.class, "stockArticles",LightArticle.class);
 
 	}
 	
-	public List<StockArticle> getStock(int idGame,String name) throws IOException
+	public List<LightArticle> getStock(int idGame,String name) throws IOException
 	{
 		Game g = new Game();
 		g.setIdGame(idGame);
 		return getStock(g, name);
 	}
 	
-	public List<StockArticle> getStock() throws IOException
+	public List<LightArticle> getStock() throws IOException
 	{
 		return getStock(null, null);
 	}
 	
-	public List<StockArticle> getStock(Game game,String name) throws IOException
+	public List<LightArticle> getStock(Game game,String name) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/stock";
 		
@@ -189,12 +189,12 @@ public class StockService {
 		return res.getArticle();
 	}
 	
-	public void changeQte(StockArticle a, int qte) throws IOException
+	public void changeQte(LightArticle a, int qte) throws IOException
 	{
 		changeQte(List.of(a), qte);
 	}
 	
-	public void changeQte(List<StockArticle> list, int qte) throws IOException
+	public void changeQte(List<LightArticle> list, int qte) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
 		
@@ -208,7 +208,7 @@ public class StockService {
 		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request>");
 
-		for(StockArticle a : list)
+		for(LightArticle a : list)
 		{
 			temp.append("<article>");
 				temp.append("<idArticle>").append(a.getIdArticle()).append("</idArticle>");

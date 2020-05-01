@@ -1,6 +1,6 @@
 package org.api.mkm.modele;
 
-public class StockArticle {
+public class LightArticle {
 
 	private int idArticle;
 	private int idProduct;

@@ -4,9 +4,9 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.api.mkm.modele.StockArticle;
+import org.api.mkm.modele.LightArticle;
 
-public class StockTableModel extends DefaultTableModel{
+public class LightArticlesTableModel extends DefaultTableModel{
 
 	/**
 	 * 
@@ -15,9 +15,9 @@ public class StockTableModel extends DefaultTableModel{
 
 	private static final String[] columns={"product","expansion","price","condition","foil","signed","playset","altered","comments","count","LocationName"};
 	
-	private List<StockArticle> articles;
+	private List<LightArticle> articles;
 	
-	public void init(List<StockArticle> articles)
+	public void init(List<LightArticle> articles)
 	{
 		this.articles=articles;
 		fireTableDataChanged();
@@ -61,7 +61,7 @@ public class StockTableModel extends DefaultTableModel{
 	@Override
 	public Object getValueAt(int row, int column) {
 		
-		StockArticle a = articles.get(row);
+		LightArticle a = articles.get(row);
 		
 		switch(column)
 		{

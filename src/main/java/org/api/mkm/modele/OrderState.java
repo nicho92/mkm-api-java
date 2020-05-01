@@ -14,6 +14,12 @@ public class OrderState implements Serializable{
 	private Date dateSent;
 	private Date dateReceived;
 	
+	
+	@Override
+	public String toString() {
+		return getState();
+	}
+	
 	public String getState() {
 		return state;
 	}

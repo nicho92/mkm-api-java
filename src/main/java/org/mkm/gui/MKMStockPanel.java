@@ -8,10 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.api.mkm.modele.StockArticle;
+import org.api.mkm.modele.LightArticle;
 import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmConstants;
-import org.mkm.gui.modeles.StockTableModel;
+import org.mkm.gui.modeles.LightArticlesTableModel;
 
 public class MKMStockPanel extends JPanel {
 	/**
@@ -19,7 +19,7 @@ public class MKMStockPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTable tableArticles;
-	private StockTableModel articlesModel;
+	private LightArticlesTableModel articlesModel;
 
 	private void initGUI()
 	{
@@ -47,7 +47,7 @@ public class MKMStockPanel extends JPanel {
 		
 		btnDownQte = new JButton("-");
 		btnDownQte.addActionListener(ae->{
-				StockArticle a = (StockArticle)tableArticles.getValueAt(tableArticles.getSelectedRow(), 0);
+				LightArticle a = (LightArticle)tableArticles.getValueAt(tableArticles.getSelectedRow(), 0);
 				
 				StockService serv = new StockService();
 				try {
@@ -62,7 +62,7 @@ public class MKMStockPanel extends JPanel {
 		
 		btnUpQte = new JButton("+");
 		btnUpQte.addActionListener(ae->{
-				StockArticle a = (StockArticle)tableArticles.getValueAt(tableArticles.getSelectedRow(), 0);
+				LightArticle a = (LightArticle)tableArticles.getValueAt(tableArticles.getSelectedRow(), 0);
 				StockService serv = new StockService();
 				try {
 						serv.changeQte(a, 1);
@@ -76,7 +76,7 @@ public class MKMStockPanel extends JPanel {
 		panelCenter = new JScrollPane();
 		add(panelCenter, BorderLayout.CENTER);
 		
-		articlesModel = new StockTableModel();
+		articlesModel = new LightArticlesTableModel();
 		tableArticles = new JTable(articlesModel);
 		panelCenter.setViewportView(tableArticles);
 		

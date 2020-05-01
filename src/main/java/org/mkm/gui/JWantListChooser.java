@@ -11,9 +11,6 @@ import org.api.mkm.services.WantsService;
 
 public class JWantListChooser extends JDialog {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private transient WantsService service;
 	private Wantslist selected;

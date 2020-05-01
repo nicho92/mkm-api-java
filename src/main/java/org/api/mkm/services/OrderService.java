@@ -4,10 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.api.mkm.modele.Article;
+import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Order;
-import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
@@ -25,8 +24,7 @@ public class OrderService {
 		xstream = Tools.instNewXstream();
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "order", Order.class);
-	 		xstream.addImplicitCollection(Order.class, "article", Article.class);
-	 		xstream.aliasField("expansion", Product.class, "expansionName");
+	 		xstream.addImplicitCollection(Order.class, "article", LightArticle.class);
 	}
 
 	
@@ -44,14 +42,7 @@ public class OrderService {
         
          if(isEmpty(res.getOrder()))
          	return new ArrayList<>();
-         
-         for(Order o : res.getOrder())
-        	 for(Article art : o.getArticle())
-        	 {
-        		 art.getProduct().setIdProduct(art.getIdProduct());
-        	 }
-         
-         
+ 
          return res.getOrder();
 	}
 	

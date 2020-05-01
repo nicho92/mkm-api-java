@@ -18,7 +18,7 @@ public class Order implements Serializable {
 		private int articleCount;
 		private String note;
 		private Evaluation evaluation;
-		private List<Article> article;
+		private List<LightArticle> article;
 		private double articleValue;
 		private double serviceFeeValue;
 		private double totalValue;
@@ -26,7 +26,7 @@ public class Order implements Serializable {
 		
 		@Override
 		public String toString() {
-			return getIdOrder() +" : " + getSeller();
+			return String.valueOf(getIdOrder());
 		}
 		
 		
@@ -90,10 +90,10 @@ public class Order implements Serializable {
 		public void setEvaluation(Evaluation evaluation) {
 			this.evaluation = evaluation;
 		}
-		public List<Article> getArticle() {
+		public List<LightArticle> getArticle() {
 			return article;
 		}
-		public void setArticle(List<Article> article) {
+		public void setArticle(List<LightArticle> article) {
 			this.article = article;
 		}
 		public double getArticleValue() {

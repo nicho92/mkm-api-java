@@ -6,7 +6,7 @@ public class LightProduct {
 	private String locName;
 	private String image;
 	private String expansion;
-	private Integer nr;
+	private String nr;
 	private Integer expIcon;
 	private String rarity;
 	
@@ -45,10 +45,10 @@ public class LightProduct {
 	public void setExpansion(String expansion) {
 		this.expansion = expansion;
 	}
-	public Integer getNr() {
+	public String getNr() {
 		return nr;
 	}
-	public void setNr(Integer nr) {
+	public void setNr(String nr) {
 		this.nr = nr;
 	}
 	public Integer getExpIcon() {
