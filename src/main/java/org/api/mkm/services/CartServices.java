@@ -36,7 +36,7 @@ public class CartServices {
 		String link =MkmConstants.MKM_API_URL+"/shoppingcart";
 		StringBuilder temp = new StringBuilder();
 
-		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>add</action>");
 
 		for(Article a : articles)
@@ -67,7 +67,7 @@ public class CartServices {
 		String link =MkmConstants.MKM_API_URL+"/shoppingcart";
 		StringBuilder temp = new StringBuilder();
 
-		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>remove</action>");
 
 		for(Article a : articles)

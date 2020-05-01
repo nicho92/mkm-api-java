@@ -52,7 +52,7 @@ public class UserService {
 	{
 		String link=MkmConstants.MKM_API_URL+"/account/messages/"+u.getIdUser();
 		StringBuilder temp = new StringBuilder();
-		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><message>"+message+"</message>");
 		temp.append("</request>");
 	

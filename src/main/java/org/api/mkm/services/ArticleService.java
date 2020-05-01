@@ -70,12 +70,21 @@ public class ArticleService {
 	    	}
     	
 	    String xml= Tools.getXMLResponse(link, "GET",this.getClass());
-		Response res = (Response)xstream.fromXML(xml);
 		
-		for(Article a : res.getArticle())
-			a.setProduct(p);
+	    try {
+		    Response res = (Response)xstream.fromXML(xml);
+			
+			for(Article a : res.getArticle())
+				a.setProduct(p);
+			
+			return res.getArticle();
 		
-		return res.getArticle();
+	    }
+	    catch(Exception e)
+	    {
+	    	return new ArrayList<>();
+	    }
+		
 	}
 	
 }

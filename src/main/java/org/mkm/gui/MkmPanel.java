@@ -27,6 +27,7 @@ public class MkmPanel extends JPanel{
 		MkmWantListPanel pane2 = new MkmWantListPanel();
 		MkmOrderPanel pane3 = new MkmOrderPanel();
 		MKMStockPanel pane5 = new MKMStockPanel();
+		MkmUsersPanel pane6 = new MkmUsersPanel();
 		MkmDevPanel paneDev = new MkmDevPanel();
 		setLayout(new BorderLayout());
 		
@@ -38,6 +39,7 @@ public class MkmPanel extends JPanel{
 		tpane.add("WantList", pane2);
 		tpane.add("Order", pane3);
 		tpane.add("Stock", pane5);
+		tpane.add("Users",pane6);
 		tpane.add("Dev",paneDev);
 		
 		

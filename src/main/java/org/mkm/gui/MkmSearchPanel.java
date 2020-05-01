@@ -68,6 +68,8 @@ public class MkmSearchPanel extends JPanel {
 		JTextField txtSearch;
 		JTextField txtID;
 		JButton btnExportPriceGuid;
+		JButton btnExportProduct;
+
 		JScrollPane panelWest;
 		JScrollPane panelCenter;
 		JLabel lblSearchProduct;
@@ -166,6 +168,31 @@ public class MkmSearchPanel extends JPanel {
 		btnBasket.setEnabled(false);
 		panelNorth.add(btnBasket);
 		
+		
+		btnExportProduct = new JButton("Export Product Catalog");
+		btnExportProduct.addActionListener(ae->{
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setDialogTitle("Choose Location");   
+			 
+			int userSelection = fileChooser.showSaveDialog(null);
+			 
+			if (userSelection == JFileChooser.APPROVE_OPTION) 
+			{
+			    File fileToSave = fileChooser.getSelectedFile();
+			    ProductServices services = new ProductServices();
+			    try {
+					services.exportProductList(fileToSave);
+				} 
+			    catch (Exception e) 
+			    {
+					JOptionPane.showMessageDialog(null, e, MkmConstants.MKM_ERROR, JOptionPane.ERROR_MESSAGE);
+				}
+			    
+			}
+		});
+		
+		
+		
 		btnExportPriceGuid = new JButton("Export PriceGuide");
 		btnExportPriceGuid.addActionListener(ae->{
 				
@@ -189,7 +216,7 @@ public class MkmSearchPanel extends JPanel {
 				}
 		});
 		panelNorth.add(btnExportPriceGuid);
-		
+		panelNorth.add(btnExportProduct);
 		
 		panelWest = new JScrollPane();
 		add(panelWest, BorderLayout.WEST);
