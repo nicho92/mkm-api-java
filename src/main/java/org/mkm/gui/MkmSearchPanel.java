@@ -25,12 +25,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
-import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
+import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.WantItem;

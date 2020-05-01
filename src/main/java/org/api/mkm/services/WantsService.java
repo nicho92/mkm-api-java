@@ -11,14 +11,10 @@ import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
-import org.api.mkm.tools.IntConverter;
-import org.api.mkm.tools.MkmBooleanConverter;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class WantsService {
 

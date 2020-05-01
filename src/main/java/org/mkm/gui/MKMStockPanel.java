@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.api.mkm.modele.Article;
 import org.api.mkm.modele.StockArticle;
 import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmConstants;
