@@ -19,7 +19,6 @@ import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.Response;
-import org.api.mkm.tools.EncodingUtils;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
@@ -113,7 +112,7 @@ public class ProductServices {
 	{
 		xstream.aliasField("expansion", Product.class, "expansionName");
  		
-		String link = MkmConstants.MKM_API_URL+"/products/find?search="+EncodingUtils.encodeString(name);
+		String link = MkmConstants.MKM_API_URL+"/products/find?search="+Tools.encodeString(name);
 	
 		if(atts!=null && atts.size()>0)
 	    	{
@@ -136,7 +135,7 @@ public class ProductServices {
 	
 	public List<Product> findMetaProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException
 	{
-		String link = MkmConstants.MKM_API_URL+"/products/find?search="+EncodingUtils.encodeString(name);
+		String link = MkmConstants.MKM_API_URL+"/products/find?search="+Tools.encodeString(name);
 		if(atts.size()>0)
     	{
 			link+="&";

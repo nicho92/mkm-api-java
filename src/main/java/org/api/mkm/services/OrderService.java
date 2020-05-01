@@ -33,8 +33,8 @@ public class OrderService {
 	public List<Order> listOrders(ACTOR a, STATE s,Integer min) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/orders/:actor/:state";
-			link=link.replaceAll(":actor", a.name());
-			link=link.replaceAll(":state", s.name());
+			link=link.replace(":actor", a.name());
+			link=link.replace(":state", s.name());
 		
 		if(min!=null)
 			link+="/"+min;

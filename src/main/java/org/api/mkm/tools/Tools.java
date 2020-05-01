@@ -31,6 +31,16 @@ public class Tools {
 	   
    }
    
+   public static String encodeString(String s)
+	{
+		return s.replace(" ","%20")
+				.replace("'", "%27")
+				.replace(":", "%3A")
+				.replace(",","%2C")
+				.replace("&", "%26")
+				.replace("\"", "%22")
+				.replace("\u00C6", "Ae");
+	}
    
    public static XStream instNewXstream()
    {
