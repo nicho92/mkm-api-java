@@ -42,19 +42,10 @@ public class ArticleService {
 		 
          String xml= Tools.getXMLResponse(link, "GET",this.getClass());
          Response res = (Response)xstream.fromXML(xml);
-		
-     	if(isEmpty(res.getArticle()))
-     	{
-     		return new ArrayList<>();
-     	}
     	return res.getArticle();
 	}
 	
 	
-	private boolean isEmpty(List<Article> article) {
-		
-		return (article.get(0).getIdArticle()==0);
-	}
 
 	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws IOException 
 	{

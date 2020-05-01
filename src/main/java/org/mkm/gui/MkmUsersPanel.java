@@ -24,7 +24,7 @@ import org.api.mkm.modele.User;
 import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.UserService;
 import org.api.mkm.tools.MkmConstants;
-import org.mkm.gui.modeles.LightArticlesTableModel;
+import org.mkm.gui.modeles.ArticlesTableModel;
 import org.mkm.gui.modeles.UsersTableModel;
 
 public class MkmUsersPanel extends JPanel {
@@ -34,7 +34,7 @@ public class MkmUsersPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable tableUsers;
 	private UsersTableModel usersModel;
-	private LightArticlesTableModel articlesModel;
+	private ArticlesTableModel articlesModel;
 	private transient Logger logger = LogManager.getLogger(this.getClass());
 	private JTable tableArticles;
 
@@ -55,7 +55,7 @@ public class MkmUsersPanel extends JPanel {
 		panelNorth.add(lblSearchUser);
 		panelNorth.add(txtSearch);
 		
-		articlesModel = new LightArticlesTableModel();
+		articlesModel = new ArticlesTableModel();
 		usersModel = new UsersTableModel();
 		
 		tableUsers = new JTable(usersModel);
@@ -81,7 +81,7 @@ public class MkmUsersPanel extends JPanel {
 				
 				try {
 					List<Article> artts = new ArticleService().find(o,map);
-				//	articlesModel.init(artts);
+					articlesModel.init(artts);
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(null, e1.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				}
