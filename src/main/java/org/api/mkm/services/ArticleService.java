@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Link;
@@ -18,29 +16,20 @@ import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class ArticleService {
 
-	private Logger logger = LogManager.getLogger(this.getClass());
 	private XStream xstream;
 	
 	public ArticleService() {
-			xstream = new XStream(new StaxDriver());
-			XStream.setupDefaultSecurity(xstream);
-	 		xstream.addPermission(AnyTypePermission.ANY);
-	 		xstream.alias("response", Response.class);
+			xstream = Tools.instNewXstream();
 	 		xstream.addImplicitCollection(Response.class,"article", Article.class);
 	 		xstream.addImplicitCollection(Response.class,"links",Link.class);
-	 		xstream.ignoreUnknownElements();
 	}
 	
 	public List<Article> find(User u,Map<ARTICLES_ATT,String> atts) throws IOException 
 	{
 		String link = MkmConstants.MKM_API_URL+"/users/"+u.getUsername()+"/articles";
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-		
 		if(atts!=null && atts.size()>0)
 	    	{
 	    		link+="?";
@@ -70,8 +59,6 @@ public class ArticleService {
 	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws IOException 
 	{
 		String link = MkmConstants.MKM_API_URL+"/articles/"+p.getIdProduct();
-    	logger.debug(MkmConstants.MKM_LOG_LINK+link);
-    	
     	if(atts!=null && atts.size()>0)
 	    	{
 	    		link+="?";

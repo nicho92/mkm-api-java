@@ -2,9 +2,6 @@ package org.api.mkm.services;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +10,8 @@ import java.util.Map.Entry;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
@@ -25,14 +20,10 @@ import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.EncodingUtils;
-import org.api.mkm.tools.IntConverter;
-import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class ProductServices {
 
@@ -51,10 +42,7 @@ public class ProductServices {
 	
 	public ProductServices() {
 		
-		xstream = new XStream(new StaxDriver());
-			XStream.setupDefaultSecurity(xstream);
-	 		xstream.addPermission(AnyTypePermission.ANY);
-	 		xstream.alias("response", Response.class);
+		xstream = Tools.instNewXstream();
 	 		xstream.addImplicitCollection(Response.class,"product", Product.class);
 	 		xstream.addImplicitCollection(Response.class,"links",Link.class);
 	 		xstream.addImplicitCollection(Response.class, "single",Product.class);
@@ -62,8 +50,6 @@ public class ProductServices {
 	 		xstream.addImplicitCollection(Product.class,"links",Link.class);
 	 		xstream.addImplicitCollection(Product.class,"localization",Localization.class);
 	 		xstream.addImplicitCollection(Product.class,"reprint",Expansion.class);
-	 		xstream.registerConverter(new IntConverter());
-	 		xstream.ignoreUnknownElements();
 	}
 	
 	public void exportPriceGuide(File f,Game game) throws IOException

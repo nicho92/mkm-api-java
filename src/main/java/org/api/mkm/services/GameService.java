@@ -1,20 +1,12 @@
 package org.api.mkm.services;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
-import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
@@ -24,22 +16,14 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class GameService {
 
-	private AuthenticationServices auth;
 	private XStream xstream;
-	private Logger logger = LogManager.getLogger(this.getClass());
 	private List<Game> games;
 	
 	public GameService() {
-		auth=MkmAPIConfig.getInstance().getAuthenticator();
-		
-		xstream = new XStream(new StaxDriver());
-			XStream.setupDefaultSecurity(xstream);
-	 		xstream.addPermission(AnyTypePermission.ANY);
-	 		xstream.alias("response", Response.class);
+		xstream = Tools.instNewXstream();
 	 		xstream.addImplicitCollection(Response.class,"game",Game.class);
 	 		xstream.addImplicitCollection(Response.class, "expansion", Expansion.class);
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
-	 		xstream.ignoreUnknownElements();
 	}
 	
 	

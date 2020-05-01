@@ -1,18 +1,10 @@
 package org.api.mkm.services;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.api.mkm.exceptions.MkmException;
-import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Product;
@@ -20,7 +12,6 @@ import org.api.mkm.modele.Response;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.tools.IntConverter;
-import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmBooleanConverter;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
@@ -31,27 +22,18 @@ import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class WantsService {
 
-	private AuthenticationServices auth;
 	private XStream xstream;
-	private Logger logger = LogManager.getLogger(this.getClass());
 	
 	
 	public WantsService() {
-		auth=MkmAPIConfig.getInstance().getAuthenticator();
 		
-		xstream = new XStream(new StaxDriver());
-			XStream.setupDefaultSecurity(xstream);
-	 		xstream.addPermission(AnyTypePermission.ANY);
-	 		xstream.alias("response", Response.class);
+		xstream = Tools.instNewXstream();
 	 		xstream.addImplicitCollection(Response.class,"wantslist", Wantslist.class);
 	 		xstream.addImplicitCollection(Wantslist.class,"item", WantItem.class);
 	 		xstream.addImplicitCollection(Wantslist.class,"links", Link.class);
 	 		xstream.addImplicitCollection(Product.class,"localization",Localization.class);
 	 		xstream.addImplicitCollection(WantItem.class,"idLanguage",Integer.class);
 	 		xstream.addImplicitCollection(Response.class,"links",Link.class);
-	 		xstream.ignoreUnknownElements();
-	 		xstream.registerConverter(new IntConverter());
-	 		xstream.registerConverter(new MkmBooleanConverter());
 	}
 	
 	public Wantslist deleteItem(Wantslist li, WantItem it) throws IOException
@@ -65,14 +47,6 @@ public class WantsService {
 	public Wantslist deleteItems(Wantslist li, List<WantItem> list) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/wantslist/"+li.getIdWantslist();
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-    	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-				            connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
-				       		connection.setDoOutput(true);
-				    		connection.setRequestMethod("PUT");
-				    		connection.connect();
-				    		
-		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuilder temp = new StringBuilder();
 		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>deleteItem</action>");
@@ -82,52 +56,28 @@ public class WantsService {
 			temp.append("<idWant>"+w.getIdWant()+"</idWant>");
 		}		    
 		temp.append("</want></request>");
-		logger.debug(MkmConstants.MKM_LOG_REQUEST+temp);
 		
-		out.write(temp.toString());
-		out.close();
-		MkmAPIConfig.getInstance().updateCount(connection);
-		
-		boolean code= connection.getResponseCode()>=200 && connection.getResponseCode()<300;
-		
-		if(code)
+		String xml= Tools.getXMLResponse(link, "PUT", getClass(), temp.toString());
+		Response res = (Response)xstream.fromXML(xml);
+		if(res.getErrors()!=null)
+			throw new MkmException(res.getErrors());
+			
+		Wantslist li2 = ((Response)xstream.fromXML(xml)).getWantslist().get(0);
+			
+		if(isEmpty(li2))
 		{
-			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-			logger.debug(xml);
-			Response res = (Response)xstream.fromXML(xml);
-			if(res.getErrors()!=null)
-				throw new MkmException(res.getErrors());
-			
-			Wantslist li2 = ((Response)xstream.fromXML(xml)).getWantslist().get(0);
-			
-			if(isEmpty(li2))
-			{
-				li2.setItem(new ArrayList<WantItem>());
-				return li2;
-			}
-			
-			return ((Response)xstream.fromXML(xml)).getWantslist().get(0);
+			li2.setItem(new ArrayList<WantItem>());
+			return li2;
 		}
-		else
-		{
-			throw new MkmNetworkException(connection.getResponseCode());
-		}
+		return ((Response)xstream.fromXML(xml)).getWantslist().get(0);
+		
 		
 	}
 	
-	public boolean updateItem(Wantslist wl,WantItem it) throws IOException
+	public void updateItem(Wantslist wl,WantItem it) throws IOException
 	{
 		
 		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-	   
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-				            connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
-				       		connection.setDoOutput(true);
-				    		connection.setRequestMethod("PUT");
-				    		connection.connect();
-				    		
-		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuilder temp = new StringBuilder();
 		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>editItem</action>");
@@ -153,215 +103,91 @@ public class WantsService {
 			temp.append("</want>");
 		temp.append("</request>");
 
-		logger.debug(MkmConstants.MKM_LOG_REQUEST+temp);
+		String xml= Tools.getXMLResponse(link, "PUT", getClass(), temp.toString());
 		
-		out.write(temp.toString());
-		out.close();
-		MkmAPIConfig.getInstance().updateCount(connection);
+		Response res = (Response)xstream.fromXML(xml);
+		if(res.getErrors()!=null)
+			throw new MkmException(res.getErrors());
 		
-		boolean code= connection.getResponseCode()>=200 && connection.getResponseCode()<300;
-		if(code)
-		{
-			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-			logger.debug(xml);
-			Response res = (Response)xstream.fromXML(xml);
-			if(res.getErrors()!=null)
-				throw new MkmException(res.getErrors());
-		
-		}
-		else
-		{
-			throw new MkmNetworkException(connection.getResponseCode());
-		}
-		return code;
 	}
 	
 	public List<Wantslist> getWantList() throws IOException
 	{
     	String link = MkmConstants.MKM_API_URL+"/wantslist";
-    	
     	String xml= Tools.getXMLResponse(link, "GET", this.getClass());
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getWantslist();
 	}
 	
-	public boolean addItem(Wantslist wl, WantItem item) throws IOException
+	public void addItem(Wantslist wl, WantItem item) throws IOException
 	{
-		ArrayList<WantItem> list = new ArrayList<>();
-		list.add(item);
-		return addItem(wl, list);
+		addItem(wl, List.of(item));
 	}
 	
-	
-	public boolean addItem(Wantslist wl, List<WantItem> items) throws IOException
+	public void addItem(Wantslist wl, List<WantItem> items) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-		
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
-		connection.setDoOutput(true);
-		connection.setRequestMethod("PUT");
-		connection.connect();
-			
-		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 
 		StringBuilder temp = new StringBuilder();
-
 		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>addItem</action>");
-
-		for(WantItem w : items)
-		{
-			temp.append("<product>");
-			temp.append("<idProduct>"+w.getIdProduct()+"</idProduct>");
-			temp.append("<count>"+w.getCount()+"</count>");
+			for(WantItem w : items)
+			{
+				temp.append("<product>");
+					temp.append("<idProduct>"+w.getIdProduct()+"</idProduct>");
+					temp.append("<count>"+w.getCount()+"</count>");
+					temp.append("<minCondition>"+w.getMinCondition()+"</minCondition>");
 			
-			if(w.isMailAlert()!=null)
-				temp.append("<mailAlert>"+w.isMailAlert()+"</mailAlert>");
-			else
-				temp.append("<mailAlert/>");
-			
-			if(!w.getIdLanguage().isEmpty())
-				for(Integer i : w.getIdLanguage())
-					temp.append("<idLanguage>"+i+"</idLanguage>");
-
-			temp.append("<minCondition>"+w.getMinCondition()+"</minCondition>");
-
-			if(w.getWishPrice()>0)
-				temp.append("<wishPrice>"+w.getWishPrice()+"</wishPrice>");
-			else
-				temp.append("<wishPrice/>");
-			
-			if(w.isPlayset()!=null)
-					temp.append("<isPlayset>"+w.isPlayset()+"</isPlayset>");
-			
-			temp.append("</product>");
-		}		    
+					if(w.isMailAlert()!=null)
+						temp.append("<mailAlert>"+w.isMailAlert()+"</mailAlert>");
+					else
+						temp.append("<mailAlert/>");
+					
+					if(!w.getIdLanguage().isEmpty())
+						for(Integer i : w.getIdLanguage())
+							temp.append("<idLanguage>"+i+"</idLanguage>");
+		
+		
+					if(w.getWishPrice()>0)
+						temp.append("<wishPrice>"+w.getWishPrice()+"</wishPrice>");
+					else
+						temp.append("<wishPrice/>");
+					
+					if(w.isPlayset()!=null)
+							temp.append("<isPlayset>"+w.isPlayset()+"</isPlayset>");
+	
+				temp.append("</product>");
+			}		    
 		temp.append("</request>");
-		logger.debug(MkmConstants.MKM_LOG_REQUEST+temp);
-		out.write(temp.toString());
-		out.close();
 		
-		MkmAPIConfig.getInstance().updateCount(connection);
-		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
+		Tools.getXMLResponse(link, "PUT", this.getClass(), temp.toString());
 		
-		if(ret)
-    	{
-    		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-    		logger.debug(xml);
-    	}
-		else
-		{
-			throw new MkmNetworkException(connection.getResponseCode());
-		}
-		return ret;
 	}
 	
-	public boolean renameWantList(Wantslist wl , String name) throws IOException
+	public void renameWantList(Wantslist wl , String name) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-		
-    	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-				            connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"PUT")) ;
-				       		connection.setDoOutput(true);
-				    		connection.setRequestMethod("PUT");
-				    		connection.connect();
-				    		
-		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
 		StringBuilder temp = new StringBuilder();
 		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>editWantslist</action>");
 		temp.append("<name>").append(name).append("</name></request>");
-		
-		logger.debug(MkmConstants.MKM_LOG_REQUEST+temp);
-		
-		out.write(temp.toString());
-		out.close();
-		MkmAPIConfig.getInstance().updateCount(connection);
-		
-		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-		
-		if(ret)
-		{
-			wl.setName(name);
-			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-			logger.debug(xml);
-		}
-		else
-		{
-			throw new MkmNetworkException(connection.getResponseCode());
-		}
-		return ret;
-		
+		Tools.getXMLResponse(link, "PUT", this.getClass(), temp.toString());
 	}
 	
 	public Wantslist createWantList(String name) throws IOException
 	{
 		String link = MkmConstants.MKM_API_URL+"/wantslist";
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-		
 		String temp = MkmConstants.XML_HEADER+"<request><wantslist><idGame>1</idGame><name>"+name+"</name></wantslist></request>";
-		
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-        				  connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"POST")) ;
-        				  connection.setDoOutput(true);
-        				  connection.setRequestMethod("POST");
-        				  connection.setRequestProperty( "charset", "utf-8");
-        				  connection.connect() ;
-        				  OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-        				  out.write(temp);
-        				  out.close();
-         				  MkmAPIConfig.getInstance().updateCount(connection);
-        				  
-         			          				  
-        	boolean ret = (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-        	if(ret)
-        	{
-        		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-        		logger.debug(xml);
-        		Response res = (Response)xstream.fromXML(xml);
-        		return res.getWantslist().get(0);
-        	}
-        	else
-        	{
-        		throw new MkmNetworkException(connection.getResponseCode());
-        	}
+		String xml = Tools.getXMLResponse(link, "POST", this.getClass(),temp);
+        Response res = (Response)xstream.fromXML(xml);
+   		return res.getWantslist().get(0);
 	}
 	
-	public boolean deleteWantList(Wantslist l) throws IOException
+	public void deleteWantList(Wantslist l) throws IOException
 	{
 		String link = MkmConstants.MKM_API_URL+"/wantslist/"+l.getIdWantslist();
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-		
 		String temp =MkmConstants.XML_HEADER+"<request><wantslist><idGame>1</idGame><name>"+l.getIdWantslist()+"</name></wantslist></request>";
-		
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-        				  connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"DELETE")) ;
-        				  connection.setDoOutput(true);
-        				  connection.setRequestMethod("DELETE");
-        				  connection.setRequestProperty( "charset", "utf-8");
-        				  connection.connect() ;
-        				  
-        				  OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-        				  out.write(temp);
-        				  out.close();
-         				  
-        boolean ret = (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-		MkmAPIConfig.getInstance().updateCount(connection);
-			    
-        if(ret)
-    	{
-    		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-    		logger.debug(xml);
-    	}
-        else
-        {
-        	throw new MkmNetworkException(connection.getResponseCode());
-        }
-        
-      	return ret;
+		Tools.getXMLResponse(link, "DELETE", this.getClass(), temp);
 	}
 	
 	public void loadItems(Wantslist wl) throws IOException

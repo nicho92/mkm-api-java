@@ -16,6 +16,11 @@ import java.util.zip.GZIPInputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.api.mkm.exceptions.MkmNetworkException;
+import org.api.mkm.modele.Response;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class Tools {
 	
@@ -25,6 +30,22 @@ public class Tools {
    {
 	   
    }
+   
+   
+   public static XStream instNewXstream()
+   {
+   	XStream xstream = new XStream(new StaxDriver());
+		XStream.setupDefaultSecurity(xstream);
+		xstream.ignoreUnknownElements();
+		xstream.addPermission(AnyTypePermission.ANY);
+		xstream.alias("response", Response.class);
+ 		xstream.registerConverter(new IntConverter());
+ 		xstream.registerConverter(new MkmBooleanConverter());
+
+		return xstream;
+		
+   }
+   
    
     
    public static void unzip(File zipFilePath,File to) throws IOException {
@@ -49,6 +70,7 @@ public class Tools {
         }
         return builder.toString();
     }
+   
     
     public static String getXMLResponse(String link,String method, @SuppressWarnings("rawtypes") Class serv) throws IOException {
     	 LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_LINK+link);
@@ -56,12 +78,13 @@ public class Tools {
          connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, MkmAPIConfig.getInstance().getAuthenticator().generateOAuthSignature2(link,method)) ;
          connection.setRequestMethod(method);
          connection.setDoOutput(true);
+         connection.setRequestProperty("charset", "utf-8");
          connection.connect() ;
         
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 		if(!ret)
 		{
-		throw new MkmNetworkException(connection.getResponseCode());
+			throw new MkmNetworkException(connection.getResponseCode());
 		}
 		MkmAPIConfig.getInstance().updateCount(connection);	      
 		String xml = IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
@@ -70,13 +93,13 @@ public class Tools {
 		return xml;
      }
     
-    public static String postXMLResponse(String link,String method, @SuppressWarnings("rawtypes") Class serv,String content) throws IOException {
+    public static String getXMLResponse(String link,String method, @SuppressWarnings("rawtypes") Class serv,String content) throws IOException {
    	 	LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_LINK+link);
-   	 	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-        connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, MkmAPIConfig.getInstance().getAuthenticator().generateOAuthSignature2(link,method)) ;
-        connection.setRequestMethod(method);
-        connection.setDoOutput(true);
-        connection.connect() ;
+		   	 	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+		        connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, MkmAPIConfig.getInstance().getAuthenticator().generateOAuthSignature2(link,method)) ;
+		        connection.setRequestMethod(method);
+		        connection.setDoOutput(true);
+		        connection.connect() ;
         
         LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_REQUEST+content);
         
@@ -88,13 +111,12 @@ public class Tools {
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 		if(!ret)
 		{
-		throw new MkmNetworkException(connection.getResponseCode());
+			throw new MkmNetworkException(connection.getResponseCode());
 		}
+		
 		MkmAPIConfig.getInstance().updateCount(connection);	      
 		String xml = IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		
 		LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_RESPONSE+xml);
-		
 		return xml;
     }
     

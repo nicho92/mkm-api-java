@@ -1,13 +1,10 @@
 package org.api.mkm.services;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +28,6 @@ import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class AuthenticationServices {
 
@@ -59,11 +54,7 @@ public class AuthenticationServices {
 			throw new MkmException("API authentication field must be filled");
 		
 		
-		xstream = new XStream(new StaxDriver());
-		XStream.setupDefaultSecurity(xstream);
- 		xstream.addPermission(AnyTypePermission.ANY);
- 		xstream.alias("response", Response.class);
- 		xstream.ignoreUnknownElements();
+		xstream = Tools.instNewXstream();
  		xstream.addImplicitCollection(Response.class,"links",Link.class);
 		
 	}

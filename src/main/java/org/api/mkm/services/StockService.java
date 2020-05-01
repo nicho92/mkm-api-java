@@ -24,31 +24,22 @@ import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
 import org.api.mkm.modele.StockArticle;
-import org.api.mkm.tools.IntConverter;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.StaxDriver;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class StockService {
 
-	private AuthenticationServices auth;
 	private XStream xstream;
 	private Logger logger = LogManager.getLogger(this.getClass());
 
 	public StockService() {
-		auth=MkmAPIConfig.getInstance().getAuthenticator();
-		xstream = new XStream(new StaxDriver());
-			XStream.setupDefaultSecurity(xstream);
-	 		xstream.addPermission(AnyTypePermission.ANY);
-	 		xstream.alias("response", Response.class);
+			xstream = Tools.instNewXstream();
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "stockArticles",StockArticle.class);
-	 		xstream.registerConverter(new IntConverter());
-	 		xstream.ignoreUnknownElements();
+
 	}
 	
 	public List<StockArticle> getStock(int idGame,String name) throws IOException
@@ -73,26 +64,11 @@ public class StockService {
 		if(game!=null)
 			link=link+"/"+game.getIdGame();
 		
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-		
-	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
-			               connection.connect() ;
-			               MkmAPIConfig.getInstance().updateCount(connection);
-			               
-       boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-       if(!ret)
-    	   throw new MkmNetworkException(connection.getResponseCode());
-       
-		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		xml = xml.replace("<article>", "<stockArticles>").replace("</article>", "</stockArticles>");
+		String xml= Tools.getXMLResponse(link, "GET", getClass());
+
 		//TODO ugly !!!! but need to reforge stockmanagement
-		
-	    logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
-	    
-	    
-	    
-	    
+		xml = xml.replace("<article>", "<stockArticles>").replace("</article>", "</stockArticles>");
+
 		Response res = (Response)xstream.fromXML(xml);
 		
 		return res.getStockArticles();
@@ -105,21 +81,10 @@ public class StockService {
 		if(idGame!=null)
 			link=MkmConstants.MKM_API_URL+"/stock/file?idGame="+idGame;
 		
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-	    
-	    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"GET")) ;
-			               connection.connect() ;
-	   	               
-       boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-       if(!ret)
-       {
-    	   throw new MkmNetworkException(connection.getResponseCode());
-       }
-       MkmAPIConfig.getInstance().updateCount(connection);	      	 	 
-		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+		String xml= Tools.getXMLResponse(link, "GET", getClass());
 		Response res = (Response)xstream.fromXML(xml);
 	
+		
 		byte[] bytes = Base64.decodeBase64(res.getPriceguidefile());
 		File temp =  new File("mkm_temp.gz");
 		FileUtils.writeByteArrayToFile(temp, bytes );
@@ -132,25 +97,14 @@ public class StockService {
 	
 	
 	
-	public boolean addArticle(Article a) throws IOException
+	public void addArticle(Article a) throws IOException
 	{
-		ArrayList<Article> list = new ArrayList<>();
-		list.add(a);
-		return addArticles(list);
+		addArticles(List.of(a));
 	}
 	
-	public boolean addArticles(List<Article> list) throws IOException
+	public void addArticles(List<Article> list) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-	    
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-		connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, auth.generateOAuthSignature2(link,"POST")) ;
-		connection.setDoOutput(true);
-		connection.setRequestMethod("POST");
-		connection.connect();
-		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-
 		StringBuilder temp = new StringBuilder();
 
 		temp.append(MkmConstants.XML_HEADER);
@@ -176,29 +130,16 @@ public class StockService {
 		}		    
 		temp.append("</request>");
 		
-		logger.debug("REQ="+temp);
-		   
+		Tools.getXMLResponse(link, "POST", getClass(), temp.toString());
 		
-		out.write(temp.toString());
-		out.close();
-		MkmAPIConfig.getInstance().updateCount(connection);
-		
-		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-	 	 if(!ret)
-	 		throw new MkmNetworkException(connection.getResponseCode());
-		
-
-		return ret;
 	}
 	
-	public boolean removeArticle(Article a) throws IOException
+	public void removeArticle(Article a) throws IOException
 	{
-		ArrayList<Article> list = new ArrayList<>();
-		list.add(a);
-		return removeArticles(list);
+		removeArticles(List.of(a));
 	}
 	
-	public boolean removeArticles(List<Article> list) throws IOException
+	public void removeArticles(List<Article> list) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
 		StringBuilder temp = new StringBuilder();
@@ -212,10 +153,7 @@ public class StockService {
 						temp.append("</article>");
 					}		    
 					temp.append("</request>");
-		Tools.postXMLResponse(link, "DELETE", this.getClass(), temp.toString());
-		
-
-		return true;
+		Tools.getXMLResponse(link, "DELETE", this.getClass(), temp.toString());
 	}
 	
 	public void exportStockFile(File f) throws IOException
@@ -236,9 +174,7 @@ public class StockService {
 	        
  	        link+=Tools.join(paramStrings, "&");
     	}
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-	    
-		
+	
 		String xml= Tools.getXMLResponse(link, "GET", this.getClass());
 		Response res = (Response)xstream.fromXML(xml);
 		
@@ -254,22 +190,18 @@ public class StockService {
 	
 	public List<Article> getStockInShoppingCarts() throws IOException
 	{
-		String link="https://www.mkmapi.eu/ws/v2.0/stock/shoppingcart-articles";
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
-		
+		String link=MkmConstants.MKM_API_URL+"/stock/shoppingcart-articles";
 		String xml = Tools.getXMLResponse(link, "GET", this.getClass());
 		Response res = (Response)xstream.fromXML(xml);
 		return res.getArticle();
 	}
 	
-	public boolean changeQte(StockArticle a, int qte) throws IOException
+	public void changeQte(StockArticle a, int qte) throws IOException
 	{
-		ArrayList<StockArticle> list = new ArrayList<>();
-		list.add(a);
-		return changeQte(list, qte);
+		changeQte(List.of(a), qte);
 	}
 	
-	public boolean changeQte(List<StockArticle> list, int qte) throws IOException
+	public void changeQte(List<StockArticle> list, int qte) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
 		
@@ -294,8 +226,7 @@ public class StockService {
 			
 		}		    
 		temp.append("</request>");
-		Tools.postXMLResponse(link, "PUT", this.getClass(), temp.toString());
-		return true;
+		Tools.getXMLResponse(link, "PUT", this.getClass(), temp.toString());
 	}
 	
 }
