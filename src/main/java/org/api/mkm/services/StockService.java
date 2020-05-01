@@ -31,7 +31,7 @@ public class StockService {
 	public StockService() {
 			xstream = Tools.instNewXstream();
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
-	 		xstream.addImplicitCollection(Response.class, "stockArticles",LightArticle.class);
+	 		xstream.addImplicitCollection(Response.class, "lightArticles",LightArticle.class);
 
 	}
 	
@@ -60,11 +60,11 @@ public class StockService {
 		String xml= Tools.getXMLResponse(link, "GET", getClass());
 
 		//TODO ugly !!!! but need to reforge stockmanagement
-		xml = xml.replace("<article>", "<stockArticles>").replace("</article>", "</stockArticles>");
+		xml = xml.replace("<article>", "<lightArticles>").replace("</article>", "</lightArticles>");
 
 		Response res = (Response)xstream.fromXML(xml);
 		
-		return res.getStockArticles();
+		return res.getLightArticles();
 	}
 	
 	public void exportStock(File f,Integer idGame) throws IOException

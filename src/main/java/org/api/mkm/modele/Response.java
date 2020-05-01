@@ -11,7 +11,7 @@ public class Response implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private List<Product> product;
 	private List<Article> article;
-	private List<LightArticle> stockArticles;
+	private List<LightArticle> lightArticles;
 	private List<Link> links;
 	private List<Wantslist> wantslist;
 	private List<Game> game;
@@ -29,11 +29,11 @@ public class Response implements Serializable{
 	private String priceguidefile;
 	private String stock;
 	
-	public List<LightArticle> getStockArticles() {
-		return stockArticles;
+	public List<LightArticle> getLightArticles() {
+		return lightArticles;
 	}
-	public void setStockArticles(List<LightArticle> stockArticles) {
-		this.stockArticles = stockArticles;
+	public void setLightArticles(List<LightArticle> lightArticles) {
+		this.lightArticles = lightArticles;
 	}
 	public List<User> getUsers() {
 		return users;
