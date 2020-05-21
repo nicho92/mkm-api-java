@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -15,9 +16,10 @@ import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Game;
+import org.api.mkm.modele.Inserted;
+import org.api.mkm.modele.LightArticle;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
-import org.api.mkm.modele.LightArticle;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
 
@@ -32,7 +34,7 @@ public class StockService {
 			xstream = Tools.instNewXstream();
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "lightArticles",LightArticle.class);
-
+	 		xstream.addImplicitCollection(Response.class, "inserted",Inserted.class);
 	}
 	
 	public List<LightArticle> getStock(int idGame,String name) throws IOException
@@ -90,12 +92,12 @@ public class StockService {
 	
 	
 	
-	public void addArticle(Article a) throws IOException
+	public List<Inserted> addArticle(Article a) throws IOException
 	{
-		addArticles(List.of(a));
+		return addArticles(List.of(a));
 	}
 	
-	public void addArticles(List<Article> list) throws IOException
+	public List<Inserted> addArticles(List<Article> list) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
 		StringBuilder temp = new StringBuilder();
@@ -123,7 +125,11 @@ public class StockService {
 		}		    
 		temp.append("</request>");
 		
-		Tools.getXMLResponse(link, "POST", getClass(), temp.toString());
+		String xml = Tools.getXMLResponse(link, "POST", getClass(), temp.toString());
+		
+		Response res = (Response)xstream.fromXML(xml);
+
+		return res.getInserted();
 		
 	}
 	

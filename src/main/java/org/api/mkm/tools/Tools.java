@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.zip.GZIPInputStream;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.api.mkm.exceptions.MkmNetworkException;
@@ -22,10 +24,12 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 
+
+
 public class Tools {
 	
    private static final byte[] BUFFER_SIZE = new byte[256];
-	
+
    private Tools()
    {
 	   
@@ -55,9 +59,7 @@ public class Tools {
 		return xstream;
 		
    }
-   
-   
-    
+  
    public static void unzip(File zipFilePath,File to) throws IOException {
     	try(GZIPInputStream zipIn = new GZIPInputStream(new FileInputStream(zipFilePath));BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(to)))
     	{

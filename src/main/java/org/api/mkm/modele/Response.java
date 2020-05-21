@@ -28,6 +28,7 @@ public class Response implements Serializable{
 	private String mime;
 	private String priceguidefile;
 	private String stock;
+	private List<Inserted> inserted;
 	
 	public List<LightArticle> getLightArticles() {
 		return lightArticles;
@@ -131,5 +132,13 @@ public class Response implements Serializable{
 	public void setPriceguidefile(String priceguidefile) {
 		this.priceguidefile = priceguidefile;
 	}
+	public List<Inserted> getInserted() {
+		return inserted;
+	}
 
+	public void setInserted(List<Inserted> inserted) {
+		this.inserted = inserted;
+	}
+	
+	
 }
