@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
@@ -69,6 +68,19 @@ public class StockService {
 		return res.getLightArticles();
 	}
 	
+	public List<Article> getShoppingcartArticles() throws IOException
+	{
+		
+		String link=MkmConstants.MKM_API_URL+"/stock/shoppingcart-articles";
+		
+		String xml= Tools.getXMLResponse(link, "GET", getClass());
+
+		Response res = (Response)xstream.fromXML(xml);
+		
+		return res.getArticle();
+	}
+	
+	
 	public void exportStock(File f,Integer idGame) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/stock/file";
@@ -92,9 +104,9 @@ public class StockService {
 	
 	
 	
-	public List<Inserted> addArticle(Article a) throws IOException
+	public Inserted addArticle(Article a) throws IOException
 	{
-		return addArticles(List.of(a));
+		return addArticles(List.of(a)).get(0);
 	}
 	
 	public List<Inserted> addArticles(List<Article> list) throws IOException
