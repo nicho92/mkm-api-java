@@ -172,6 +172,10 @@ public class WantsService {
 	
 	public Wantslist createWantList(String name) throws IOException
 	{
+		
+		if(name.length()>30)
+			name=name.substring(0, 30);
+		
 		String link = MkmConstants.MKM_API_URL+"/wantslist";
 		String temp = MkmConstants.XML_HEADER+"<request><wantslist><idGame>1</idGame><name>"+name+"</name></wantslist></request>";
 		String xml = Tools.getXMLResponse(link, "POST", this.getClass(),temp);
