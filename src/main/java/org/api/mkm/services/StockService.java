@@ -34,7 +34,7 @@ public class StockService {
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "lightArticles",LightArticle.class);
 	 		xstream.addImplicitCollection(Response.class, "inserted",Inserted.class);
-	 		xstream.addImplicitCollection(Response.class, "updatedArticles",Inserted.class);
+	// 		xstream.addImplicitCollection(Response.class, "updatedArticles",Inserted.class);
 	}
 	
 	public List<LightArticle> getStock(int idGame,String name) throws IOException
