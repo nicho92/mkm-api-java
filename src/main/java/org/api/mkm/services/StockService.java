@@ -34,7 +34,8 @@ public class StockService {
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "lightArticles",LightArticle.class);
 	 		xstream.addImplicitCollection(Response.class, "inserted",Inserted.class);
-	// 		xstream.addImplicitCollection(Response.class, "updatedArticles",Inserted.class);
+	 		xstream.addImplicitCollection(Response.class, "updatedArticles", Inserted.class);
+	 		
 	}
 	
 	public List<LightArticle> getStock(int idGame,String name) throws IOException
@@ -120,7 +121,6 @@ public class StockService {
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
 		StringBuilder temp = new StringBuilder();
-
 		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request>");
 
@@ -149,7 +149,7 @@ public class StockService {
 		
 		Response res = (Response)xstream.fromXML(xml);
 
-		return res.getInserted();
+		return res.getUpdatedArticles();
 		
 	}
 	

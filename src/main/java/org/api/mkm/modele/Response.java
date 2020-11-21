@@ -29,7 +29,17 @@ public class Response implements Serializable{
 	private String priceguidefile;
 	private String stock;
 	private List<Inserted> inserted;
+	private List<Inserted> updatedArticles;
 	
+	
+	
+	
+	public List<Inserted> getUpdatedArticles() {
+		return updatedArticles;
+	}
+	public void setUpdatedArticles(List<Inserted> updatedArticles) {
+		this.updatedArticles = updatedArticles;
+	}
 	public List<LightArticle> getLightArticles() {
 		return lightArticles;
 	}
