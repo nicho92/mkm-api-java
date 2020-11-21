@@ -109,6 +109,43 @@ public class StockService {
 		return addArticles(List.of(a)).get(0);
 	}
 	
+	public List<Inserted> updateArticles(List<Article> list) throws IOException
+	{
+		String link =MkmConstants.MKM_API_URL+"/stock";
+		StringBuilder temp = new StringBuilder();
+
+		temp.append(MkmConstants.XML_HEADER);
+		temp.append("<request>");
+
+		for(Article a : list)
+		{
+			temp.append("<article>");
+				temp.append("<idProduct>").append(a.getIdProduct()).append("</idProduct>");
+				temp.append("<idArticle>").append(a.getIdArticle()).append("</idArticle>");
+			//	temp.append("<count>").append(a.getCount()).append("</count>");
+				if(a.getLanguage()!=null)
+					temp.append("<idLanguage>").append(a.getLanguage().getIdLanguage()).append("</idLanguage>");
+				
+				if(a.getComments()!=null)
+					temp.append("<comments>").append(a.getComments()).append("</comments>");
+				
+				temp.append("<price>").append(a.getPrice()).append("</price>");
+				temp.append("<condition>").append(a.getCondition()).append("</condition>");
+				temp.append("<isFoil>").append(a.isFoil()).append("</isFoil>");
+				temp.append("<isSigned>").append(a.isSigned()).append("</isSigned>");
+				temp.append("<isPlayset>").append(a.isPlayset()).append("</isPlayset>");
+			temp.append("</article>");
+		}		    
+		temp.append("</request>");
+		
+		String xml = Tools.getXMLResponse(link, "PUT", getClass(), temp.toString());
+		
+		Response res = (Response)xstream.fromXML(xml);
+
+		return res.getInserted();
+		
+	}
+	
 	public List<Inserted> addArticles(List<Article> list) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
