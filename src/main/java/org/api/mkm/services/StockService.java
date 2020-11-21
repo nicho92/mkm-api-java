@@ -34,6 +34,7 @@ public class StockService {
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "lightArticles",LightArticle.class);
 	 		xstream.addImplicitCollection(Response.class, "inserted",Inserted.class);
+	 		xstream.addImplicitCollection(Response.class, "updatedArticles",Inserted.class);
 	}
 	
 	public List<LightArticle> getStock(int idGame,String name) throws IOException
@@ -128,7 +129,7 @@ public class StockService {
 			temp.append("<article>");
 				temp.append("<idProduct>").append(a.getIdProduct()).append("</idProduct>");
 				temp.append("<idArticle>").append(a.getIdArticle()).append("</idArticle>");
-			//	temp.append("<count>").append(a.getCount()).append("</count>");
+				temp.append("<count>").append(a.getCount()).append("</count>");
 				if(a.getLanguage()!=null)
 					temp.append("<idLanguage>").append(a.getLanguage().getIdLanguage()).append("</idLanguage>");
 				
