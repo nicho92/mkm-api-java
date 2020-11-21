@@ -109,6 +109,12 @@ public class StockService {
 		return addArticles(List.of(a)).get(0);
 	}
 	
+	public Inserted updateArticles(Article a) throws IOException
+	{
+		return updateArticles(List.of(a)).get(0);
+	}
+	
+	
 	public List<Inserted> updateArticles(List<Article> list) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
