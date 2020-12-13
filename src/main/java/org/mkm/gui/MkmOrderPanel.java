@@ -54,7 +54,7 @@ public class MkmOrderPanel extends JPanel{
 		add(panel, BorderLayout.NORTH);
 		
 		
-		comboBox = new JComboBox<>(new DefaultComboBoxModel<OrderService.STATE>(OrderService.STATE.values()));
+		comboBox = new JComboBox<>(new DefaultComboBoxModel<>(OrderService.STATE.values()));
 		comboBox.addItemListener(ie->{
 			
 			if(ie.getStateChange() == ItemEvent.SELECTED){

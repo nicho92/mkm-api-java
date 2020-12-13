@@ -62,7 +62,7 @@ public class WantsService {
 			
 		if(isEmpty(li2))
 		{
-			li2.setItem(new ArrayList<WantItem>());
+			li2.setItem(new ArrayList<>());
 			return li2;
 		}
 		return ((Response)xstream.fromXML(xml)).getWantslist().get(0);
@@ -198,7 +198,7 @@ public class WantsService {
 		
 		if(isEmpty(res.getWantslist().get(0)))
 		{
-			wl.setItem(new ArrayList<WantItem>());
+			wl.setItem(new ArrayList<>());
 			return;
 		}
 		wl.setItem(res.getWantslist().get(0).getItem());
