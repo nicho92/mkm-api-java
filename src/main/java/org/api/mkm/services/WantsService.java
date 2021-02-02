@@ -42,7 +42,7 @@ public class WantsService {
 	
 	public Wantslist deleteItems(Wantslist li, List<WantItem> list) throws IOException
 	{
-		String link =MkmConstants.MKM_API_URL+"/wantslist/"+li.getIdWantslist();
+		String link =MkmConstants.MKM_API_URL+"/wantslist/"+li.getIdWantsList();
 		StringBuilder temp = new StringBuilder();
 		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>deleteItem</action>");
@@ -73,7 +73,7 @@ public class WantsService {
 	public void updateItem(Wantslist wl,WantItem it) throws IOException
 	{
 		
-		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
+		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantsList();
 		StringBuilder temp = new StringBuilder();
 		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>editItem</action>");
@@ -122,7 +122,7 @@ public class WantsService {
 	
 	public void addItem(Wantslist wl, List<WantItem> items) throws IOException
 	{
-		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
+		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantsList();
 
 		StringBuilder temp = new StringBuilder();
 		temp.append(MkmConstants.XML_HEADER);
@@ -162,7 +162,7 @@ public class WantsService {
 	
 	public void renameWantList(Wantslist wl , String name) throws IOException
 	{
-		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
+		String link =MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantsList();
 		StringBuilder temp = new StringBuilder();
 		temp.append(MkmConstants.XML_HEADER);
 		temp.append("<request><action>editWantslist</action>");
@@ -185,14 +185,14 @@ public class WantsService {
 	
 	public void deleteWantList(Wantslist l) throws IOException
 	{
-		String link = MkmConstants.MKM_API_URL+"/wantslist/"+l.getIdWantslist();
-		String temp =MkmConstants.XML_HEADER+"<request><wantslist><idGame>1</idGame><name>"+l.getIdWantslist()+"</name></wantslist></request>";
+		String link = MkmConstants.MKM_API_URL+"/wantslist/"+l.getIdWantsList();
+		String temp =MkmConstants.XML_HEADER+"<request><wantslist><idGame>1</idGame><name>"+l.getIdWantsList()+"</name></wantslist></request>";
 		Tools.getXMLResponse(link, "DELETE", this.getClass(), temp);
 	}
 	
 	public void loadItems(Wantslist wl) throws IOException
 	{
-		String link = MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantslist();
+		String link = MkmConstants.MKM_API_URL+"/wantslist/"+wl.getIdWantsList();
 		String xml= Tools.getXMLResponse(link, "GET", this.getClass());
 		Response res = (Response)xstream.fromXML(xml);
 		

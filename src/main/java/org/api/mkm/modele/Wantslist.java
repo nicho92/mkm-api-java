@@ -10,7 +10,7 @@ public class Wantslist implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int idWantslist;
+	private int idWantsList;
 	private Game game;
 	private String name;
 	private int itemCount;
@@ -23,12 +23,16 @@ public class Wantslist implements Serializable{
 	}
 	
 	
-	public int getIdWantslist() {
-		return idWantslist;
+	public int getIdWantsList() {
+		return idWantsList;
 	}
-	public void setIdWantslist(int idWantslist) {
-		this.idWantslist = idWantslist;
+
+
+	public void setIdWantsList(int idWantsList) {
+		this.idWantsList = idWantsList;
 	}
+
+
 	public Game getGame() {
 		return game;
 	}

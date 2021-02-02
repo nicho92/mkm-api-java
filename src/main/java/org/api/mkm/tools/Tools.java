@@ -106,7 +106,7 @@ public class Tools {
      }
     
     public static String getXMLResponse(String link,String method, @SuppressWarnings("rawtypes") Class serv,String content) throws IOException {
-   	 	LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_LINK+link);
+   	 	LogManager.getLogger(serv).debug(method + " "+ MkmConstants.MKM_LOG_LINK+link);
 		   	 	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 		        connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, MkmAPIConfig.getInstance().getAuthenticator().generateOAuthSignature2(link,method)) ;
 		        connection.setRequestMethod(method);
