@@ -15,7 +15,7 @@ Import via maven :
 
 Import via Gradle : 
 
-	implementation 'com.github.nicho92:mkm-api-java:0.11.1'
+	implementation 'com.github.nicho92:mkm-api-java:0.11.2'
 
 
 
