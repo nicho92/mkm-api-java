@@ -1,21 +1,19 @@
 # mkm-api-java
 Java api for MagicCardMarket v2.0
 
-Download link : 
-	https://github.com/nicho92/mkm-api-java/blob/master/dist
-	
+
 Import via maven : 
 
 		<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>mkm-api-java</artifactId>
-		  <version>0.11.1</version>
+		  <version>0.11.2</version>
 		</dependency>
 
 
 Import via Gradle : 
 
-	implementation 'com.github.nicho92:mkm-api-java:0.11.1'
+	implementation 'com.github.nicho92:mkm-api-java:0.11.2'
 
 
 
