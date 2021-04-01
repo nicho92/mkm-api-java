@@ -2,7 +2,11 @@ package org.api.mkm.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -21,7 +25,11 @@ import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.MkmConstants;
 import org.api.mkm.tools.Tools;
+import org.jsoup.nodes.Element;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.thoughtworks.xstream.XStream;
 
 public class ProductServices {
@@ -177,6 +185,40 @@ public class ProductServices {
 			
 		}
 	}
+	
+	public static void main(String[] args) throws IOException {
+		new ProductServices().priceHistory(new Product(),false);
+	}
+	
+	
+	public Map<Date,Double> priceHistory(Product p,boolean foil) throws IOException
+	{
+		Map<Date,Double> ret = new HashMap<>();
+			String url=MkmConstants.MKM_SITE_URL+"/"+p.getWebsite()+"?isFoil="+(foil?"Y":"N");
+			Element d = Tools.getDocument(url).select("script.chart-init-script").first();
+			
+			String toParse = d.html();
+			toParse = toParse.substring(toParse.indexOf("{\"type\""),toParse.indexOf("\"options\"")-1)+"}";
+			JsonElement el = JsonParser.parseString(toParse);
+			
+			JsonArray dates = el.getAsJsonObject().get("data").getAsJsonObject().get("labels").getAsJsonArray();
+			JsonArray values = el.getAsJsonObject().get("data").getAsJsonObject().get("datasets").getAsJsonArray().get(0).getAsJsonObject().get("data").getAsJsonArray();
+			
+			for(int i=0;i<dates.size();i++)
+			{
+				try {
+					ret.put(new SimpleDateFormat("dd.MM.yyyy").parse(dates.get(i).getAsString()), values.get(i).getAsDouble());
+				}
+				catch(IndexOutOfBoundsException ioobe)
+				{
+					//do nothing
+				} catch (ParseException e) {
+					logger.error("Error parsing " + dates.get(i).getAsString(),e);
+				}
+			}
+			return ret;
+	}
+	
 	
 	private boolean isEmpty(List<Product> product) {
 		return product.get(0).getIdProduct()==0;

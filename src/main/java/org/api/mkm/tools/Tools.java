@@ -7,18 +7,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.zip.GZIPInputStream;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Response;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
@@ -81,6 +82,12 @@ public class Tools {
             builder.append(delimiter);
         }
         return builder.toString();
+    }
+    
+    
+    public static Document getDocument(String url) throws IOException
+    {
+    	return Jsoup.parse(new URL(url), 0);
     }
    
     
