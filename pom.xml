@@ -12,6 +12,7 @@
 			<id>nicho</id>
 			<name>Nicolas Pihen</name>
 			<email>nicolas.pihen@gmail.com</email>
+			<organizationUrl>https://www.mtgcompanion.org</organizationUrl>
 		</developer>
 	</developers>
 	<licenses>
@@ -31,8 +32,8 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<maven.compiler.source>13</maven.compiler.source>
-		<maven.compiler.target>13</maven.compiler.target>
+		<maven.compiler.source>15</maven.compiler.source>
+		<maven.compiler.target>15</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<issueManagement>
@@ -53,7 +54,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

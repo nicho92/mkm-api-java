@@ -12,7 +12,6 @@ import org.junit.Test;
 public class StockTest {
 
 	
-	@Test
 	public void update() throws IOException
 	{
 		MkmAPIConfig.getInstance().init(new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf"));
