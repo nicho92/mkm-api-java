@@ -7,7 +7,6 @@ import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmAPIConfig;
-import org.junit.Test;
 
 public class StockTest {
 

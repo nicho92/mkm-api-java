@@ -6,7 +6,6 @@ import java.io.IOException;
 import org.api.mkm.modele.Wantslist;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
-import org.junit.Test;
 
 public class WantListTest {
 
