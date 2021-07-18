@@ -1,6 +1,8 @@
 package org.api.mkm.services;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +27,18 @@ public class OrderService {
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "order", Order.class);
 	 		xstream.addImplicitCollection(Order.class, "article", LightArticle.class);
+	}
+
+
+	public List<Order> listOrders(File f) throws IOException
+	{
+		String xml= Files.readString(f.toPath());
+	    Response res = (Response)xstream.fromXML(xml);
+        
+         if(isEmpty(res.getOrder()))
+         	return new ArrayList<>();
+ 
+         return res.getOrder();
 	}
 
 	
