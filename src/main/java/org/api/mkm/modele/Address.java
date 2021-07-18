@@ -17,7 +17,7 @@ public class Address implements Serializable {
 		
 		@Override
 		public String toString() {
-			return getCountry();
+			return getName() + " " + getStreet() + " " + getZip() + " " + getCity();
 		}
 		
 		public String getName() {

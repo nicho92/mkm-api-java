@@ -11,6 +11,7 @@ public class Order implements Serializable {
 		private int idOrder;
 		private boolean isBuyer;
 		private User seller;
+		private User buyer;
 		private OrderState state;
 		private ShippingMethod shippingMethod;
 		private boolean isPresale;
@@ -22,14 +23,47 @@ public class Order implements Serializable {
 		private double articleValue;
 		private double serviceFeeValue;
 		private double totalValue;
+		private String trackingNumber;
+		private String currencyCode;
 		
 		
+		
+		public String getCurrencyCode() {
+			return currencyCode;
+		}
+
+
+		public void setCurrencyCode(String currencyCode) {
+			this.currencyCode = currencyCode;
+		}
+
+
+		public String getTrackingNumber() {
+			return trackingNumber;
+		}
+
+
+		public void setTrackingNumber(String trackingNumber) {
+			this.trackingNumber = trackingNumber;
+		}
+
+
 		@Override
 		public String toString() {
 			return String.valueOf(getIdOrder());
 		}
 		
 		
+		public User getBuyer() {
+			return buyer;
+		}
+
+
+		public void setBuyer(User buyer) {
+			this.buyer = buyer;
+		}
+
+
 		public int getIdOrder() {
 			return idOrder;
 		}
