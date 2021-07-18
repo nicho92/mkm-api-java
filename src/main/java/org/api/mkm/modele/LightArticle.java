@@ -1,6 +1,8 @@
 package org.api.mkm.modele;
 
-public class LightArticle {
+import java.io.Serializable;
+
+public class LightArticle implements Serializable{
 
 	private int idArticle;
 	private int idProduct;
