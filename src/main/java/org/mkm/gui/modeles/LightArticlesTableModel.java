@@ -13,7 +13,7 @@ public class LightArticlesTableModel extends DefaultTableModel{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final String[] columns={"product","expansion","price","condition","foil","signed","playset","altered","comments","count","LocationName","idArticle","idProduct",};
+	private static final String[] columns={"product","expansion","price","condition","foil","signed","playset","altered","comments","count","LocationName","Language","idArticle","idProduct",};
 	
 	private List<LightArticle> articles;
 	
@@ -76,8 +76,9 @@ public class LightArticlesTableModel extends DefaultTableModel{
 			case 8 : return a.getComments();
 			case 9 : return a.getCount();
 			case 10: return a.getProduct().getLocName();
-			case 11: return a.getIdArticle();
-			case 12: return a.getIdProduct();
+			case 11: return a.getLanguage().getLanguageName();
+			case 12: return a.getIdArticle();
+			case 13: return a.getIdProduct();
 		default : return 0;
 		}
 		
