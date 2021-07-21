@@ -35,7 +35,7 @@ public class ProductListPanel extends JPanel{
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblName = new JLabel(p.getEnName());
+		JLabel lblName = new JLabel(p.getEnName() + "("+p.getIdProduct()+")");
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbclblName = new GridBagConstraints();
 		gbclblName.insets = new Insets(0, 0, 5, 5);
