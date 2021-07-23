@@ -2,6 +2,7 @@ package org.api.mkm.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.api.mkm.modele.Expansion;
 import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Localization;
+import org.api.mkm.modele.Order;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.Response;
@@ -107,6 +109,19 @@ public class ProductServices {
 		return res.getSingle();
 		
 	}
+	
+	public List<Product> loadProducts(File f) throws IOException
+	{
+		String xml= Files.readString(f.toPath());
+	    Response res = (Response)xstream.fromXML(xml);
+        
+         if(isEmpty(res.getProduct()))
+         	return new ArrayList<>();
+ 
+         return res.getProduct();
+	}
+	
+	
 	
 	public List<Product> findProduct(String name,Map<PRODUCT_ATTS,String> atts)throws IOException
 	{
