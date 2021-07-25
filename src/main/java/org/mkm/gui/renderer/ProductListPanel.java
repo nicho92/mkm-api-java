@@ -91,7 +91,8 @@ public class ProductListPanel extends JPanel{
 		gbclblType.gridy = 3;
 		add(lblType, gbclblType);
 		
-	}	
-	
+	}
+
+
 	
 }
