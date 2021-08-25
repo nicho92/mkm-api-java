@@ -39,8 +39,12 @@ public class MkmAPIConfig {
 	public void init(File magicCardMaketPropFile) throws IOException
 	{
 		Properties p = new Properties();
-		p.load(new FileInputStream(magicCardMaketPropFile));
-		init(p);
+		try(var fis= new FileInputStream(magicCardMaketPropFile))
+		{
+			p.load(fis);
+			init(p);
+		}
+		
 	}
 	
 	

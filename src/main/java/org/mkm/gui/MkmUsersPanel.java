@@ -72,6 +72,7 @@ public class MkmUsersPanel extends JPanel {
 		
 		tableUsers.addMouseListener(new MouseAdapter() {
 			
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				Map<ARTICLES_ATT, String> map = new EnumMap<>(ARTICLES_ATT.class);
 				User o = (User)tableUsers.getValueAt(tableUsers.getSelectedRow(), 0);
