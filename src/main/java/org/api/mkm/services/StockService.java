@@ -94,7 +94,7 @@ public class StockService {
 		Response res = (Response)xstream.fromXML(xml);
 	
 		
-		byte[] bytes = Base64.decodeBase64(res.getPriceguidefile());
+		byte[] bytes = Base64.decodeBase64(res.getStock());
 		File temp =  new File("mkm_temp.gz");
 		FileUtils.writeByteArrayToFile(temp, bytes );
 		Tools.unzip(temp, f);
