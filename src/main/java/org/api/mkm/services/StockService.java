@@ -3,6 +3,7 @@ package org.api.mkm.services;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -101,13 +102,12 @@ public class StockService {
 		File temp =  new File("mkm_temp.gz");
 		FileUtils.writeByteArrayToFile(temp, bytes );
 		Tools.unzip(temp, f);
-		if(!temp.delete())
+	
+		if(!Files.deleteIfExists(temp.toPath()))
 		{
 			logger.error("couln't remove " + temp.getAbsolutePath());
 		}
 	}
-	
-	
 	
 	public Inserted addArticle(Article a) throws IOException
 	{
