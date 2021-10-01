@@ -83,12 +83,15 @@ public class StockService {
 	}
 	
 	
-	public void exportStock(File f,Integer idGame) throws IOException
+	public void exportStock(File f,Integer idGame,boolean sealed) throws IOException
 	{
 		String link=MkmConstants.MKM_API_URL+"/stock/file";
 	
 		if(idGame!=null)
-			link=MkmConstants.MKM_API_URL+"/stock/file?idGame="+idGame;
+			link=MkmConstants.MKM_API_URL+"/stock/file?idGame="+idGame+"&isSealed="+sealed;
+		else
+			link=MkmConstants.MKM_API_URL+"/stock/file?idGame=1&isSealed=false";
+				
 		
 		String xml= Tools.getXMLResponse(link, "GET", getClass());
 		Response res = (Response)xstream.fromXML(xml);
