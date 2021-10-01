@@ -9,13 +9,17 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.api.mkm.exceptions.MkmNetworkException;
+import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -34,6 +38,26 @@ public class Tools {
    {
 	   
    }
+   
+   public static void main(String[] args) {
+	Tools.listLanguages();
+}
+   
+   public static List<Localization> listLanguages()
+   {
+	   var ret = new ArrayList<Localization>();
+	   var counter = new AtomicInteger();
+	   List.of("English","French","German","Spanish","Italian","Simplified Chinese","Japanese","Portuguese","Russian","Korean","Traditional Chinese").forEach(s->{
+		   Localization l = new Localization(counter.getAndIncrement(), s);
+		   l.setLanguageName(s);
+		   ret.add(l);
+		});
+	   
+	   return ret;
+   }
+   
+   
+   
    
    public static String encodeString(String s)
 	{
