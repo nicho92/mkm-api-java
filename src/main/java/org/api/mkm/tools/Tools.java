@@ -48,7 +48,7 @@ public class Tools {
 	   var ret = new ArrayList<Localization>();
 	   var counter = new AtomicInteger();
 	   List.of("English","French","German","Spanish","Italian","Simplified Chinese","Japanese","Portuguese","Russian","Korean","Traditional Chinese").forEach(s->{
-		   Localization l = new Localization(counter.getAndIncrement(), s);
+		   Localization l = new Localization(counter.getAndIncrement()+1, s);
 		   l.setLanguageName(s);
 		   ret.add(l);
 		});
