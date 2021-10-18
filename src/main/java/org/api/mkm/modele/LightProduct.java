@@ -11,6 +11,14 @@ public class LightProduct implements Serializable {
 	private String nr;
 	private Integer expIcon;
 	private String rarity;
+	private int idProduct;
+	
+	public int getIdProduct() {
+		return idProduct;
+	}
+	public void setIdProduct(int idProduct) {
+		this.idProduct = idProduct;
+	}
 	
 	@Override
 	public String toString() {
