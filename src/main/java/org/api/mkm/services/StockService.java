@@ -41,7 +41,7 @@ public class StockService {
 	 		
 	}
 	
-	public List<LightArticle> readStockFile(File f)
+	public List<LightArticle> readStockFile(File f , int idGame)
 	{
 			List<LightArticle> ret = new ArrayList<>();
 			try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(f))  )
@@ -49,7 +49,7 @@ public class StockService {
 				p.iterator().forEachRemaining(art->{
 						var item = new LightArticle();
 						var product = new LightProduct();
-							  product.setIdGame(1);
+							  product.setIdGame(idGame);
 							  product.setLocName(art.get("Local Name"));
 							  product.setExpansion(art.get("Exp. Name"));
 							  product.setEnName(art.get("English Name"));
@@ -78,9 +78,7 @@ public class StockService {
 								  logger.error("No language for code =" + art.get("Language"));
 							  }
 							  ret.add(item);
-						
-					
-				});
+					});
 			}
 		catch(Exception e)
 		{
