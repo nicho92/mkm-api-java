@@ -39,27 +39,15 @@ public class StockService {
 	 		
 	}
 	
-	public List<LightArticle> getStock(int idGame,String name) throws IOException
-	{
-		Game g = new Game();
-		g.setIdGame(idGame);
-		return getStock(g, name);
-	}
 	
 	public List<LightArticle> getStock() throws IOException
 	{
-		return getStock(null, null);
+		return getStock(1);
 	}
 	
-	public List<LightArticle> getStock(Game game,String name) throws IOException
+	public List<LightArticle> getStock(int page) throws IOException
 	{
-		String link=MkmConstants.MKM_API_URL+"/stock";
-		
-		if(name!=null)
-			link=link+"/"+URLEncoder.encode(name, "UTF-8");
-		
-		if(game!=null)
-			link=link+"/"+game.getIdGame();
+		String link=MkmConstants.MKM_API_URL+"/stock/"+page;
 		
 		String xml= Tools.getXMLResponse(link, "GET", getClass());
 

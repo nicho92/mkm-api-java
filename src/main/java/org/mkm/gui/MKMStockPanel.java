@@ -21,24 +21,30 @@ public class MKMStockPanel extends JPanel {
 	private JTable tableArticles;
 	private LightArticlesTableModel articlesModel;
 
+	private int page=1;
+	
 	private void initGUI()
 	{
 		JButton btnLoadStock;
 		JButton btnUpQte;
 		JButton btnDownQte;
 		JScrollPane panelCenter;
-
+		
+		
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelNorth = new JPanel();
 		add(panelNorth, BorderLayout.NORTH);
 		
-		btnLoadStock = new JButton("Load Stock");
+		btnLoadStock = new JButton("Load Stock " + page);
+		StockService serv = new StockService();
+		
 		btnLoadStock.addActionListener(ae->{
-				StockService serv = new StockService();
 				try {
-					articlesModel.init(serv.getStock());
 					
+					articlesModel.init(serv.getStock(page));
+					page = page+100;
+					btnLoadStock.setText("Load Stock " + page);
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),MkmConstants.MKM_ERROR,JOptionPane.ERROR_MESSAGE);
 				} 
@@ -48,8 +54,6 @@ public class MKMStockPanel extends JPanel {
 		btnDownQte = new JButton("-");
 		btnDownQte.addActionListener(ae->{
 				LightArticle a = (LightArticle)tableArticles.getValueAt(tableArticles.getSelectedRow(), 0);
-				
-				StockService serv = new StockService();
 				try {
 						serv.changeQte(a, -1);
 						articlesModel.fireTableDataChanged();
@@ -63,7 +67,6 @@ public class MKMStockPanel extends JPanel {
 		btnUpQte = new JButton("+");
 		btnUpQte.addActionListener(ae->{
 				LightArticle a = (LightArticle)tableArticles.getValueAt(tableArticles.getSelectedRow(), 0);
-				StockService serv = new StockService();
 				try {
 						serv.changeQte(a, 1);
 						articlesModel.fireTableDataChanged();
