@@ -1,8 +1,8 @@
 package org.api.mkm.services;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +10,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
-import org.api.mkm.modele.Game;
 import org.api.mkm.modele.Inserted;
 import org.api.mkm.modele.LightArticle;
+import org.api.mkm.modele.LightProduct;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Response;
 import org.api.mkm.tools.MkmConstants;
@@ -38,6 +40,55 @@ public class StockService {
 	 		xstream.addImplicitCollection(Response.class, "updatedArticles", Inserted.class);
 	 		
 	}
+	
+	public List<LightArticle> readStockFile(File f)
+	{
+			List<LightArticle> ret = new ArrayList<>();
+			try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(f))  )
+			{
+				p.iterator().forEachRemaining(art->{
+						var item = new LightArticle();
+						var product = new LightProduct();
+							  product.setIdGame(1);
+							  product.setLocName(art.get("Local Name"));
+							  product.setExpansion(art.get("Exp. Name"));
+							  product.setEnName(art.get("English Name"));
+							  product.setIdProduct(Integer.parseInt(art.get("idProduct")));
+							  try {
+								  item.setFoil(!art.get("Foil?").isEmpty());
+								  item.setSigned(!art.get("Signed?").isEmpty());
+								  item.setAltered(!art.get("Altered?").isEmpty());
+							  }
+							catch(IllegalArgumentException e)
+							{
+								//do nothing
+							}
+							  
+							  item.setProduct(product);
+							  item.setCount(Integer.parseInt(art.get("Amount")));
+							  item.setPrice(Double.parseDouble(art.get("Price")));
+							  item.setIdArticle(Integer.parseInt(art.get("idArticle")));
+							  item.setComments(art.get("Comments"));
+							  try {
+								  var loc = Tools.listLanguages().get(Integer.parseInt(art.get("Language"))-1);
+								  product.setLocName(loc.getLanguageName());
+							  }
+							  catch(Exception e)
+							  {
+								  logger.error("No language for code =" + art.get("Language"));
+							  }
+							  ret.add(item);
+						
+					
+				});
+			}
+		catch(Exception e)
+		{
+			logger.error(e);
+		}
+			return ret;
+	}
+	
 	
 	
 	public List<LightArticle> getStock() throws IOException
