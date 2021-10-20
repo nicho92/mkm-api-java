@@ -87,8 +87,6 @@ public class StockService {
 			return ret;
 	}
 	
-	
-	
 	public List<LightArticle> getStock() throws IOException
 	{
 		return getStock(1);
