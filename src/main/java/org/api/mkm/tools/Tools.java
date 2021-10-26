@@ -39,10 +39,6 @@ public class Tools {
 	   
    }
    
-   public static void main(String[] args) {
-	Tools.listLanguages();
-}
-   
    public static List<Localization> listLanguages()
    {
 	   var ret = new ArrayList<Localization>();
