@@ -29,15 +29,21 @@ public class Response implements Serializable{
 	private String priceguidefile;
 	private String stock;
 	private List<Inserted> inserted;
-	private List<Inserted> updatedArticles;
+	private List<LightArticle> updatedArticles;
+	private List<LightArticle> notUpdatedArticles;
 	
 	
 	
-	
-	public List<Inserted> getUpdatedArticles() {
+	public List<LightArticle> getNotUpdatedArticles() {
+		return notUpdatedArticles;
+	}
+	public void setNotUpdatedArticles(List<LightArticle> notUpdatedArticles) {
+		this.notUpdatedArticles = notUpdatedArticles;
+	}
+	public List<LightArticle> getUpdatedArticles() {
 		return updatedArticles;
 	}
-	public void setUpdatedArticles(List<Inserted> updatedArticles) {
+	public void setUpdatedArticles(List<LightArticle> updatedArticles) {
 		this.updatedArticles = updatedArticles;
 	}
 	public List<LightArticle> getLightArticles() {

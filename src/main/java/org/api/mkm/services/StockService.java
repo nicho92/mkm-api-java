@@ -37,8 +37,8 @@ public class StockService {
 	 		xstream.addImplicitCollection(Response.class, "links", Link.class);
 	 		xstream.addImplicitCollection(Response.class, "lightArticles",LightArticle.class);
 	 		xstream.addImplicitCollection(Response.class, "inserted",Inserted.class);
-	 		xstream.addImplicitCollection(Response.class, "updatedArticles", Inserted.class);
-	 		
+	 		xstream.addImplicitCollection(Response.class, "updatedArticles", LightArticle.class);
+	 		xstream.addImplicitCollection(Response.class, "notUpdatedArticles", LightArticle.class);
 	}
 	
 	public List<LightArticle> readStockFile(File f , int idGame)
@@ -149,13 +149,13 @@ public class StockService {
 		return addArticles(List.of(a)).get(0);
 	}
 	
-	public Inserted updateArticles(Article a) throws IOException
+	public LightArticle updateArticles(Article a) throws IOException
 	{
 		return updateArticles(List.of(a)).get(0);
 	}
 	
 	
-	public List<Inserted> updateArticles(List<Article> list) throws IOException
+	public List<LightArticle> updateArticles(List<Article> list) throws IOException
 	{
 		String link =MkmConstants.MKM_API_URL+"/stock";
 		StringBuilder temp = new StringBuilder();
