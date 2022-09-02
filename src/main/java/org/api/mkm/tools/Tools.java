@@ -17,7 +17,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
+
+import org.apache.logging.log4j.LogManager;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.Response;

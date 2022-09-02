@@ -12,9 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.api.mkm.modele.Order;
 import org.api.mkm.services.OrderService;
 import org.api.mkm.services.OrderService.ACTOR;

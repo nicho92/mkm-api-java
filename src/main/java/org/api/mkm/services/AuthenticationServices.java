@@ -16,8 +16,8 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Link;
