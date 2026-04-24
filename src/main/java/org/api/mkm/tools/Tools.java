@@ -1,5 +1,6 @@
 package org.api.mkm.tools;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -17,7 +20,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.zip.GZIPInputStream;
 
 import org.apache.commons.io.IOUtils;
-
 import org.apache.logging.log4j.LogManager;
 import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Localization;
@@ -53,7 +55,17 @@ public class Tools {
 	   return ret;
    }
    
-   
+   public static void download(File f , String link) throws IOException, URISyntaxException
+   {
+	   try (BufferedInputStream in = new BufferedInputStream(new URI(link).toURL().openStream());
+			   FileOutputStream fileOutputStream = new FileOutputStream(f)) {
+			     byte[] dataBuffer = new byte[1024];
+			     int bytesRead;
+			     while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+			         fileOutputStream.write(dataBuffer, 0, bytesRead);
+			     }
+			 } 
+   }
    
    
    public static String encodeString(String s)

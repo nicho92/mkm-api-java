@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns:xi="http://www.w3.org/2001/XInclude" packages="org.magic.services.logging" status="error">
+ 	
+  <Properties>
+   	<Property name="defaultLayoutPattern">%d{yyyy-MM-dd HH:mm:ss} [%-5p] %c %L - %m%n</Property>
+  </Properties>
+ 	
+ 	
+  <Appenders>
+   	<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="${sys:defaultLayoutPattern}" />
+		</Console>
+    </Appenders>
+    
+	<Loggers>
+		<Logger name="org.apache.http" level="ERROR"></Logger>
+		
+        <Root level="INFO">
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
+    </Loggers>
+</Configuration>
