@@ -7,7 +7,7 @@ Import via maven :
 		<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>mkm-api-java</artifactId>
-		  <version>0.11.2</version>
+		  <version>0.26</version>
 		</dependency>
 
 
