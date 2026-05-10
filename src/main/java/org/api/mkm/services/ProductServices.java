@@ -76,7 +76,7 @@ public class ProductServices {
 		Tools.unzip(temp, f);
 		if(!temp.delete())
 		{
-			logger.error("couln't remove " + temp.getAbsolutePath());
+			logger.error("couln't remove {}",temp.getAbsolutePath());
 		}
 	}
 	
@@ -94,7 +94,7 @@ public class ProductServices {
 		Tools.unzip(temp, f);
 		if(!temp.delete())
 		{
-			logger.error("Couldn't remove "+temp.getAbsolutePath());
+			logger.error("Couldn't remove {}",temp.getAbsolutePath());
 		}
 		
 		
@@ -104,7 +104,7 @@ public class ProductServices {
 	{
 		String link=MkmConstants.MKM_API_URL+"/expansions/"+e.getIdExpansion()+"/singles";
 	    String xml= Tools.getXMLResponse(link, "GET",this.getClass());
-        logger.debug(MkmConstants.MKM_LOG_RESPONSE+xml);
+        logger.debug("{}{}",MkmConstants.MKM_LOG_RESPONSE,xml);
      	Response res = (Response)xstream.fromXML(xml);
 		return res.getSingle();
 		

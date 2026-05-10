@@ -10,7 +10,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,7 +81,6 @@ public class Tools {
    public static XStream instNewXstream()
    {
    	XStream xstream = new XStream(new StaxDriver());
-		XStream.setupDefaultSecurity(xstream);
 		xstream.ignoreUnknownElements();
 		xstream.addPermission(AnyTypePermission.ANY);
 		xstream.alias("response", Response.class);
@@ -119,13 +117,13 @@ public class Tools {
     
     public static Document getDocument(String url) throws IOException
     {
-    	return Jsoup.parse(new URL(url), 0);
+    	return Jsoup.parse(URI.create(url).toURL(), 0);
     }
    
     
     public static String getXMLResponse(String link,String method, @SuppressWarnings("rawtypes") Class serv) throws IOException {
-    	 LogManager.getLogger(serv).info(MkmConstants.MKM_LOG_LINK+link);
-    	 HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+    	 LogManager.getLogger(serv).info("{}{}",MkmConstants.MKM_LOG_LINK,link);
+    	 HttpURLConnection connection = (HttpURLConnection) URI.create(link).toURL().openConnection();
          connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, MkmAPIConfig.getInstance().getAuthenticator().generateOAuthSignature2(link,method)) ;
          connection.setRequestMethod(method);
          connection.setDoOutput(true);
@@ -139,20 +137,20 @@ public class Tools {
 		}
 		MkmAPIConfig.getInstance().updateCount(connection);	      
 		String xml = IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_RESPONSE+xml);
+		LogManager.getLogger(serv).debug("{}{}",MkmConstants.MKM_LOG_RESPONSE,xml);
 		
 		return xml;
      }
     
     public static String getXMLResponse(String link,String method, @SuppressWarnings("rawtypes") Class serv,String content) throws IOException {
-   	 	LogManager.getLogger(serv).debug(method + " "+ MkmConstants.MKM_LOG_LINK+link);
-		   	 	HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+   	 	LogManager.getLogger(serv).debug("{} {}{}",method,MkmConstants.MKM_LOG_LINK,link);
+		   	 	HttpURLConnection connection = (HttpURLConnection) URI.create(link).toURL().openConnection();
 		        connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, MkmAPIConfig.getInstance().getAuthenticator().generateOAuthSignature2(link,method)) ;
 		        connection.setRequestMethod(method);
 		        connection.setDoOutput(true);
 		        connection.connect() ;
         
-        LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_REQUEST+content);
+        LogManager.getLogger(serv).debug("{}{}",MkmConstants.MKM_LOG_REQUEST,content);
         
         OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
         out.write(content);
@@ -167,7 +165,7 @@ public class Tools {
 		
 		MkmAPIConfig.getInstance().updateCount(connection);	      
 		String xml = IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		LogManager.getLogger(serv).debug(MkmConstants.MKM_LOG_RESPONSE+xml);
+		LogManager.getLogger(serv).debug("{}{}",MkmConstants.MKM_LOG_RESPONSE,xml);
 		return xml;
     }
     

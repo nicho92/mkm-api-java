@@ -28,12 +28,12 @@
 		<developerConnection>scm:git:https://github.com/nicho92/mkm-api-java.git</developerConnection>
 	</scm>
 	
-	<version>0.25</version>
+	<version>0.26</version>
 	<packaging>jar</packaging>
 
 	<properties>
-		<maven.compiler.source>15</maven.compiler.source>
-		<maven.compiler.target>15</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<issueManagement>
@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.21.0</version>
+			<version>1.22.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -140,7 +140,7 @@
 	             <autoPublish>true</autoPublish>
 	          </configuration>
 	        </plugin>
-			  <plugin>
+			<plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
             <version>3.2.1</version>

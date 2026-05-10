@@ -6,7 +6,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.net.URL;
+import java.awt.image.BufferedImage;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -20,20 +23,48 @@ import org.api.mkm.modele.Product;
 
 public class ProductListPanel extends JPanel{
 	private transient Logger logger = LogManager.getLogger(this.getClass());
-
-	/**
-	 * 
-	 */
+	private JLabel lblPics;
+	private JLabel lblName;
+	private JLabel lblEdition;
+	private JLabel lblIdProduct;
+	private JLabel lblType;
 	private static final long serialVersionUID = 1L;
-	Product p;
+	
+	private transient Map<String,BufferedImage> cache;
 	
 	
-	public ProductListPanel(Product p) {
-		this.p=p;
-		setBackground(Color.WHITE);
+	public void init(Product p)
+	{
+		try {
+			var img = cache.computeIfAbsent(""+p.getIdProduct(),  v->{
+					try {
+                		return ImageIO.read(URI.create(p.getImage()).toURL());
+				} catch (Exception e) {
+					return null;
+				}
+			});
+			
+			if(img!=null)
+				lblPics.setIcon(new ImageIcon(img.getScaledInstance(85, 118, Image.SCALE_SMOOTH)));
+			else
+				lblPics.setIcon(null);
+			
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		
+		lblName.setText(p.getEnName());
+		lblEdition.setText(p.getExpansionName());
+		lblIdProduct.setText("ID "+p.getIdProduct());
+		lblType.setText(p.getCategoryName());
+	}
+	
+	
+	public ProductListPanel() {
+		
+		cache= new HashMap<>();
+		
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		
-		
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{77, 230, 0};
@@ -42,14 +73,8 @@ public class ProductListPanel extends JPanel{
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblPics = new JLabel();
+		lblPics = new JLabel();
 		
-		try {
-			var img = ImageIO.read(new URL("https:"+p.getImage()));
-			lblPics.setIcon(new ImageIcon(img.getScaledInstance(85, 118, Image.SCALE_SMOOTH)));
-		} catch (Exception e) {
-			logger.error(e);
-		}
 		
 		GridBagConstraints gbclblPics = new GridBagConstraints();
 		gbclblPics.gridheight = 3;
@@ -58,7 +83,7 @@ public class ProductListPanel extends JPanel{
 		gbclblPics.gridy = 1;
 		add(lblPics, gbclblPics);
 		
-		JLabel lblName = new JLabel(p.getEnName());
+		lblName = new JLabel();
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbclblName = new GridBagConstraints();
 		gbclblName.gridwidth = 2;
@@ -68,7 +93,7 @@ public class ProductListPanel extends JPanel{
 		gbclblName.gridy = 0;
 		add(lblName, gbclblName);
 		
-		JLabel lblEdition = new JLabel(p.getExpansionName());
+		lblEdition = new JLabel();
 		GridBagConstraints gbclblEdition = new GridBagConstraints();
 		gbclblEdition.insets = new Insets(0, 0, 5, 0);
 		gbclblEdition.anchor = GridBagConstraints.WEST;
@@ -76,7 +101,7 @@ public class ProductListPanel extends JPanel{
 		gbclblEdition.gridy = 1;
 		add(lblEdition, gbclblEdition);
 		
-		JLabel lblIdProduct = new JLabel("ID "+p.getIdProduct());
+		lblIdProduct = new JLabel();
 		GridBagConstraints gbclblidProduct = new GridBagConstraints();
 		gbclblidProduct.anchor = GridBagConstraints.WEST;
 		gbclblidProduct.insets = new Insets(0, 0, 5, 0);
@@ -84,7 +109,7 @@ public class ProductListPanel extends JPanel{
 		gbclblidProduct.gridy = 2;
 		add(lblIdProduct, gbclblidProduct);
 		
-		JLabel lblType = new JLabel(p.getCategoryName());
+		lblType = new JLabel();
 		GridBagConstraints gbclblType = new GridBagConstraints();
 		gbclblType.anchor = GridBagConstraints.WEST;
 		gbclblType.gridx = 1;

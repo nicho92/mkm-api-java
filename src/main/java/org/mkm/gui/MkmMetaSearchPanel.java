@@ -40,7 +40,7 @@ public class MkmMetaSearchPanel extends JPanel {
 	private JPanel panelEast;
 	private JLabel lblPics;
 	
-	private JComboBox comboBox;
+	private JComboBox<String> comboBox;
 	
 	private void initGUI()
 	{
@@ -60,7 +60,7 @@ public class MkmMetaSearchPanel extends JPanel {
 		
 		panelNorth.add(new JLabel("Search meta product : "));
 		
-		comboBox = new JComboBox<String>(new DefaultComboBoxModel<String>(ProductServices.getLangs()));
+		comboBox = new JComboBox<>(new DefaultComboBoxModel<>(ProductServices.getLangs()));
 		panelNorth.add(comboBox);
 		panelNorth.add(txtSearch);
 		txtSearch.setColumns(15);

@@ -8,7 +8,6 @@ public class MkmConstants {
 		
 	}
 	
-	
 	public static final String MKM_API_GIT_VERSION="0.25";
 	public static final String MKM_API_VERSION="2.0";
 	public static final String MKM_API_URL="https://apiv2.cardmarket.com/ws/v"+MKM_API_VERSION;

@@ -35,7 +35,6 @@ public class MkmUsersPanel extends JPanel {
 	private UsersTableModel usersModel;
 	private ArticlesTableModel articlesModel;
 	private transient Logger logger = LogManager.getLogger(this.getClass());
-	private JTable tableArticles;
 
 	private void initGUI()
 	{
@@ -58,7 +57,7 @@ public class MkmUsersPanel extends JPanel {
 		usersModel = new UsersTableModel();
 		
 		tableUsers = new JTable(usersModel);
-		tableArticles = new JTable(articlesModel);
+		var tableArticles = new JTable(articlesModel);
 
 		
 		JSplitPane splitPane = new JSplitPane();

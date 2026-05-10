@@ -11,7 +11,7 @@ public class WantListTest {
 
 	public void createWL() throws IOException
 	{
-		MkmAPIConfig.getInstance().init(new File("C:\\Users\\Nicolas\\.magicDeskCompanion\\pricers\\MagicCardMarket.conf"));
+		MkmAPIConfig.getInstance().init(new File("C:\\Users\\nicol\\mkm.properties"));
 		WantsService service = new WantsService();
 		
 		

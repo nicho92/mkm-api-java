@@ -18,8 +18,10 @@ import org.api.mkm.services.DevelopperServices;
 import org.api.mkm.tools.MkmConstants;
 
 public class MkmDevPanel extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
 	private JTextField txtUri;
-	private DevelopperServices service;
+	private transient DevelopperServices service;
 	
 	public MkmDevPanel() {
 		setLayout(new BorderLayout(0, 0));

@@ -2,7 +2,7 @@ package org.api.mkm.services;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -62,10 +62,10 @@ public class AuthenticationServices {
 	public User getAuthenticatedUser() throws IOException 
 	{
 		String link=MkmConstants.MKM_API_URL+"/account";
-		HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+		HttpURLConnection connection = (HttpURLConnection)URI.create(link).toURL().openConnection();
 			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, generateOAuthSignature2(link,"GET")) ;
 			               connection.connect() ;
-		logger.debug(MkmConstants.MKM_LOG_LINK+link);
+		logger.debug("{}{}",MkmConstants.MKM_LOG_LINK,link);
         MkmAPIConfig.getInstance().updateCount(connection);
     	               
 		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
@@ -124,7 +124,7 @@ public class AuthenticationServices {
 	                 + URLEncoder.encode(baseUri, encode)
 	                 + "&";
 	         
-	         logger.trace("baseString="+baseString);
+	         logger.trace("baseString={}",baseString);
 	         
 	         if (index > 0)
 	         {
@@ -134,7 +134,7 @@ public class AuthenticationServices {
 	             for (Entry<String, String> k : args.entrySet())
 	             {
 	            	 headerParams.put(k.getKey(), k.getValue());
-	            	 logger.trace("headerParams.put("+k.getKey()+","+k.getValue()+")");
+	            	 logger.trace("headerParams.put({},{})",k.getKey(),k.getValue());
 	             }
 	         }
 	         
@@ -142,7 +142,7 @@ public class AuthenticationServices {
 	             if (!k.getKey().equalsIgnoreCase("realm"))
 	             {
 	            	 encodedParams.put(URLEncoder.encode(k.getKey(),encode), k.getValue());
-	            	 logger.trace("encodedParams.put("+URLEncoder.encode(k.getKey(),encode)+","+k.getValue()+")");
+	            	 logger.trace("encodedParams.put({},{})",k.getKey(),k.getValue());
 	             }
 	            
 	         List<String> paramStrings = new ArrayList<>();
@@ -150,12 +150,12 @@ public class AuthenticationServices {
 	         for(Entry<String, String> parameter:encodedParams.entrySet())
 	         {
 	        	 paramStrings.add(parameter.getKey() + "=" + parameter.getValue());
-	        	 logger.trace("paramStrings.add("+parameter.getKey()+"="+parameter.getValue()+")");
+	        	 logger.trace("paramStrings.add({}={})",parameter.getKey(),parameter.getValue());
 	         }
 	         
 	         String paramString = URLEncoder.encode(Tools.join(paramStrings, "&"),encode).replaceAll("'", "%27");
 	         
-	         logger.trace("paramString="+paramString);
+	         logger.trace("paramString={}",paramString);
 	         baseString += paramString;
 	         
 	         Mac mac = Mac.getInstance("HmacSHA1");
@@ -171,7 +171,7 @@ public class AuthenticationServices {
 	             headerParamStrings.add(parameter.getKey() + "=\"" + parameter.getValue() + "\"");
 	         
 	         String authHeader = "OAuth " + Tools.join(headerParamStrings,", ");
-	         logger.debug("authHeader="+authHeader);
+	         logger.debug("authHeader={}",authHeader);
 	     	return authHeader;
 	    	}
 	    	catch(Exception e)

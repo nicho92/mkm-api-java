@@ -45,7 +45,7 @@ public class StockService {
 	public List<LightArticle> readStockFile(File f , int idGame)
 	{
 			List<LightArticle> ret = new ArrayList<>();
-			try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().build().parse(new FileReader(f))  )
+			try(CSVParser p = CSVFormat.Builder.create().setDelimiter(";").setHeader().get().parse(new FileReader(f))  )
 			{
 				p.iterator().forEachRemaining(art->{
 						var item = new LightArticle();
@@ -76,7 +76,7 @@ public class StockService {
 							  }
 							  catch(Exception e)
 							  {
-								  logger.error("No language for code =" + art.get("Language"));
+								  logger.error("No language for code ={}" ,art.get("Language"));
 							  }
 							  ret.add(item);
 					});
@@ -122,8 +122,8 @@ public class StockService {
 	
 	public void exportStock(File f,Integer idGame,boolean sealed) throws IOException
 	{
-		String link=MkmConstants.MKM_API_URL+"/stock/file";
-	
+		String link;
+		
 		if(idGame!=null)
 			link=MkmConstants.MKM_API_URL+"/stock/file?idGame="+idGame+"&isSealed="+sealed;
 		else
@@ -141,7 +141,7 @@ public class StockService {
 	
 		if(!Files.deleteIfExists(temp.toPath()))
 		{
-			logger.error("couln't remove " + temp.getAbsolutePath());
+			logger.error("couln't remove {}",temp.getAbsolutePath());
 		}
 	}
 	
@@ -278,7 +278,7 @@ public class StockService {
 		Tools.unzip(temp, f);
 		if(!temp.delete())
 		{
-			logger.error("couldn't delete "+ temp.getAbsolutePath());
+			logger.error("couldn't delete {}",temp.getAbsolutePath());
 		}
 	}
 	

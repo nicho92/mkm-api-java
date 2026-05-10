@@ -1,7 +1,10 @@
 package org.api.mkm.modele;
 
-public class Inserted {
+import java.io.Serializable;
 
+public class Inserted implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private boolean success;
 	private LightArticle idArticle;
 	private LightArticle tried;

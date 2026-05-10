@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -56,7 +57,6 @@ public class MkmSearchPanel extends JPanel {
 	private JLabel lblPics;
 	private JButton btnAddWantlist;
 	private JButton btnBasket;
-	private JButton btnAddStock;
 	
 	private Product selectedProduct;
 	private Article selectedArticle;
@@ -120,7 +120,7 @@ public class MkmSearchPanel extends JPanel {
 		btnAddWantlist.setEnabled(false);
 		panelNorth.add(btnAddWantlist);
 		
-		btnAddStock = new JButton("add to Stock");
+		var btnAddStock = new JButton("add to Stock");
 		panelNorth.add(btnAddStock);
 		
 		
@@ -233,14 +233,14 @@ public class MkmSearchPanel extends JPanel {
 					
 					selectedProduct = listResults.getSelectedValue();
 					
-					URL url = new URL("https:"+selectedProduct.getImage());
+					URL url = URI.create(selectedProduct.getImage()).toURL();
 					BufferedImage im = ImageIO.read(url);
 					lblPics.setIcon(new ImageIcon(im));
 					
 					}
 					catch(Exception e)
 					{
-						logger.error("https:"+selectedProduct.getImage(),e);
+						logger.error(selectedProduct.getImage(),e);
 					}
 				
 				
