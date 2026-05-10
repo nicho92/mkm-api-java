@@ -3,17 +3,17 @@ Java api for MagicCardMarket v2.0
 
 
 Import via maven : 
-
+```xml
 		<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>mkm-api-java</artifactId>
 		  <version>0.26</version>
 		</dependency>
-
+```
 
 Import via Gradle : 
 
-	implementation 'com.github.nicho92:mkm-api-java:0.11.2'
+	implementation 'com.github.nicho92:mkm-api-java:0.26'
 
 
 
