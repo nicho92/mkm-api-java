@@ -21,6 +21,9 @@ public class Article implements Serializable
 	private boolean isSigned;
 	private boolean isPlayset;
 	private boolean isAltered;
+	private boolean isReverseHolo;
+	private boolean isFirstEd;
+	
 	private Product product;
 	private Link links;
 	
@@ -123,6 +126,22 @@ public class Article implements Serializable
 	}
 	public void setLinks(Link links) {
 		this.links = links;
+	}
+
+	public boolean isReverseHolo() {
+		return isReverseHolo;
+	}
+
+	public void setReverseHolo(boolean isReverseHolo) {
+		this.isReverseHolo = isReverseHolo;
+	}
+
+	public boolean isFirstEd() {
+		return isFirstEd;
+	}
+
+	public void setFirstEd(boolean isFirstEd) {
+		this.isFirstEd = isFirstEd;
 	}
 	
 	
