@@ -59,24 +59,32 @@ public class AuthenticationServices {
 		
 	}
 	
-	public User getAuthenticatedUser() throws IOException 
+	public User getAuthenticatedUser() throws IOException
 	{
-		String link=MkmConstants.MKM_API_URL+"/account";
-		HttpURLConnection connection = (HttpURLConnection)URI.create(link).toURL().openConnection();
-			               connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, generateOAuthSignature2(link,"GET")) ;
-			               connection.connect() ;
-		logger.debug("{}{}",MkmConstants.MKM_LOG_LINK,link);
-        MkmAPIConfig.getInstance().updateCount(connection);
-    	               
-		boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-	 	if(!ret)
-	 		throw new MkmNetworkException(connection.getResponseCode());
-			               
-		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		
-		Response res = (Response)xstream.fromXML(xml);
-		return res.getAccount();
-	
+		try {
+			String link=MkmConstants.MKM_API_URL+"/account";
+			String authHeader = generateOAuthSignature2(link,"GET");
+			HttpURLConnection connection = (HttpURLConnection)URI.create(link).toURL().openConnection();
+			connection.addRequestProperty(MkmConstants.OAUTH_AUTHORIZATION_HEADER, authHeader) ;
+			connection.connect() ;
+			logger.debug("{}{}",MkmConstants.MKM_LOG_LINK,link);
+			MkmAPIConfig.getInstance().updateCount(connection);
+
+			boolean ret= (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
+			if(!ret)
+			{
+				String errorBody = connection.getErrorStream()==null?"":IOUtils.toString(connection.getErrorStream(), StandardCharsets.UTF_8);
+				throw new MkmNetworkException(connection.getResponseCode()+" : "+errorBody);
+			}
+
+			String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+
+			Response res = (Response)xstream.fromXML(xml);
+			return res.getAccount();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
 	}
 	
 	private Map<String,String> parseQueryString(String query)

@@ -26,8 +26,8 @@ public class Article implements Serializable
 	
 	private Product product;
 	private Link links;
-	
-	public enum ARTICLES_ATT {start,maxResults,userType ,minUserScore ,idLanguage ,minCondition,isFoil ,isSigned,isAltered,minAvailable}
+
+	public enum ARTICLES_ATT {start, maxResults, userType, minUserScore, idLanguage, minCondition, isFoil, isSigned, isAltered, minAvailable, isReverseHolo, sellerCountry, isFirstEd}
 
 	public boolean isAltered() {
 		return isAltered;
@@ -127,23 +127,16 @@ public class Article implements Serializable
 	public void setLinks(Link links) {
 		this.links = links;
 	}
-
 	public boolean isReverseHolo() {
 		return isReverseHolo;
 	}
-
-	public void setReverseHolo(boolean isReverseHolo) {
-		this.isReverseHolo = isReverseHolo;
+	public void setReverseHolo(final boolean reverseHolo) {
+		isReverseHolo = reverseHolo;
 	}
-
 	public boolean isFirstEd() {
 		return isFirstEd;
 	}
-
-	public void setFirstEd(boolean isFirstEd) {
-		this.isFirstEd = isFirstEd;
+	public void setFirstEd(final boolean firstEd) {
+		isFirstEd = firstEd;
 	}
-	
-	
-	
 }
