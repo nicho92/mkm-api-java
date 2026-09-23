@@ -103,7 +103,7 @@ public class StockService {
 		xml = xml.replace("<article>", "<lightArticles>").replace("</article>", "</lightArticles>");
 
 		Response res = (Response)xstream.fromXML(xml);
-		
+
 		return res.getLightArticles();
 	}
 	
@@ -180,6 +180,11 @@ public class StockService {
 				temp.append("<isFoil>").append(a.isFoil()).append("</isFoil>");
 				temp.append("<isSigned>").append(a.isSigned()).append("</isSigned>");
 				temp.append("<isPlayset>").append(a.isPlayset()).append("</isPlayset>");
+
+				if(a.getProduct() != null && a.getProduct().getIdGame() == 6) {
+					temp.append("<isReverseHolo>").append(a.isReverseHolo()).append("</isReverseHolo>");
+					temp.append("<isFirstEd>").append(a.isFirstEd()).append("</isFirstEd>");
+				}
 			temp.append("</article>");
 		}		    
 		temp.append("</request>");
@@ -216,6 +221,10 @@ public class StockService {
 				temp.append("<isFoil>").append(a.isFoil()).append("</isFoil>");
 				temp.append("<isSigned>").append(a.isSigned()).append("</isSigned>");
 				temp.append("<isPlayset>").append(a.isPlayset()).append("</isPlayset>");
+			if(a.getProduct() != null && a.getProduct().getIdGame() == 6) {
+				temp.append("<isReverseHolo>").append(a.isReverseHolo()).append("</isReverseHolo>");
+				temp.append("<isFirstEd>").append(a.isFirstEd()).append("</isFirstEd>");
+			}
 			temp.append("</article>");
 		}		    
 		temp.append("</request>");

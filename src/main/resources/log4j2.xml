@@ -11,11 +11,12 @@
 			<PatternLayout pattern="${sys:defaultLayoutPattern}" />
 		</Console>
     </Appenders>
-    
+
 	<Loggers>
-		<Logger name="org.apache.http" level="ERROR"></Logger>
-		
         <Root level="INFO">
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
+        <Root level="WARN" name="org.api.mkm.services.StockService">
             <AppenderRef ref="CONSOLE"/>
         </Root>
     </Loggers>

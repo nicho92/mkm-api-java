@@ -12,7 +12,7 @@ public class Product implements Serializable
 	private static final long serialVersionUID = 1L;
 	public enum PRODUCT_ATTS {exact,idGame,idLanguage,start,maxResults}
 	
-	private int idProduct;
+	private long idProduct;
 	private String idMetaproduct;
 	private int idGame;
 	private Integer countReprints;
@@ -40,10 +40,10 @@ public class Product implements Serializable
 	}
 	
 	
-	public int getIdProduct() {
+	public long getIdProduct() {
 		return idProduct;
 	}
-	public void setIdProduct(int idProduct) {
+	public void setIdProduct(long idProduct) {
 		this.idProduct = idProduct;
 	}
 	public String getIdMetaproduct() {

@@ -8,8 +8,8 @@ public class Article implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int idArticle;
-	private int idProduct;
+	private long idArticle;
+	private long idProduct;
 	private Localization language;
 	private String comments;
 	private double price;
@@ -26,8 +26,8 @@ public class Article implements Serializable
 	
 	private Product product;
 	private Link links;
-	
-	public enum ARTICLES_ATT {start,maxResults,userType ,minUserScore ,idLanguage ,minCondition,isFoil ,isSigned,isAltered,minAvailable}
+
+	public enum ARTICLES_ATT {start, maxResults, userType, minUserScore, idLanguage, minCondition, isFoil, isSigned, isAltered, minAvailable, isReverseHolo, sellerCountry, isFirstEd}
 
 	public boolean isAltered() {
 		return isAltered;
@@ -54,16 +54,16 @@ public class Article implements Serializable
 	public void setLanguage(Localization language) {
 		this.language = language;
 	}
-	public int getIdArticle() {
+	public long getIdArticle() {
 		return idArticle;
 	}
-	public void setIdArticle(int idArticle) {
+	public void setIdArticle(long idArticle) {
 		this.idArticle = idArticle;
 	}
-	public int getIdProduct() {
+	public long getIdProduct() {
 		return idProduct;
 	}
-	public void setIdProduct(int idProduct) {
+	public void setIdProduct(long idProduct) {
 		this.idProduct = idProduct;
 	}
 	
@@ -127,23 +127,16 @@ public class Article implements Serializable
 	public void setLinks(Link links) {
 		this.links = links;
 	}
-
 	public boolean isReverseHolo() {
 		return isReverseHolo;
 	}
-
-	public void setReverseHolo(boolean isReverseHolo) {
-		this.isReverseHolo = isReverseHolo;
+	public void setReverseHolo(final boolean reverseHolo) {
+		isReverseHolo = reverseHolo;
 	}
-
 	public boolean isFirstEd() {
 		return isFirstEd;
 	}
-
-	public void setFirstEd(boolean isFirstEd) {
-		this.isFirstEd = isFirstEd;
+	public void setFirstEd(final boolean firstEd) {
+		isFirstEd = firstEd;
 	}
-	
-	
-	
 }

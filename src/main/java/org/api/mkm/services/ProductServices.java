@@ -173,12 +173,12 @@ public class ProductServices {
 		return res.getProduct().get(0);
 	}
 	
-	public Product getProductById(int idProduct) throws IOException
+	public Product getProductById(long idProduct) throws IOException
 	{
 		xstream.aliasField("expansion", Product.class, "expansion"); //remove from V1.1 call
 		String xml= Tools.getXMLResponse(MkmConstants.MKM_API_URL+"/products/"+idProduct, "GET",this.getClass());
 		Response res = (Response)xstream.fromXML(xml);
-		return res.getProduct().get(0);
+		return res.getProduct().getFirst();
 	}
 	
 	public void fusion(Product from, Product dest)
