@@ -28,7 +28,7 @@
 		<developerConnection>scm:git:https://github.com/nicho92/mkm-api-java.git</developerConnection>
 	</scm>
 	
-	<version>0.31-SNAPSHOT</version>
+	<version>0.32-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<properties>

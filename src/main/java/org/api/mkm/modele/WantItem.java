@@ -29,13 +29,13 @@ public class WantItem implements Serializable{
 		    private MkmBoolean isPlayset;
 		    private MkmBoolean isAltered;
 		    private MkmBoolean isFirstEd;//only yugiho
-		    private Integer idProduct;
+		    private Long idProduct;
 		    
-		    public void setIdProduct(Integer idProduct) {
+		    public void setIdProduct(Long idProduct) {
 				this.idProduct = idProduct;
 			}
 		    
-		    public Integer getIdProduct() {
+		    public Long getIdProduct() {
 				return idProduct;
 			}
 		    

@@ -16,5 +16,8 @@
         <Root level="INFO">
             <AppenderRef ref="CONSOLE"/>
         </Root>
+        <Root level="WARN" name="org.api.mkm.services.StockService">
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
     </Loggers>
 </Configuration>

@@ -8,8 +8,8 @@ public class Article implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int idArticle;
-	private int idProduct;
+	private long idArticle;
+	private long idProduct;
 	private Localization language;
 	private String comments;
 	private double price;
@@ -54,16 +54,16 @@ public class Article implements Serializable
 	public void setLanguage(Localization language) {
 		this.language = language;
 	}
-	public int getIdArticle() {
+	public long getIdArticle() {
 		return idArticle;
 	}
-	public void setIdArticle(int idArticle) {
+	public void setIdArticle(long idArticle) {
 		this.idArticle = idArticle;
 	}
-	public int getIdProduct() {
+	public long getIdProduct() {
 		return idProduct;
 	}
-	public void setIdProduct(int idProduct) {
+	public void setIdProduct(long idProduct) {
 		this.idProduct = idProduct;
 	}
 	
